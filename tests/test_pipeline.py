@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 
+from open_vernacular_ai_kit.codemix_render import analyze_codemix
 from open_vernacular_ai_kit.config import CodeMixConfig
 from open_vernacular_ai_kit.doctor import collect_doctor_info
 from open_vernacular_ai_kit.pipeline import CodeMixPipeline
@@ -74,3 +75,24 @@ def test_user_lexicon_affects_lid_and_transliteration(tmp_path) -> None:
     out = CodeMixPipeline(config=cfg).run("mane ok chhe?").codemix
     assert "મને" in out
 
+
+def test_hindi_language_pack_lid_and_pipeline() -> None:
+    assert detect_token_lang("मैं", language="hi") == TokenLang.TARGET_NATIVE
+    assert detect_token_lang("mera", language="hi") == TokenLang.TARGET_ROMAN
+
+    cfg = CodeMixConfig(language="hi", translit_mode="sentence")
+    out = CodeMixPipeline(config=cfg).run("mera naam Sudhir hai").codemix
+    assert "मेरा" in out
+    assert "नाम" in out
+    assert "है" in out
+
+
+def test_dialect_is_disabled_for_non_gu_languages() -> None:
+    a = analyze_codemix(
+        "mera naam Sudhir hai",
+        language="hi",
+        translit_mode="sentence",
+        dialect_normalize=True,
+    )
+    assert a.language == "hi"
+    assert a.dialect.backend == "disabled_for_language"

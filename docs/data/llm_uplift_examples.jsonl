@@ -1,0 +1,10 @@
+{"id":"ex1","raw":"maru order status shu chhe?","expected_intent":"order_status"}
+{"id":"ex2","raw":"payment nathi thayu","expected_intent":"payment_issue"}
+{"id":"ex3","raw":"hu return karvu chhu","expected_intent":"return_request"}
+{"id":"ex4","raw":"aaje delivery kyare aavse?","expected_intent":"delivery_eta"}
+{"id":"ex5","raw":"tame kem chho?","expected_intent":"greeting"}
+{"id":"ex6","raw":"maru payment nathi thai rahyu","expected_intent":"payment_issue"}
+{"id":"ex7","raw":"hu order return karu?","expected_intent":"return_request"}
+{"id":"ex8","raw":"aaje delivery kyare avse","expected_intent":"delivery_eta"}
+{"id":"ex9","raw":"tame kem cho today","expected_intent":"greeting"}
+{"id":"ex10","raw":"order status શું છે?","expected_intent":"order_status"}

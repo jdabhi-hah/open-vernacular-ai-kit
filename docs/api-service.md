@@ -54,8 +54,10 @@ Codemix:
 ```bash
 curl -s http://localhost:8000/codemix \
   -H 'content-type: application/json' \
-  -d '{"text":"maru business plan ready chhe!!!","config":{"translit_mode":"sentence"}}'
+  -d '{"text":"mera naam Sudhir hai","config":{"language":"hi","translit_mode":"sentence"}}'
 ```
+
+`/codemix` responses include the effective `language` profile.
 
 Analyze:
 

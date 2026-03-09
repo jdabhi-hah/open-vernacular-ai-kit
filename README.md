@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/SudhirGadhvi/open-vernacular-ai-kit/actions/workflows/ci.yml/badge.svg?branch=develop)](https://github.com/SudhirGadhvi/open-vernacular-ai-kit/actions/workflows/ci.yml)
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://sudhirgadhvi.github.io/open-vernacular-ai-kit/)
-[![Version](https://img.shields.io/badge/version-1.0.2-brightgreen)](pyproject.toml)
+[![Version](https://img.shields.io/badge/version-1.1.0rc1-brightgreen)](pyproject.toml)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](pyproject.toml)
  
  `open-vernacular-ai-kit` is an open-source SDK + CLI for cleaning up Indian vernacular-English code-mixed
@@ -34,6 +34,13 @@ It cleans noisy mixed-script chat text before downstream LLM, retrieval, and sup
 
 - Product positioning + landscape matrix: `docs/what-we-solve.md`
 - North-star metrics definitions and measurement method: `docs/north-star-metrics.md`
+
+## Developer Adoption Assets
+
+- Integration snippets (OpenAI, LangChain, RAG): `docs/cookbook/integrations.md`
+- Batch CLI recipes (support + ecommerce): `docs/cookbook/batch-cli-recipes.md`
+- Before/after LLM uplift notebook: `notebooks/before_after_llm_output.ipynb`
+- Notebook dataset: `docs/data/llm_uplift_examples.jsonl`
 
 ## Hard Cases (WhatsApp-Style)
 
@@ -79,13 +86,13 @@ Generate the snapshot:
 python3 scripts/snapshot_north_star_metrics.py --output docs/data/north_star_metrics_snapshot.json --iterations 200
 ```
 
-Current snapshot (`2026-02-27T19:23:14Z`):
+Current snapshot (`2026-03-09T07:59:02Z`):
 
 | Metric | Value | Notes |
 | --- | --- | --- |
-| `transliteration_success` | `1.000` | Golden transliteration accuracy (`17/17`; backend=`none`) |
+| `transliteration_success` | `1.000` | Golden transliteration accuracy across packaged Hindi/Gujarati cases (`90/90`; backend=`none`) |
 | `dialect_accuracy` | `0.833` | Heuristic dialect-id accuracy (`5/6`) |
-| `p95_latency_ms` | `0.174` | Pipeline p95 latency in ms (`iterations=200`, `n_calls=1200`) |
+| `p95_latency_ms` | `0.205` | Pipeline p95 latency in ms (`iterations=200`, `n_calls=1200`) |
 
 ## Indian Language Coverage (This Release)
 
@@ -99,7 +106,7 @@ Indian languages are planned next and open for community PRs.
 | Bodo | ⬜ | ⬜ | ✅ |
 | Dogri | ⬜ | ⬜ | ✅ |
 | Gujarati | ✅ | ⬜ | ⬜ |
-| Hindi | ⬜ | ⬜ | ✅ |
+| Hindi | ⬜ | ✅ | ✅ |
 | Kannada | ⬜ | ⬜ | ✅ |
 | Kashmiri | ⬜ | ⬜ | ✅ |
 | Konkani | ⬜ | ⬜ | ✅ |
@@ -176,9 +183,15 @@ python3 -m venv .venv
  
 Render clean code-mix (native-script tokens preserved, English preserved):
  
- ```bash
- gck codemix "maru business plan ready chhe!!!"
- ```
+```bash
+gck codemix "maru business plan ready chhe!!!"
+```
+
+Hindi beta language profile:
+
+```bash
+gck codemix --language hi "mera naam Sudhir hai"
+```
  
 Canonical output format (Gujarati-first profile):
 

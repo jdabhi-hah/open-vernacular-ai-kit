@@ -4,7 +4,7 @@
  
  [project]
 name = "open-vernacular-ai-kit"
-version = "1.0.2"
+version = "1.1.0rc1"
 description = "Open-source Indian vernacular AI text normalization toolkit (Sarvam-first, globally extensible)."
  readme = "README.md"
  requires-python = ">=3.10"

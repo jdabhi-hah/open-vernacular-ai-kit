@@ -55,3 +55,9 @@ def test_render_codemix_aggressive_normalize_variants() -> None:
     out = render_codemix(s, aggressive_normalize=True)
     assert "છે" in out
 
+
+def test_render_codemix_hindi_beta_profile() -> None:
+    out = render_codemix("mera naam Sudhir hai", language="hi", translit_mode="sentence")
+    assert "मेरा" in out
+    assert "नाम" in out
+    assert "है" in out

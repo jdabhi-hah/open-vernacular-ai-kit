@@ -48,6 +48,7 @@ class NormalizeResponse(ApiModel):
 
 class CodemixResponse(ApiModel):
     schema_version: int
+    language: str
     codemix: str
     transliteration_backend: str
     n_tokens: int
@@ -127,6 +128,7 @@ def create_app() -> FastAPI:
 
         return CodemixResponse(
             schema_version=API_SCHEMA_VERSION,
+            language=a.language,
             codemix=a.codemix,
             transliteration_backend=a.transliteration_backend,
             n_tokens=int(a.n_tokens),

@@ -5,6 +5,7 @@ This folder contains a web demo for Open Vernacular AI Kit (India-first release)
 The demo is designed for non-technical users too:
 
 - Paste a message (WhatsApp-style mixed Indian vernacular + English, including romanized text).
+- Choose a `Gujarati` or `Hindi` language profile in the UI.
 - See "Before vs After" (what a user wrote vs what we send to AI/search).
 - Optionally compare Sarvam-M outputs (requires `SARVAM_API_KEY`).
 - Choose runtime mode: in-process SDK (default) or API service mode.

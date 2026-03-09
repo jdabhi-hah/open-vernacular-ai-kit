@@ -1,0 +1,118 @@
+{"language": "hi", "raw": "namaste aap kaise hain", "expected": "नमस्ते आप कैसे हैं", "source": "Basic Hindi I ch2 greetings"}
+{"language": "hi", "raw": "main theek hun", "expected": "मैं ठीक हूँ", "source": "Basic Hindi I ch2 greetings"}
+{"language": "hi", "raw": "aap ka naam kya hai", "expected": "आप का नाम क्या है", "source": "Doc Hindi Learn to Speak question drill"}
+{"language": "hi", "raw": "yah mera ghar hai", "expected": "यह मेरा घर है", "source": "Doc Hindi Learn to Speak possessive house drill"}
+{"language": "hi", "raw": "ye mere ghar hain", "expected": "ये मेरे घर हैं", "source": "Doc Hindi Learn to Speak possessive house drill"}
+{"language": "hi", "raw": "yah hamara ghar hai", "expected": "यह हमारा घर है", "source": "Doc Hindi Learn to Speak possessive house drill"}
+{"language": "hi", "raw": "ye hamare ghar hain", "expected": "ये हमारे घर हैं", "source": "Doc Hindi Learn to Speak possessive house drill"}
+{"language": "hi", "raw": "yah aap ka ghar hai", "expected": "यह आप का घर है", "source": "Doc Hindi Learn to Speak possessive house drill"}
+{"language": "hi", "raw": "ye aap ke ghar hain", "expected": "ये आप के घर हैं", "source": "Doc Hindi Learn to Speak possessive house drill"}
+{"language": "hi", "raw": "yah us ka ghar hai", "expected": "यह us का घर है", "source": "Doc Hindi Learn to Speak possessive house drill"}
+{"language": "hi", "raw": "ye us ke ghar hain", "expected": "ये us के घर हैं", "source": "Doc Hindi Learn to Speak possessive house drill"}
+{"language": "hi", "raw": "yah un ka ghar hai", "expected": "यह un का घर है", "source": "Doc Hindi Learn to Speak possessive house drill"}
+{"language": "hi", "raw": "ye un ke ghar hain", "expected": "ये un के घर हैं", "source": "Doc Hindi Learn to Speak possessive house drill"}
+{"language": "hi", "raw": "mera parivar chicago me rehta hai", "expected": "मेरा परिवार chicago में रहता है", "source": "Basic Hindi I p109 family reading"}
+{"language": "hi", "raw": "meri maa ka naam liz hai", "expected": "मेरी माँ का नाम liz है", "source": "Basic Hindi I p109 family reading"}
+{"language": "hi", "raw": "mere pita ka naam adam hai", "expected": "मेरे पिता का नाम adam है", "source": "Basic Hindi I p109 family reading"}
+{"language": "hi", "raw": "meri maa ek achhi adhyapika hai", "expected": "मेरी माँ एक अच्छी अध्यापिका है", "source": "Basic Hindi I p118 adjective and family pattern"}
+{"language": "hi", "raw": "vah bahut sundar hai", "expected": "वह बहुत सुन्दर है", "source": "Basic Hindi I p118 adjective pattern"}
+{"language": "hi", "raw": "hamare rishtedaar har sukh dukh ki ghadi me saath dete hain", "expected": "हमारे रिश्तेदार हर सुख दुख की घड़ी में साथ देते हैं", "source": "Basic Hindi I p118 relatives passage"}
+{"language": "hi", "raw": "mujhe tumse baat karni hai", "expected": "मुझे तुमसे बात करनी है", "source": "Hindi textbook conversational form"}
+{"language": "hi", "raw": "vah ghar me hai", "expected": "वह घर में है", "source": "Hindi case marker usage"}
+{"language": "hi", "raw": "vah ghar me nahin hai", "expected": "वह घर में नहीं है", "source": "Doc Hindi Learn to Speak negative locative examples"}
+{"language": "hi", "raw": "yah bahut accha hai", "expected": "यह बहुत अच्छा है", "source": "Doc Hindi Learn to Speak evaluation phrase"}
+{"language": "hi", "raw": "yah bahut badhiya hai", "expected": "यह बहुत बढ़िया है", "source": "Doc Hindi Learn to Speak evaluation phrase"}
+{"language": "hi", "raw": "yah bahut aasan hai", "expected": "यह बहुत आसान है", "source": "Doc Hindi Learn to Speak contrastive examples"}
+{"language": "hi", "raw": "ham bahut kaam kar rahe hain", "expected": "हम बहुत काम कर रहे हैं", "source": "Doc Hindi Learn to Speak work examples"}
+{"language": "hi", "raw": "bahut din se aap nahin mile", "expected": "बहुत दिन से आप नहीं मिले", "source": "Doc Hindi Learn to Speak travel/social phrase"}
+{"language": "hi", "raw": "mujhe paise dijiye", "expected": "मुझे पैसे दीजिए", "source": "Doc Hindi Learn to Speak polite imperative"}
+{"language": "hi", "raw": "mujhe kuch paise dijiye", "expected": "मुझे कुछ पैसे दीजिए", "source": "Doc Hindi Learn to Speak money request examples"}
+{"language": "hi", "raw": "mujhe chai chahiye", "expected": "मुझे चाय चाहिए", "source": "Doc Hindi Learn to Speak desire examples"}
+{"language": "hi", "raw": "mujhe ek kap garam chai chahiye", "expected": "मुझे एक कप गरम चाय चाहिए", "source": "Doc Hindi Learn to Speak tea request example"}
+{"language": "hi", "raw": "mujhe ek achhi kitab dijiye", "expected": "मुझे एक अच्छी किताब दीजिए", "source": "Doc Hindi Learn to Speak polite imperative"}
+{"language": "hi", "raw": "mujhe maaf kijiye", "expected": "मुझे माफ कीजिए", "source": "Doc Hindi Learn to Speak apology phrases"}
+{"language": "hi", "raw": "mujhe afsos hai", "expected": "मुझे अफसोस है", "source": "Doc Hindi Learn to Speak apology phrases"}
+{"language": "hi", "raw": "mujhe fir se kahiye", "expected": "मुझे फिर से कहिए", "source": "Doc Hindi Learn to Speak repetition request"}
+{"language": "hi", "raw": "mujhe thoda samay aur dijiye", "expected": "मुझे थोड़ा समय और दीजिए", "source": "Doc Hindi Learn to Speak request for more time"}
+{"language": "hi", "raw": "mujhe jana chahiye", "expected": "मुझे जाना चाहिए", "source": "Doc Hindi Learn to Speak obligation examples"}
+{"language": "hi", "raw": "aap mujhe paise kab denge", "expected": "आप मुझे पैसे कब देंगे", "source": "Doc Hindi Learn to Speak question drill"}
+{"language": "hi", "raw": "aap hamare ghar aaiye", "expected": "आप हमारे घर आइए", "source": "Doc Hindi Learn to Speak invitation imperative"}
+{"language": "hi", "raw": "ham aap ke ghar aayen", "expected": "हम आप के घर आएँ", "source": "Doc Hindi Learn to Speak invitation drill"}
+{"language": "hi", "raw": "kya ham aap ke ghar aayen", "expected": "क्या हम आप के घर आएँ", "source": "Doc Hindi Learn to Speak invitation drill"}
+{"language": "hi", "raw": "kya ghar par sab theek hai", "expected": "क्या घर पर सब ठीक है", "source": "Doc Hindi Learn to Speak home wellbeing phrase"}
+{"language": "hi", "raw": "kal hum market jayenge", "expected": "कल हम market जाएंगे", "source": "Hindi future movement pattern"}
+{"language": "hi", "raw": "tumhara order aaj deliver hoga", "expected": "तुम्हारा order आज deliver होगा", "source": "Hindi support-style future pattern"}
+{"language": "hi", "raw": "meri maa ka naam kya hai", "expected": "मेरी माँ का नाम क्या है", "source": "Hindi possessive question pattern"}
+{"language": "hi", "raw": "mera parivar kahan rehta hai", "expected": "मेरा परिवार कहाँ रहता है", "source": "Hindi family/location pattern"}
+{"language": "hi", "raw": "kahan ho tum", "expected": "कहाँ हो तुम", "source": "Hindi conversation pattern"}
+{"language": "hi", "raw": "dhanyavad main theek hun", "expected": "धन्यवाद मैं ठीक हूँ", "source": "Hindi greeting response pattern"}
+{"language": "hi", "raw": "yah mere liye bahut mushkil hai", "expected": "यह मेरे लिए बहुत मुश्किल है", "source": "Doc Hindi Learn to Speak evaluative phrase"}
+{"language": "hi", "raw": "vah mujhe bahut accha lagta hai", "expected": "वह मुझे बहुत अच्छा लगता है", "source": "Doc Hindi Learn to Speak feeling phrase"}
+{"language": "hi", "raw": "yah mera ghar mandir ke paas hai", "expected": "यह मेरा घर मंदिर के पास है", "source": "Doc Hindi Learn to Speak location phrase"}
+{"language": "hi", "raw": "mujhe aap ki madad chahiye", "expected": "मुझे आप की मदद चाहिए", "source": "Doc Hindi Learn to Speak help request pattern"}
+{"language": "hi", "raw": "mujhe kal aap ki madad chahiye thi", "expected": "मुझे कल आप की मदद चाहिए थी", "source": "Doc Hindi Learn to Speak help tense pattern"}
+{"language": "hi", "raw": "mujhe kal aap ki madad chahiye hogi", "expected": "मुझे कल आप की मदद चाहिए होगी", "source": "Doc Hindi Learn to Speak help tense pattern"}
+{"language": "hi", "raw": "aap mujhe jagah ka pata dijiye", "expected": "आप मुझे जगह का पता दीजिए", "source": "Doc Hindi Learn to Speak address request"}
+{"language": "gu", "raw": "hu aaje ghar ma chhu", "expected": "હું આજે ઘર માં છું", "source": "Gujarati grammar locative pattern"}
+{"language": "gu", "raw": "hu aaje office ma chhu", "expected": "હું આજે office માં છું", "source": "Gujarati code-mix locative pattern"}
+{"language": "gu", "raw": "hu have ghar ma chhu", "expected": "હું હવે ઘર માં છું", "source": "Gujarati adverb + locative pattern"}
+{"language": "gu", "raw": "tame kem chho", "expected": "તમે કેમ છો", "source": "Gujarati question particle pattern"}
+{"language": "gu", "raw": "tame aaje kem chho", "expected": "તમે આજે કેમ છો", "source": "Gujarati adverb + question pattern"}
+{"language": "gu", "raw": "tame aaje ahi chho", "expected": "તમે આજે અહીં છો", "source": "Gujarati adverb + place pattern"}
+{"language": "gu", "raw": "tame have ahi chho", "expected": "તમે હવે અહીં છો", "source": "Gujarati adverb + place pattern"}
+{"language": "gu", "raw": "tame have tya chho", "expected": "તમે હવે ત્યાં છો", "source": "Gujarati adverb + place pattern"}
+{"language": "gu", "raw": "maru ghar ahi chhe", "expected": "મારું ઘર અહીં છે", "source": "Gujarati place adverb pattern"}
+{"language": "gu", "raw": "amaru ghar tya chhe", "expected": "અમારું ઘર ત્યાં છે", "source": "Gujarati place adverb pattern"}
+{"language": "gu", "raw": "tamaru ghar ahi chhe", "expected": "તમારું ઘર અહીં છે", "source": "Gujarati genitive house pattern"}
+{"language": "gu", "raw": "tamaro parivar ahi chhe", "expected": "તમારો પરિવાર અહીં છે", "source": "Gujarati pronoun/genitive grammar p248"}
+{"language": "gu", "raw": "tamaro parivar tya chhe", "expected": "તમારો પરિવાર ત્યાં છે", "source": "Gujarati pronoun/genitive grammar p248"}
+{"language": "gu", "raw": "tamaro parivar kya chhe", "expected": "તમારો પરિવાર ક્યાં છે", "source": "Gujarati pronoun/genitive grammar p248"}
+{"language": "gu", "raw": "amaro parivar amdavad ma chhe", "expected": "અમારો પરિવાર અમદાવાદ માં છે", "source": "Gujarati place + genitive pattern"}
+{"language": "gu", "raw": "shu tame mane madad kari shako", "expected": "શું તમે મને મદદ કરી શકો", "source": "Gujarati support-style phrase"}
+{"language": "gu", "raw": "shu tame amne madad kari shako", "expected": "શું તમે અમને મદદ કરી શકો", "source": "Gujarati support-style phrase"}
+{"language": "gu", "raw": "tame mane madad kari shako", "expected": "તમે મને મદદ કરી શકો", "source": "Gujarati support-style phrase"}
+{"language": "gu", "raw": "tame mane have madad karo", "expected": "તમે મને હવે મદદ કરો", "source": "Gujarati support-style phrase"}
+{"language": "gu", "raw": "amne tamari madad joie", "expected": "અમને તમારી મદદ જોઈએ", "source": "Gujarati dative + support phrase"}
+{"language": "gu", "raw": "tamne have aavu joie", "expected": "તમને હવે આવું જોઈએ", "source": "Gujarati dative + obligation pattern"}
+{"language": "gu", "raw": "amne ahi aavu joie", "expected": "અમને અહીં આવું જોઈએ", "source": "Gujarati dative + place pattern"}
+{"language": "gu", "raw": "amne ahi badma aavu joie", "expected": "અમને અહીં બાદમાં આવું જોઈએ", "source": "Gujarati adverb pages 246-247"}
+{"language": "gu", "raw": "aapde ahi badma aavu joie", "expected": "આપણે અહીં બાદમાં આવું જોઈએ", "source": "Gujarati adverb pages 246-247"}
+{"language": "gu", "raw": "have tame ahi aavu joie", "expected": "હવે તમે અહીં આવું જોઈએ", "source": "Gujarati adverb + obligation pattern"}
+{"language": "gu", "raw": "tamne have ghar ma aavu joie", "expected": "તમને હવે ઘર માં આવું જોઈએ", "source": "Gujarati locative + obligation pattern"}
+{"language": "gu", "raw": "aapdu kaam saras rite thai gayu", "expected": "આપણું કામ સરસ રીતે થઈ ગયું", "source": "Gujarati adjective/adverb patterns"}
+{"language": "gu", "raw": "aaje aapdu kaam saras rite thai gayu", "expected": "આજે આપણું કામ સરસ રીતે થઈ ગયું", "source": "Gujarati adjective/adverb patterns"}
+{"language": "gu", "raw": "maru kaam saras rite thai gayu", "expected": "મારું કામ સરસ રીતે થઈ ગયું", "source": "Gujarati adjective/adverb patterns"}
+{"language": "gu", "raw": "tamaru kaam saras rite thai gayu", "expected": "તમારું કામ સરસ રીતે થઈ ગયું", "source": "Gujarati adjective/adverb patterns"}
+{"language": "gu", "raw": "amaru kaam saras rite thai gayu", "expected": "અમારું કામ સરસ રીતે થઈ ગયું", "source": "Gujarati adjective/adverb patterns"}
+{"language": "gu", "raw": "aaje amaru kaam saras rite thai gayu", "expected": "આજે અમારું કામ સરસ રીતે થઈ ગયું", "source": "Gujarati adjective/adverb patterns"}
+{"language": "gu", "raw": "aaje maru kaam saras rite thai gayu", "expected": "આજે મારું કામ સરસ રીતે થઈ ગયું", "source": "Gujarati adjective/adverb patterns"}
+{"language": "gu", "raw": "kale amaru kaam saras rite thai gayu", "expected": "કાલે અમારું કામ સરસ રીતે થઈ ગયું", "source": "Gujarati time adverb pattern"}
+{"language": "gu", "raw": "mane tari vaat samajh nathi padti", "expected": "મને તારી વાત સમજ નથી પડતી", "source": "Gujarati conversational comprehension phrase"}
+{"language": "gu", "raw": "mane tamari vaat samajh nathi padti", "expected": "મને તમારી વાત સમજ નથી પડતી", "source": "Gujarati conversational comprehension phrase"}
+{"language": "gu", "raw": "mari vaat samajh nathi padti", "expected": "મારી વાત સમજ નથી પડતી", "source": "Gujarati conversational comprehension phrase"}
+{"language": "gu", "raw": "tamari vaat saras chhe", "expected": "તમારી વાત સરસ છે", "source": "Gujarati descriptive phrase"}
+{"language": "gu", "raw": "tamari pase maru naam chhe", "expected": "તમારી પાસે મારું નામ છે", "source": "Gujarati genitive + postposition pattern"}
+{"language": "gu", "raw": "mari pase tamaru naam chhe", "expected": "મારી પાસે તમારું નામ છે", "source": "Gujarati genitive + postposition pattern"}
+{"language": "gu", "raw": "aaje hu to ready chhu", "expected": "આજે હું તો ready છું", "source": "Gujarati particle to usage p254"}
+{"language": "gu", "raw": "tame aaje to ready chho", "expected": "તમે આજે તો ready છો", "source": "Gujarati particle to usage p254"}
+{"language": "gu", "raw": "have tame to ready chho", "expected": "હવે તમે તો ready છો", "source": "Gujarati particle to usage p254"}
+{"language": "gu", "raw": "hu kale amdavad ma chhu", "expected": "હું કાલે અમદાવાદ માં છું", "source": "Gujarati time + place pattern"}
+{"language": "gu", "raw": "ame kale amdavad ma chhiye", "expected": "અમે કાલે અમદાવાદ માં છીએ", "source": "Gujarati plural copula pattern"}
+{"language": "gu", "raw": "ame aaje ahi chhiye", "expected": "અમે આજે અહીં છીએ", "source": "Gujarati plural copula pattern"}
+{"language": "gu", "raw": "aapde have ahi chhiye", "expected": "આપણે હવે અહીં છીએ", "source": "Gujarati plural copula pattern"}
+{"language": "gu", "raw": "ame have ghar ma chhiye", "expected": "અમે હવે ઘર માં છીએ", "source": "Gujarati plural locative pattern"}
+{"language": "gu", "raw": "aapde have ghar ma chhiye", "expected": "આપણે હવે ઘર માં છીએ", "source": "Gujarati plural locative pattern"}
+{"language": "gu", "raw": "aapde aaje office ma chhiye", "expected": "આપણે આજે office માં છીએ", "source": "Gujarati plural code-mix locative pattern"}
+{"language": "gu", "raw": "aapde aaje to ready chhiye", "expected": "આપણે આજે તો ready છીએ", "source": "Gujarati plural particle pattern"}
+{"language": "gu", "raw": "tame have tya jao", "expected": "તમે હવે ત્યાં જાઓ", "source": "Gujarati movement verb pattern"}
+{"language": "gu", "raw": "tame ahi aavo", "expected": "તમે અહીં આવો", "source": "Gujarati movement verb pattern"}
+{"language": "gu", "raw": "tame kale ahi aavo", "expected": "તમે કાલે અહીં આવો", "source": "Gujarati time + movement pattern"}
+{"language": "gu", "raw": "have tame ahi aavo", "expected": "હવે તમે અહીં આવો", "source": "Gujarati movement verb pattern"}
+{"language": "gu", "raw": "shu tame kale ahi aavo", "expected": "શું તમે કાલે અહીં આવો", "source": "Gujarati movement verb pattern"}
+{"language": "gu", "raw": "tame have mari pase aavo", "expected": "તમે હવે મારી પાસે આવો", "source": "Gujarati postposition + movement pattern"}
+{"language": "gu", "raw": "tame badma ahi aavo", "expected": "તમે બાદમાં અહીં આવો", "source": "Gujarati adverb pages 246-247"}
+{"language": "gu", "raw": "tame pachi ahi aavo", "expected": "તમે પછી અહીં આવો", "source": "Gujarati time adverb pattern"}
+{"language": "gu", "raw": "amne pachi madad joie", "expected": "અમને પછી મદદ જોઈએ", "source": "Gujarati time adverb + support phrase"}
+{"language": "gu", "raw": "tame savare ahi aavo", "expected": "તમે સવારે અહીં આવો", "source": "Gujarati time adverb pattern"}
+{"language": "gu", "raw": "tame sanje tya jao", "expected": "તમે સાંજે ત્યાં જાઓ", "source": "Gujarati time adverb pattern"}
+{"language": "gu", "raw": "ame ratre ghar ma chhiye", "expected": "અમે રાત્રે ઘર માં છીએ", "source": "Gujarati time adverb pattern"}

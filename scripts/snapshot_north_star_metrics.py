@@ -36,26 +36,29 @@ def _p95(values: list[float]) -> float:
 
 def _latency_snapshot(*, iterations: int) -> dict[str, object]:
     samples = [
-        "maru business plan ready chhe!!!",
-        "hu aaje office jaish!!",
-        "tame aaje ok chho?",
-        "મારું business plan ready છે!!!",
-        "kamaad thaalu rakhje",
-        "maru bill ₹500 chhe",
+        ("maru business plan ready chhe!!!", "gu"),
+        ("hu aaje office jaish!!", "gu"),
+        ("tame aaje ok chho?", "gu"),
+        ("mujhe aap ki madad chahiye", "hi"),
+        ("mera order aaj deliver hoga kya?", "hi"),
+        ("meri maa ka naam kya hai?", "hi"),
     ]
 
-    cfg = CodeMixConfig(translit_mode="sentence")
-    pipe = CodeMixPipeline(config=cfg)
+    pipes = {
+        language: CodeMixPipeline(config=CodeMixConfig(language=language, translit_mode="sentence"))
+        for language in {lang for _, lang in samples}
+    }
 
     # Warmup.
-    for s in samples:
-        _ = pipe.run(s).codemix
+    for text, language in samples:
+        _ = pipes[language].run(text).codemix
 
     latencies_ms: list[float] = []
     for _ in range(max(1, int(iterations))):
-        for s in samples:
+        for text, language in samples:
+            pipe = pipes[language]
             t0 = time.perf_counter()
-            _ = pipe.run(s).codemix
+            _ = pipe.run(text).codemix
             t1 = time.perf_counter()
             latencies_ms.append((t1 - t0) * 1000.0)
 
@@ -70,7 +73,7 @@ def _latency_snapshot(*, iterations: int) -> dict[str, object]:
 
 
 def snapshot(*, iterations: int) -> dict[str, object]:
-    golden = run_eval(dataset="golden_translit", topk=1, translit_mode="sentence")
+    golden = run_eval(dataset="golden_translit", language="all", topk=1, translit_mode="sentence")
     dialect = run_eval(dataset="dialect_id", dialect_backend="heuristic")
     latency = _latency_snapshot(iterations=iterations)
 
@@ -82,8 +85,8 @@ def snapshot(*, iterations: int) -> dict[str, object]:
         },
         "metric_definitions": {
             "transliteration_success": (
-                "Accuracy from run_eval(dataset='golden_translit'): expected Gujlish->Gujarati "
-                "outputs matched on the packaged golden set."
+                "Accuracy from run_eval(dataset='golden_translit', language='all'): expected "
+                "Hindi/Gujarati romanized outputs matched on the packaged golden set."
             ),
             "dialect_accuracy": (
                 "Accuracy from run_eval(dataset='dialect_id', dialect_backend='heuristic') "
@@ -98,8 +101,10 @@ def snapshot(*, iterations: int) -> dict[str, object]:
             "transliteration_success": {
                 "value": float(golden.get("accuracy", 0.0)),
                 "dataset": str(golden.get("dataset", "golden_translit")),
+                "language": str(golden.get("language", "all")),
                 "n_cases": int(golden.get("n_cases", 0)),
                 "n_ok": int(golden.get("n_ok", 0)),
+                "language_slices": golden.get("language_slices", {}),
                 "transliteration_backend": str(golden.get("transliteration_backend", "unknown")),
             },
             "dialect_accuracy": {

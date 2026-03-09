@@ -103,5 +103,5 @@ __all__ = [
     "download_gujarat_facts_dataset",
 ]
 
-__version__ = "1.0.2"
+__version__ = "1.1.0rc1"
  

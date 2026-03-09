@@ -19,12 +19,15 @@ nav:
   - Config Schema: config-schema.md
   - North-Star Metrics: north-star-metrics.md
   - Cookbook:
+      - Integration Examples: cookbook/integrations.md
       - WhatsApp Cleanup: cookbook/whatsapp.md
       - CSV Batch: cookbook/csv-batch.md
       - JSONL Batch: cookbook/jsonl-batch.md
+      - Batch CLI Recipes: cookbook/batch-cli-recipes.md
       - User Lexicon: cookbook/lexicon.md
       - Dialects: cookbook/dialects.md
       - RAG Quickstart: cookbook/rag.md
+      - LLM Uplift Notebook: cookbook/llm-uplift-notebook.md
   - Benchmarks: benchmarks.md
 
 markdown_extensions:
