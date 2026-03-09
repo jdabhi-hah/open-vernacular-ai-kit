@@ -105,7 +105,7 @@ Indian languages are planned next and open for community PRs.
 | Bengali | ⬜ | ⬜ | ✅ |
 | Bodo | ⬜ | ⬜ | ✅ |
 | Dogri | ⬜ | ⬜ | ✅ |
-| Gujarati | ✅ | ⬜ | ⬜ |
+| Gujarati | ✅ | ⬜ | ✅ |
 | Hindi | ⬜ | ✅ | ✅ |
 | Kannada | ⬜ | ⬜ | ✅ |
 | Kashmiri | ⬜ | ⬜ | ✅ |
