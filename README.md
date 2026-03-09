@@ -99,30 +99,30 @@ Current snapshot (`2026-03-09T07:59:02Z`):
 Current scope: India-first release. Gujarati is production-ready in this repo today; other Scheduled
 Indian languages are planned next and open for community PRs.
 
-| Language | Ready | Partially Ready | Planned (PR welcome) |
-| --- | --- | --- | --- |
-| Assamese | ⬜ | ⬜ | ✅ |
-| Bengali | ⬜ | ⬜ | ✅ |
-| Bodo | ⬜ | ⬜ | ✅ |
-| Dogri | ⬜ | ⬜ | ✅ |
-| Gujarati | ✅ | ⬜ | ✅ |
-| Hindi | ⬜ | ✅ | ✅ |
-| Kannada | ⬜ | ⬜ | ✅ |
-| Kashmiri | ⬜ | ⬜ | ✅ |
-| Konkani | ⬜ | ⬜ | ✅ |
-| Maithili | ⬜ | ⬜ | ✅ |
-| Malayalam | ⬜ | ⬜ | ✅ |
-| Manipuri | ⬜ | ⬜ | ✅ |
-| Marathi | ⬜ | ⬜ | ✅ |
-| Nepali | ⬜ | ⬜ | ✅ |
-| Odia | ⬜ | ⬜ | ✅ |
-| Punjabi | ⬜ | ⬜ | ✅ |
-| Sanskrit | ⬜ | ⬜ | ✅ |
-| Santali | ⬜ | ⬜ | ✅ |
-| Sindhi | ⬜ | ⬜ | ✅ |
-| Tamil | ⬜ | ⬜ | ✅ |
-| Telugu | ⬜ | ⬜ | ✅ |
-| Urdu | ⬜ | ⬜ | ✅ |
+| Language | Ready | Partially Ready |
+| --- | --- | --- |
+| Assamese | ⬜ | ⬜ |
+| Bengali | ⬜ | ⬜ |
+| Bodo | ⬜ | ⬜ |
+| Dogri | ⬜ | ⬜ |
+| Gujarati | ✅ | ⬜ |
+| Hindi | ⬜ | ✅ |
+| Kannada | ⬜ | ⬜ |
+| Kashmiri | ⬜ | ⬜ |
+| Konkani | ⬜ | ⬜ |
+| Maithili | ⬜ | ⬜ |
+| Malayalam | ⬜ | ⬜ |
+| Manipuri | ⬜ | ⬜ |
+| Marathi | ⬜ | ⬜ |
+| Nepali | ⬜ | ⬜ |
+| Odia | ⬜ | ⬜ |
+| Punjabi | ⬜ | ⬜ |
+| Sanskrit | ⬜ | ⬜ |
+| Santali | ⬜ | ⬜ |
+| Sindhi | ⬜ | ⬜ |
+| Tamil | ⬜ | ⬜ |
+| Telugu | ⬜ | ⬜ |
+| Urdu | ⬜ | ⬜ |
 
 ## Contribute
 
