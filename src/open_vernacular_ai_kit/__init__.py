@@ -145,5 +145,5 @@ __all__ = [
     "dump_reviewed_records_jsonl",
 ]
 
-__version__ = "1.2.0rc1"
+__version__ = "1.2.0"
  
