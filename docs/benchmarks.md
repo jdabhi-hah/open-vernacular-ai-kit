@@ -21,13 +21,13 @@ For release tracking, generate the 3-metric baseline snapshot:
 python3 scripts/snapshot_north_star_metrics.py --output docs/data/north_star_metrics_snapshot.json --iterations 200
 ```
 
-Current snapshot (`2026-03-09T07:59:02Z`):
+Current snapshot (`2026-03-20T19:42:33Z`):
 
 | Metric | Value | Notes |
 | --- | --- | --- |
 | `transliteration_success` | `1.000` | Golden transliteration accuracy across packaged Hindi/Gujarati cases (`90/90`; backend=`none`) |
 | `dialect_accuracy` | `0.833` | Heuristic dialect-id accuracy (`5/6`) |
-| `p95_latency_ms` | `0.205` | Pipeline p95 latency in ms (`iterations=200`, `n_calls=1200`) |
+| `p95_latency_ms` | `0.212` | Pipeline p95 latency in ms (`iterations=200`, `n_calls=1200`) |
 
 ## Golden Transliteration Regression Guard
 
@@ -52,10 +52,10 @@ This suite uses textbook/dialog-inspired examples plus Gujarati grammar-derived 
 check that pronouns, possessives, case markers, adverbs, and common support phrases still render
 correctly in full sentences.
 
-The packaged dataset currently contains `118` exact-match sentence cases:
+The packaged dataset currently contains `120` exact-match sentence cases:
 
-- `55` Hindi textbook/dialog-derived cases
-- `63` Gujarati grammar and support-style cases
+- `56` Hindi textbook/dialog-derived cases
+- `64` Gujarati grammar and support-style cases
 
 ## Quality / Coverage (Gujarati Baseline Eval)
 

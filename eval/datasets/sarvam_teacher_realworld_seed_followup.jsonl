@@ -1,0 +1,90 @@
+{"text": "cod order mate exact cash ready rakhjo", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "cod_payment", "domain": "ecommerce"}}
+{"text": "tamaro exchange request pending kem chhe", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "exchange_status", "domain": "ecommerce"}}
+{"text": "return pickup aaje bapor pachi thai shake", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "pickup_reschedule", "domain": "logistics"}}
+{"text": "mari double payment ma thi ek refund kyare avse", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "duplicate_charge", "domain": "billing"}}
+{"text": "tamaro otp expire thai gayo ke haju valid chhe", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "otp_expiry", "domain": "account"}}
+{"text": "seller sathe confirm kari ne pachi janavo", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "seller_confirmation", "domain": "support"}}
+{"text": "nearest branch ma document physical submit karva padse", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "document_submission", "domain": "account"}}
+{"text": "tamari emi payment overdue batave chhe", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "emi_issue", "domain": "billing"}}
+{"text": "delivery slot savare thi sanje sudhi open chhe", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "slot_availability", "domain": "logistics"}}
+{"text": "mara loyalty points add kem nathi thaya", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "loyalty_points", "domain": "retail"}}
+{"text": "tamne damaged parcel ni photo moklavi padse", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "damage_claim", "domain": "logistics"}}
+{"text": "order split shipment ma aavyo chhe ke nahi", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "split_shipment", "domain": "logistics"}}
+{"text": "store pickup confirm thai gaya pachi msg aavse", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "store_pickup", "domain": "retail"}}
+{"text": "mari subscription renew nathi thai rahi", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "subscription_issue", "domain": "account"}}
+{"text": "tamaro address proof clear nathi etle reject thayu", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "address_proof", "domain": "account"}}
+{"text": "gift card balance ochhu kem dekhae chhe", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "gift_card_issue", "domain": "billing"}}
+{"text": "tamare warehouse mathi self collect karvu padse", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "self_collect", "domain": "logistics"}}
+{"text": "replacement dispatch pela old item pack kari rakhjo", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "replacement_precheck", "domain": "ecommerce"}}
+{"text": "support form submit karya pachi ticket number malyo nathi", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "ticket_creation", "domain": "support"}}
+{"text": "bank account verify thayu chhata payout atkyu chhe", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "payout_issue", "domain": "billing"}}
+{"text": "tamaro promo code minimum amount vagar kaam nathi karto", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "promo_rule", "domain": "ecommerce"}}
+{"text": "driver ne gate number pehla thi janavo", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "delivery_instruction", "domain": "logistics"}}
+{"text": "refund wallet ma nahi bank ma joie chhe", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "refund_destination", "domain": "billing"}}
+{"text": "tamaro plan auto renew off kem nathi thato", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "autorenew_issue", "domain": "account"}}
+{"text": "cash memo pdf turant share karo", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "cash_memo", "domain": "billing"}}
+{"text": "exchange mate size chart fari moklo", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "size_help", "domain": "ecommerce"}}
+{"text": "tamari service request stale dekhay chhe", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "request_status", "domain": "support"}}
+{"text": "order hold mathi release kyare thase", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "order_hold", "domain": "ecommerce"}}
+{"text": "tamare alternate mobile number add karvo chhe", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "alternate_number", "domain": "account"}}
+{"text": "pickup boy ne landmark spasht rite moklo", "language_hint": "gu", "source": "teacher_realworld_followup_pack", "meta": {"category": "landmark_share", "domain": "logistics"}}
+{"text": "cod order ke liye exact cash ready rakhiye", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "cod_payment", "domain": "ecommerce"}}
+{"text": "mera exchange request abhi tak pending kyon hai", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "exchange_status", "domain": "ecommerce"}}
+{"text": "return pickup ko kal dopahar ke baad reschedule kijiye", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "pickup_reschedule", "domain": "logistics"}}
+{"text": "double payment me se ek refund kab milega", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "duplicate_charge", "domain": "billing"}}
+{"text": "otp expire ho gaya ya abhi valid hai", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "otp_expiry", "domain": "account"}}
+{"text": "seller se confirm karke mujhe batayiye", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "seller_confirmation", "domain": "support"}}
+{"text": "nearest branch me document physically submit karna padega", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "document_submission", "domain": "account"}}
+{"text": "meri emi payment overdue dikha rahi hai", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "emi_issue", "domain": "billing"}}
+{"text": "delivery slot subah se shaam tak available hai kya", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "slot_availability", "domain": "logistics"}}
+{"text": "mere loyalty points add kyon nahin hue", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "loyalty_points", "domain": "retail"}}
+{"text": "damaged parcel ki photo fir se bhej dijiye", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "damage_claim", "domain": "logistics"}}
+{"text": "order split shipment me aaya hai kya", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "split_shipment", "domain": "logistics"}}
+{"text": "store pickup confirm hone ke baad message aayega", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "store_pickup", "domain": "retail"}}
+{"text": "meri subscription renew nahin ho rahi", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "subscription_issue", "domain": "account"}}
+{"text": "address proof clear nahin tha isliye reject hua", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "address_proof", "domain": "account"}}
+{"text": "gift card balance kam kyon dikha raha hai", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "gift_card_issue", "domain": "billing"}}
+{"text": "aapko warehouse se self collect karna padega", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "self_collect", "domain": "logistics"}}
+{"text": "replacement dispatch se pehle old item pack rakhiye", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "replacement_precheck", "domain": "ecommerce"}}
+{"text": "support form submit karne ke baad ticket number nahin mila", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "ticket_creation", "domain": "support"}}
+{"text": "bank account verify hua phir bhi payout atka hai", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "payout_issue", "domain": "billing"}}
+{"text": "promo code minimum amount ke bina kaam nahin karega", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "promo_rule", "domain": "ecommerce"}}
+{"text": "driver ko gate number pehle se bata dijiye", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "delivery_instruction", "domain": "logistics"}}
+{"text": "refund wallet me nahin bank me chahiye", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "refund_destination", "domain": "billing"}}
+{"text": "auto renew off kyon nahin ho raha", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "autorenew_issue", "domain": "account"}}
+{"text": "cash memo pdf turant bhej dijiye", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "cash_memo", "domain": "billing"}}
+{"text": "exchange ke liye size chart dobara bhejiye", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "size_help", "domain": "ecommerce"}}
+{"text": "aapki service request stale dikh rahi hai", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "request_status", "domain": "support"}}
+{"text": "order hold se release kab hoga", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "order_hold", "domain": "ecommerce"}}
+{"text": "mujhe alternate mobile number add karna hai", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "alternate_number", "domain": "account"}}
+{"text": "pickup boy ko proper landmark bhejiye", "language_hint": "hi", "source": "teacher_realworld_followup_pack", "meta": {"category": "landmark_share", "domain": "logistics"}}
+{"text": "cod order mate exact cash ready rakho please", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "cod_payment", "domain": "ecommerce"}}
+{"text": "mera exchange request pending chhe kya", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "exchange_status", "domain": "ecommerce"}}
+{"text": "return pickup kal dopahar pachi reschedule karo", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "pickup_reschedule", "domain": "logistics"}}
+{"text": "double payment ma thi ek refund kab aavse", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "duplicate_charge", "domain": "billing"}}
+{"text": "otp expire thai gayo but account haju lock chhe", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "otp_expiry", "domain": "account"}}
+{"text": "seller sathe confirm karke mujhe jaldi batavo", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "seller_confirmation", "domain": "support"}}
+{"text": "nearest branch me document submit karvu padega", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "document_submission", "domain": "account"}}
+{"text": "emi payment overdue chhe but reminder sms aayo nathi", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "emi_issue", "domain": "billing"}}
+{"text": "delivery slot subah thi shaam sudhi open chhe", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "slot_availability", "domain": "logistics"}}
+{"text": "loyalty points add nahin thaya but purchase complete chhe", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "loyalty_points", "domain": "retail"}}
+{"text": "damaged parcel ni photo fir se moklo", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "damage_claim", "domain": "logistics"}}
+{"text": "order split shipment ma aaya hai kya", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "split_shipment", "domain": "logistics"}}
+{"text": "store pickup confirm thai gaya pachi msg aayega", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "store_pickup", "domain": "retail"}}
+{"text": "subscription renew nahin thai rahi bar bar retry chhe", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "subscription_issue", "domain": "account"}}
+{"text": "address proof blur hato isliye reject thai gayo", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "address_proof", "domain": "account"}}
+{"text": "gift card balance ochhu chhe ya sync issue chhe", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "gift_card_issue", "domain": "billing"}}
+{"text": "warehouse mathi self collect karna padega kya", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "self_collect", "domain": "logistics"}}
+{"text": "replacement dispatch pela old item pack rakho", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "replacement_precheck", "domain": "ecommerce"}}
+{"text": "support form submit karya pachi ticket number nahin mila", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "ticket_creation", "domain": "support"}}
+{"text": "bank account verify hua chhata payout atkyu chhe", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "payout_issue", "domain": "billing"}}
+{"text": "promo code minimum amount vagar kaam nahin karega", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "promo_rule", "domain": "ecommerce"}}
+{"text": "driver ko gate number pehla thi share karo", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "delivery_instruction", "domain": "logistics"}}
+{"text": "refund wallet ma nahi bank me chahiye urgently", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "refund_destination", "domain": "billing"}}
+{"text": "auto renew off nahin thai rahyu on app", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "autorenew_issue", "domain": "account"}}
+{"text": "cash memo pdf turant mail karo please", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "cash_memo", "domain": "billing"}}
+{"text": "exchange mate size chart dobara moklo", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "size_help", "domain": "ecommerce"}}
+{"text": "service request stale dikh rahi chhe but update nathi", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "request_status", "domain": "support"}}
+{"text": "order hold mathi release kab thase", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "order_hold", "domain": "ecommerce"}}
+{"text": "alternate mobile number add karvu chhe account ma", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "alternate_number", "domain": "account"}}
+{"text": "pickup boy ne proper landmark jaldi moklo", "language_hint": "mixed", "source": "teacher_realworld_followup_pack", "meta": {"category": "landmark_share", "domain": "logistics"}}

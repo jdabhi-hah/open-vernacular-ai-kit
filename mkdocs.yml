@@ -27,6 +27,7 @@ nav:
       - User Lexicon: cookbook/lexicon.md
       - Dialects: cookbook/dialects.md
       - RAG Quickstart: cookbook/rag.md
+      - Sarvam Teacher Mining: cookbook/sarvam-teacher.md
       - LLM Uplift Notebook: cookbook/llm-uplift-notebook.md
   - Benchmarks: benchmarks.md
 

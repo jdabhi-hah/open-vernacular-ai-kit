@@ -38,8 +38,8 @@ Source file:
 | --- | --- | --- |
 | `transliteration_success` | `1.000` | Golden transliteration accuracy across packaged Hindi/Gujarati cases (`90/90`; backend=`none`) |
 | `dialect_accuracy` | `0.833` | Heuristic dialect-id accuracy (`5/6`) |
-| `p95_latency_ms` | `0.205` | Pipeline p95 latency in ms (`iterations=200`, `n_calls=1200`) |
+| `p95_latency_ms` | `0.212` | Pipeline p95 latency in ms (`iterations=200`, `n_calls=1200`) |
 
-Snapshot timestamp: `2026-03-09T07:59:02Z`.
+Snapshot timestamp: `2026-03-20T19:42:33Z`.
 
 Update this table whenever you refresh the snapshot for a release.

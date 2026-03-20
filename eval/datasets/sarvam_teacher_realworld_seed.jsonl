@@ -1,0 +1,90 @@
+{"text": "mara order nu status shu chhe", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "order_status", "domain": "ecommerce"}}
+{"text": "tamne otp message malyo ke nahi", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "otp_check", "domain": "support"}}
+{"text": "mari payment pending batave chhe", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "payment_issue", "domain": "billing"}}
+{"text": "refund mara bank account ma kyare avse", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "refund_eta", "domain": "billing"}}
+{"text": "tamaro parcel aaje dispatch thayu chhe", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "shipment_update", "domain": "logistics"}}
+{"text": "delivery address fari confirm karo", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "address_confirmation", "domain": "logistics"}}
+{"text": "tamare invoice pdf mail karvu chhe", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "invoice_request", "domain": "billing"}}
+{"text": "pickup mate savare ketla vage avsho", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "pickup_schedule", "domain": "logistics"}}
+{"text": "mara paisa haju sudhi credit nathi thaya", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "refund_issue", "domain": "billing"}}
+{"text": "tamne replacement joie ke refund", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "resolution_choice", "domain": "support"}}
+{"text": "aaje customer care sathe vaat thai hati", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "support_followup", "domain": "support"}}
+{"text": "hu app ma login nathi kari shakta", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "login_issue", "domain": "account"}}
+{"text": "aa coupon code kem kaam nathi karto", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "coupon_issue", "domain": "ecommerce"}}
+{"text": "tamaro kyc document reject thayu chhe", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "kyc_issue", "domain": "account"}}
+{"text": "mobile number change karvu chhe", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "profile_update", "domain": "account"}}
+{"text": "tamari shipment tya hub par atki chhe", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "shipment_delay", "domain": "logistics"}}
+{"text": "maru wallet balance ochhu batave chhe", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "wallet_issue", "domain": "billing"}}
+{"text": "please mara order ma address update karo", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "address_update", "domain": "logistics"}}
+{"text": "callback mate sanje free chho", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "callback_request", "domain": "support"}}
+{"text": "tamne tracking link mokli didhi chhe", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "tracking_update", "domain": "logistics"}}
+{"text": "tamaro refund initiate thai gayo chhe", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "refund_update", "domain": "billing"}}
+{"text": "account verify karva mate photo upload karo", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "verification_step", "domain": "account"}}
+{"text": "hu have office ma nathi etle pachhi call karo", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "callback_reschedule", "domain": "support"}}
+{"text": "tamari ticket close karva pela ek vaar check karo", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "ticket_closure", "domain": "support"}}
+{"text": "return request approve thai gayi chhe", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "return_update", "domain": "ecommerce"}}
+{"text": "payment link fari share karo", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "payment_link", "domain": "billing"}}
+{"text": "aa product out of stock chhe ke available", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "inventory_check", "domain": "ecommerce"}}
+{"text": "tamare nearest store ma javu pade", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "store_visit", "domain": "retail"}}
+{"text": "mari complaint nu resolution aaj joie", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "complaint_resolution", "domain": "support"}}
+{"text": "coupon apply karya pachi pan discount nathi aavyo", "language_hint": "gu", "source": "teacher_realworld_pack", "meta": {"category": "discount_issue", "domain": "ecommerce"}}
+{"text": "mujhe order status batayiye", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "order_status", "domain": "ecommerce"}}
+{"text": "payment fail hua but paise kat gaye", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "payment_issue", "domain": "billing"}}
+{"text": "refund mere account me kab aayega", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "refund_eta", "domain": "billing"}}
+{"text": "aap invoice pdf bhej dijiye", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "invoice_request", "domain": "billing"}}
+{"text": "delivery address confirm kar dijiye", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "address_confirmation", "domain": "logistics"}}
+{"text": "mujhe callback chahiye", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "callback_request", "domain": "support"}}
+{"text": "mera account verify kyon nahin hua", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "verification_issue", "domain": "account"}}
+{"text": "kyc document dobara upload karna hai", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "kyc_step", "domain": "account"}}
+{"text": "tracking id abhi tak nahin mila", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "tracking_issue", "domain": "logistics"}}
+{"text": "order cancel ho gaya lekin refund nahin aaya", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "refund_issue", "domain": "billing"}}
+{"text": "customer care se baat karni hai", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "support_contact", "domain": "support"}}
+{"text": "app me login nahin ho raha", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "login_issue", "domain": "account"}}
+{"text": "coupon code kaam nahin kar raha", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "coupon_issue", "domain": "ecommerce"}}
+{"text": "pickup kal subah schedule kar dijiye", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "pickup_schedule", "domain": "logistics"}}
+{"text": "mera wallet balance galat dikha raha hai", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "wallet_issue", "domain": "billing"}}
+{"text": "replacement chahiye refund nahin", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "resolution_choice", "domain": "support"}}
+{"text": "delivery partner ghar ke paas pahunch gaya hai", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "delivery_arrival", "domain": "logistics"}}
+{"text": "invoice mail kar dijiye", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "invoice_email", "domain": "billing"}}
+{"text": "mujhe payment receipt chahiye", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "receipt_request", "domain": "billing"}}
+{"text": "aaj shaam callback karna", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "callback_schedule", "domain": "support"}}
+{"text": "customer ne galat address diya tha", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "address_issue", "domain": "logistics"}}
+{"text": "return request approve ho gayi hai", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "return_update", "domain": "ecommerce"}}
+{"text": "please account unlock kar dijiye", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "account_unlock", "domain": "account"}}
+{"text": "mujhe refund amount confirm karna hai", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "refund_confirmation", "domain": "billing"}}
+{"text": "delivery late kyon ho rahi hai", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "delivery_delay", "domain": "logistics"}}
+{"text": "payment link dobara bhej dijiye", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "payment_link", "domain": "billing"}}
+{"text": "product abhi available hai kya", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "inventory_check", "domain": "ecommerce"}}
+{"text": "profile photo update nahin ho rahi", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "profile_update", "domain": "account"}}
+{"text": "mera order wrong item ke saath aaya", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "wrong_item", "domain": "ecommerce"}}
+{"text": "support ticket abhi tak open hai", "language_hint": "hi", "source": "teacher_realworld_pack", "meta": {"category": "ticket_status", "domain": "support"}}
+{"text": "mara order cancel thai gayo but refund aavyo nathi", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "refund_issue", "domain": "billing"}}
+{"text": "mujhe pickup location mokli do", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "pickup_location", "domain": "logistics"}}
+{"text": "tamne tracking link mail ma moklu chu", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "tracking_update", "domain": "logistics"}}
+{"text": "payment pending chhe but paise kat gaye", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "payment_issue", "domain": "billing"}}
+{"text": "invoice pdf mujhe whatsapp par bhejo", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "invoice_request", "domain": "billing"}}
+{"text": "customer care vala mane callback kare", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "callback_request", "domain": "support"}}
+{"text": "mujhe refund ni jagyae replacement joie", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "resolution_choice", "domain": "support"}}
+{"text": "delivery partner ne exact location moklo", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "location_share", "domain": "logistics"}}
+{"text": "return pickup kal subah chahiye", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "pickup_schedule", "domain": "logistics"}}
+{"text": "tamaro payment pending chhe ke complete", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "payment_status", "domain": "billing"}}
+{"text": "account verify thai gayu but login nathi thatu", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "login_issue", "domain": "account"}}
+{"text": "mujhe order nu updated invoice joie", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "invoice_request", "domain": "billing"}}
+{"text": "coupon apply karyo but discount nahin mila", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "coupon_issue", "domain": "ecommerce"}}
+{"text": "wallet ma refund credit nahin hua", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "wallet_issue", "domain": "billing"}}
+{"text": "mara parcel nu live status share karo", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "shipment_update", "domain": "logistics"}}
+{"text": "support team sathe baat karni hai urgently", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "support_contact", "domain": "support"}}
+{"text": "kyc photo blur chhe isliye reject hua", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "kyc_issue", "domain": "account"}}
+{"text": "delivery address change karvu hai before dispatch", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "address_update", "domain": "logistics"}}
+{"text": "mujhe payment screenshot mokli do", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "payment_proof", "domain": "billing"}}
+{"text": "return request submit thai gayi hai", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "return_update", "domain": "ecommerce"}}
+{"text": "app ma session expire thai jaye chhe bar bar", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "app_issue", "domain": "account"}}
+{"text": "customer ne wrong size receive hua chhe", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "wrong_item", "domain": "ecommerce"}}
+{"text": "refund initiate thai gayo but sms nahin aaya", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "refund_update", "domain": "billing"}}
+{"text": "tamare nearest pickup point par jana padega", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "pickup_instruction", "domain": "logistics"}}
+{"text": "invoice mail par aavyo nahin please resend", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "invoice_email", "domain": "billing"}}
+{"text": "mujhe order cancel karna hai abhi", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "order_cancel", "domain": "ecommerce"}}
+{"text": "discount coupon expire thai gayo kya", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "coupon_issue", "domain": "ecommerce"}}
+{"text": "support ticket close thai gayi but problem same chhe", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "ticket_reopen", "domain": "support"}}
+{"text": "delivery boy ghar ke niche wait kari raha hai", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "delivery_arrival", "domain": "logistics"}}
+{"text": "mari profile update save nahin thai rahi", "language_hint": "mixed", "source": "teacher_realworld_pack", "meta": {"category": "profile_update", "domain": "account"}}

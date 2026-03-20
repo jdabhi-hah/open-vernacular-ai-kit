@@ -1,0 +1,90 @@
+{"text": "mara order nu stts shu chhe pls", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "order_status", "domain": "ecommerce"}}
+{"text": "otp aj pn nathi aavto yaar", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "otp_issue", "domain": "account"}}
+{"text": "payment fail thayu pn paisa cut thai gaya", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "payment_issue", "domain": "billing"}}
+{"text": "refund haju credit nthi thayo", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "refund_eta", "domain": "billing"}}
+{"text": "parcel kya sudhi pohnchyoo?", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "shipment_update", "domain": "logistics"}}
+{"text": "addrss update krvu chhe asap", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "address_update", "domain": "logistics"}}
+{"text": "invoice pdf mail krjo pls", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "invoice_request", "domain": "billing"}}
+{"text": "pickup savare aavse ke bapor pachi?", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "pickup_schedule", "domain": "logistics"}}
+{"text": "wallet ma paisa ochha batave chhe", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "wallet_issue", "domain": "billing"}}
+{"text": "replacement joie refund nai", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "resolution_choice", "domain": "support"}}
+{"text": "custmr care sathe vaat thai hati pn solve nathi", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "support_followup", "domain": "support"}}
+{"text": "app ma login nthi thatu bro", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "login_issue", "domain": "account"}}
+{"text": "coupon code bilkul work nathi karto", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "coupon_issue", "domain": "ecommerce"}}
+{"text": "kyc doc blur etle reject thai gyo", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "kyc_issue", "domain": "account"}}
+{"text": "mobile no change krvo chhe", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "profile_update", "domain": "account"}}
+{"text": "shipment hub par atki gayi lage chhe", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "shipment_delay", "domain": "logistics"}}
+{"text": "pls mara order ma landmark add krjo", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "landmark_share", "domain": "logistics"}}
+{"text": "callback sanje j karjo ok?", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "callback_request", "domain": "support"}}
+{"text": "tracking link moklyu htu pn open nthi thatu", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "tracking_issue", "domain": "logistics"}}
+{"text": "refund initiate thai gyo pn sms nathi aavyo", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "refund_update", "domain": "billing"}}
+{"text": "verify mate photo fari upload krjo", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "verification_step", "domain": "account"}}
+{"text": "office ma chu pachi call karjo", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "callback_reschedule", "domain": "support"}}
+{"text": "ticket close kari didhi pn issue same chhe", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "ticket_reopen", "domain": "support"}}
+{"text": "return req approve thai gyi chhe", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "return_update", "domain": "ecommerce"}}
+{"text": "paymnt link fari moklo pls", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "payment_link", "domain": "billing"}}
+{"text": "aa item stock ma chhe ke nai?", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "inventory_check", "domain": "ecommerce"}}
+{"text": "nearest store javun pade?", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "store_visit", "domain": "retail"}}
+{"text": "complaint nu resolution aaje j joie", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "complaint_resolution", "domain": "support"}}
+{"text": "discount apply thayu nthi aj pn", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "discount_issue", "domain": "ecommerce"}}
+{"text": "plan auto renew off nthi thatu", "language_hint": "gu", "source": "teacher_noisy_chat_pack", "meta": {"category": "autorenew_issue", "domain": "account"}}
+{"text": "mujhe order stts bata do pls", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "order_status", "domain": "ecommerce"}}
+{"text": "otp abhi tk nahi aaya yrr", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "otp_issue", "domain": "account"}}
+{"text": "payment fail hua but paise kat gye", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "payment_issue", "domain": "billing"}}
+{"text": "refund abhi tk credit nhi hua", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "refund_eta", "domain": "billing"}}
+{"text": "parcel kaha tk pahuncha?", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "shipment_update", "domain": "logistics"}}
+{"text": "address update krna h asap", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "address_update", "domain": "logistics"}}
+{"text": "invoice pdf mail kr dijiye pls", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "invoice_request", "domain": "billing"}}
+{"text": "pickup subah hoga ya dopahar baad?", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "pickup_schedule", "domain": "logistics"}}
+{"text": "wallet me balance galat dikh rha h", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "wallet_issue", "domain": "billing"}}
+{"text": "replacement chahiye refund nhi", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "resolution_choice", "domain": "support"}}
+{"text": "custmr care se baat hui thi but solve nhi hua", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "support_followup", "domain": "support"}}
+{"text": "app me login nhi ho rha bro", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "login_issue", "domain": "account"}}
+{"text": "coupon code bilkul work nhi kr rha", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "coupon_issue", "domain": "ecommerce"}}
+{"text": "kyc doc blur tha isliye reject ho gya", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "kyc_issue", "domain": "account"}}
+{"text": "mobile no change krna h", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "profile_update", "domain": "account"}}
+{"text": "shipment hub pe atka hua lg rha h", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "shipment_delay", "domain": "logistics"}}
+{"text": "pls mere order me landmark add kr do", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "landmark_share", "domain": "logistics"}}
+{"text": "callback shaam ko hi krna ok?", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "callback_request", "domain": "support"}}
+{"text": "tracking link mila tha but open nhi ho rha", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "tracking_issue", "domain": "logistics"}}
+{"text": "refund initiate hua but sms nhi aya", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "refund_update", "domain": "billing"}}
+{"text": "verify ke liye photo dubara upload kr do", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "verification_step", "domain": "account"}}
+{"text": "office me hu baad me call krna", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "callback_reschedule", "domain": "support"}}
+{"text": "ticket close kar di but issue same h", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "ticket_reopen", "domain": "support"}}
+{"text": "return req approve ho gyi h", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "return_update", "domain": "ecommerce"}}
+{"text": "payment link fir se bhej do pls", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "payment_link", "domain": "billing"}}
+{"text": "ye item stock me h ya nhi?", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "inventory_check", "domain": "ecommerce"}}
+{"text": "nearest store jana padega kya?", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "store_visit", "domain": "retail"}}
+{"text": "complaint ka resolution aaj hi chahiye", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "complaint_resolution", "domain": "support"}}
+{"text": "discount apply nhi hua aj bhi", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "discount_issue", "domain": "ecommerce"}}
+{"text": "plan auto renew off nhi ho rha", "language_hint": "hi", "source": "teacher_noisy_chat_pack", "meta": {"category": "autorenew_issue", "domain": "account"}}
+{"text": "mujhe order nu stts batao pls", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "order_status", "domain": "ecommerce"}}
+{"text": "otp aj tk nthi aavyo yrr", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "otp_issue", "domain": "account"}}
+{"text": "payment fail thai gyi but paisa कट gya", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "payment_issue", "domain": "billing"}}
+{"text": "refund haju tk credit nhi hua", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "refund_eta", "domain": "billing"}}
+{"text": "parcel kya sudhi pahuncha bro", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "shipment_update", "domain": "logistics"}}
+{"text": "addrss update krvu h asap", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "address_update", "domain": "logistics"}}
+{"text": "invoice pdf mail krdo pls yaar", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "invoice_request", "domain": "billing"}}
+{"text": "pickup subah aavse ya dopahar baad?", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "pickup_schedule", "domain": "logistics"}}
+{"text": "wallet ma balance galat dikh rha chhe", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "wallet_issue", "domain": "billing"}}
+{"text": "replacement joie refund nhi", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "resolution_choice", "domain": "support"}}
+{"text": "custmr care sathe baat hui but solve nthi", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "support_followup", "domain": "support"}}
+{"text": "app ma login nhi thatu bro", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "login_issue", "domain": "account"}}
+{"text": "coupon code bilkul work nthi kr rha", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "coupon_issue", "domain": "ecommerce"}}
+{"text": "kyc doc blur hato isliye reject ho gya", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "kyc_issue", "domain": "account"}}
+{"text": "mobile no change krvu h account ma", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "profile_update", "domain": "account"}}
+{"text": "shipment hub pe atki gai lage chhe", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "shipment_delay", "domain": "logistics"}}
+{"text": "pls order ma landmark add krdo", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "landmark_share", "domain": "logistics"}}
+{"text": "callback shaam ma j karjo ok?", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "callback_request", "domain": "support"}}
+{"text": "tracking link mila htu but open nhi thatu", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "tracking_issue", "domain": "logistics"}}
+{"text": "refund initiate thai gyo but sms nhi aya", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "refund_update", "domain": "billing"}}
+{"text": "verify mate photo dubara upload krdo", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "verification_step", "domain": "account"}}
+{"text": "office ma hu baad ma call krjo", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "callback_reschedule", "domain": "support"}}
+{"text": "ticket close kari di but issue same h", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "ticket_reopen", "domain": "support"}}
+{"text": "return req approve thai gyi h", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "return_update", "domain": "ecommerce"}}
+{"text": "payment link firthi moklo pls", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "payment_link", "domain": "billing"}}
+{"text": "item stock ma h ke nhi?", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "inventory_check", "domain": "ecommerce"}}
+{"text": "nearest store java padega kya?", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "store_visit", "domain": "retail"}}
+{"text": "complaint nu resolution aaj hi joie", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "complaint_resolution", "domain": "support"}}
+{"text": "discount apply nthi hua aj pn", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "discount_issue", "domain": "ecommerce"}}
+{"text": "plan auto renew off nthi ho rha", "language_hint": "mixed", "source": "teacher_noisy_chat_pack", "meta": {"category": "autorenew_issue", "domain": "account"}}

@@ -116,3 +116,5 @@
 {"language": "gu", "raw": "tame savare ahi aavo", "expected": "તમે સવારે અહીં આવો", "source": "Gujarati time adverb pattern"}
 {"language": "gu", "raw": "tame sanje tya jao", "expected": "તમે સાંજે ત્યાં જાઓ", "source": "Gujarati time adverb pattern"}
 {"language": "gu", "raw": "ame ratre ghar ma chhiye", "expected": "અમે રાત્રે ઘર માં છીએ", "source": "Gujarati time adverb pattern"}
+{"language": "gu", "raw": "mara paisa kyare avse", "expected": "મારા પૈસા ક્યારે આવશે", "source": "teacher_seed:sarvam_review"}
+{"language": "hi", "raw": "mujhe pickup location bhej dijiye", "expected": "मुझे pickup location भेज दीजिए", "source": "teacher_seed:sarvam_review"}
