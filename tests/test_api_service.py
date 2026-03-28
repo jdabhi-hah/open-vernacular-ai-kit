@@ -40,8 +40,24 @@ def test_codemix_ignores_unknown_fields() -> None:
     assert r.status_code == 200
     data = r.json()
     assert data["schema_version"] == API_SCHEMA_VERSION
+    assert data["language"] == "gu"
     assert "codemix" in data
     assert "n_gu_roman_tokens" in data
+
+
+def test_codemix_accepts_hindi_language_profile() -> None:
+    assert client is not None
+    r = client.post(
+        "/codemix",
+        json={
+            "text": "mera naam Sudhir hai",
+            "config": {"language": "hi", "translit_mode": "sentence"},
+        },
+    )
+    assert r.status_code == 200
+    data = r.json()
+    assert data["language"] == "hi"
+    assert "मेरा" in data["codemix"]
 
 
 def test_analyze_with_config_dict() -> None:

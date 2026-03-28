@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import inspect
 import os
 from dataclasses import dataclass
 from typing import Any, Optional
@@ -73,11 +74,18 @@ def sarvam_chat(
     if preprocess:
         content = render_codemix(normalize_text(user_text))
 
-    resp = client.chat.completions(
-        model=model,
-        messages=[{"role": "user", "content": content}],
+    completion_kwargs = {
+        "messages": [{"role": "user", "content": content}],
         **kwargs,
-    )
+    }
+    try:
+        params = inspect.signature(client.chat.completions).parameters
+    except Exception:
+        params = {}
+    if "model" in params:
+        completion_kwargs["model"] = model
+
+    resp = client.chat.completions(**completion_kwargs)
 
     try:
         return resp.choices[0].message.content

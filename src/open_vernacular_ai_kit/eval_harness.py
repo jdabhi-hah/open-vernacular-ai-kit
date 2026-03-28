@@ -12,11 +12,13 @@ import regex as re
 
 from .codemix_render import analyze_codemix, render_codemix
 from .dialect_datasets import (
+    iter_jsonl,
     load_dialect_id_jsonl,
     load_dialect_normalization_jsonl,
     packaged_data_path,
 )
 from .errors import DownloadError, InvalidConfigError, OptionalDependencyError
+from .language_packs import get_language_pack, supported_language_codes
 from .normalize import normalize_text
 from .rag_datasets import load_vernacular_facts_tiny
 from .rendering import render_tokens
@@ -39,11 +41,20 @@ class DatasetSpec:
 
 @dataclass(frozen=True)
 class GoldenTranslitCase:
-    """One hand-validated Gujlish -> Gujarati expected output case."""
+    """One hand-validated romanized->native expected output case."""
 
-    gujlish: str
+    language: str
+    romanized: str
     expected_any_of: list[str]
     requires_backend: bool = False
+
+
+@dataclass(frozen=True)
+class LanguageSentenceCase:
+    language: str
+    raw: str
+    expected: str
+    source: str = "unknown"
 
 
 _GUJLISH_SPECS: list[DatasetSpec] = [
@@ -103,13 +114,14 @@ def _has_gujarati(text: str) -> bool:
     return bool(_GUJARATI_RE.search(text))
 
 
-def _analyze_one(text: str, *, topk: int = 1) -> dict[str, Any]:
+def _analyze_one(text: str, *, topk: int = 1, language: str = "gu") -> dict[str, Any]:
     raw = text
-    a = analyze_codemix(raw, topk=topk)
+    a = analyze_codemix(raw, language=language, topk=topk)
     norm = a.normalized
     out = a.codemix
 
     return {
+        "language": a.language,
         "raw": raw,
         "normalized": norm,
         "codemix": out,
@@ -440,34 +452,209 @@ def _cosine_sim_matrix(emb: Any) -> list[list[float]]:
 
 
 _GOLDEN_TRANSLIT_CASES: list[GoldenTranslitCase] = [
-    # Exceptions-only (works even when transliteration_backend() == "none")
-    GoldenTranslitCase("hu", ["હું"]),
-    GoldenTranslitCase("tu", ["તું"]),
-    GoldenTranslitCase("tame", ["તમે"]),
-    GoldenTranslitCase("ame", ["અમે"]),
-    GoldenTranslitCase("maru", ["મારું"]),
-    GoldenTranslitCase("mare", ["મારે"]),
-    GoldenTranslitCase("tamaro", ["તમારો"]),
-    GoldenTranslitCase("tamari", ["તમારી"]),
-    GoldenTranslitCase("chhe", ["છે"]),
-    GoldenTranslitCase("nathi", ["નથી"]),
-    GoldenTranslitCase("shu", ["શું"]),
-    GoldenTranslitCase("kem", ["કેમ"]),
-    GoldenTranslitCase("aaje", ["આજે"]),
-    GoldenTranslitCase("kaale", ["કાલે"]),
-    GoldenTranslitCase("naam", ["નામ"]),
-    GoldenTranslitCase("hu aaje", ["હું આજે"]),
-    GoldenTranslitCase("tame kem", ["તમે કેમ"]),
-    # Backends required (sanscript / ai4bharat). We skip these if backend == "none".
-    GoldenTranslitCase("ahmedabad", ["અમદાવાદ"], requires_backend=True),
-    GoldenTranslitCase("gujarat", ["ગુજરાત"], requires_backend=True),
-    GoldenTranslitCase("sarkar", ["સરકાર"], requires_backend=True),
-    GoldenTranslitCase("vyapar", ["વ્યાપાર"], requires_backend=True),
+    # Gujarati baseline
+    GoldenTranslitCase("gu", "hu", ["હું"]),
+    GoldenTranslitCase("gu", "tu", ["તું"]),
+    GoldenTranslitCase("gu", "tame", ["તમે"]),
+    GoldenTranslitCase("gu", "ame", ["અમે"]),
+    GoldenTranslitCase("gu", "maru", ["મારું"]),
+    GoldenTranslitCase("gu", "mare", ["મારે"]),
+    GoldenTranslitCase("gu", "tamaro", ["તમારો"]),
+    GoldenTranslitCase("gu", "tamari", ["તમારી"]),
+    GoldenTranslitCase("gu", "chhe", ["છે"]),
+    GoldenTranslitCase("gu", "nathi", ["નથી"]),
+    GoldenTranslitCase("gu", "shu", ["શું"]),
+    GoldenTranslitCase("gu", "kem", ["કેમ"]),
+    GoldenTranslitCase("gu", "aaje", ["આજે"]),
+    GoldenTranslitCase("gu", "kaale", ["કાલે"]),
+    GoldenTranslitCase("gu", "naam", ["નામ"]),
+    GoldenTranslitCase("gu", "mane", ["મને"]),
+    GoldenTranslitCase("gu", "amne", ["અમને"]),
+    GoldenTranslitCase("gu", "tane", ["તને"]),
+    GoldenTranslitCase("gu", "tamne", ["તમને"]),
+    GoldenTranslitCase("gu", "aapdu", ["આપણું"]),
+    GoldenTranslitCase("gu", "tamaro", ["તમારો"]),
+    GoldenTranslitCase("gu", "tamaru", ["તમારું"]),
+    GoldenTranslitCase("gu", "vaat", ["વાત"]),
+    GoldenTranslitCase("gu", "madad", ["મદદ"]),
+    GoldenTranslitCase("gu", "kari", ["કરી"]),
+    GoldenTranslitCase("gu", "shako", ["શકો"]),
+    GoldenTranslitCase("gu", "samajh", ["સમજ"]),
+    GoldenTranslitCase("gu", "aavu", ["આવું"]),
+    GoldenTranslitCase("gu", "saras", ["સરસ"]),
+    GoldenTranslitCase("gu", "saru", ["સારું"]),
+    GoldenTranslitCase("gu", "rite", ["રીતે"]),
+    GoldenTranslitCase("gu", "thai", ["થઈ"]),
+    GoldenTranslitCase("gu", "gayu", ["ગયું"]),
+    GoldenTranslitCase("gu", "chhiye", ["છીએ"]),
+    GoldenTranslitCase("gu", "aavo", ["આવો"]),
+    GoldenTranslitCase("gu", "jao", ["જાઓ"]),
+    GoldenTranslitCase("gu", "pachi", ["પછી"]),
+    GoldenTranslitCase("gu", "ahi", ["અહીં"]),
+    GoldenTranslitCase("gu", "tya", ["ત્યાં"]),
+    GoldenTranslitCase("gu", "pase", ["પાસે"]),
+    GoldenTranslitCase("gu", "kyarek", ["ક્યારેક"]),
+    GoldenTranslitCase("gu", "hu aaje", ["હું આજે"]),
+    GoldenTranslitCase("gu", "tame kem", ["તમે કેમ"]),
+    GoldenTranslitCase("gu", "mane madad", ["મને મદદ"]),
+    GoldenTranslitCase("gu", "kari shako", ["કરી શકો"]),
+    GoldenTranslitCase("gu", "saras rite", ["સરસ રીતે"]),
+    GoldenTranslitCase("gu", "thai gayu", ["થઈ ગયું"]),
+    GoldenTranslitCase("gu", "tamaro parivar", ["તમારો પરિવાર"]),
+    GoldenTranslitCase("gu", "ahi badma", ["અહીં બાદમાં"]),
+    GoldenTranslitCase("gu", "ahmedabad", ["અમદાવાદ"], requires_backend=True),
+    GoldenTranslitCase("gu", "gujarat", ["ગુજરાત"], requires_backend=True),
+    GoldenTranslitCase("gu", "sarkar", ["સરકાર"], requires_backend=True),
+    GoldenTranslitCase("gu", "vyapar", ["વ્યાપાર"], requires_backend=True),
+    # Hindi beta
+    GoldenTranslitCase("hi", "main", ["मैं"]),
+    GoldenTranslitCase("hi", "mera", ["मेरा"]),
+    GoldenTranslitCase("hi", "meri", ["मेरी"]),
+    GoldenTranslitCase("hi", "mere", ["मेरे"]),
+    GoldenTranslitCase("hi", "kya", ["क्या"]),
+    GoldenTranslitCase("hi", "hai", ["है"]),
+    GoldenTranslitCase("hi", "hain", ["हैं"]),
+    GoldenTranslitCase("hi", "nahi", ["नहीं"]),
+    GoldenTranslitCase("hi", "namaste", ["नमस्ते"]),
+    GoldenTranslitCase("hi", "dhanyavad", ["धन्यवाद"]),
+    GoldenTranslitCase("hi", "theek", ["ठीक"]),
+    GoldenTranslitCase("hi", "maa", ["माँ"]),
+    GoldenTranslitCase("hi", "pita", ["पिता"]),
+    GoldenTranslitCase("hi", "parivar", ["परिवार"]),
+    GoldenTranslitCase("hi", "mujhe", ["मुझे"]),
+    GoldenTranslitCase("hi", "paise", ["पैसे"]),
+    GoldenTranslitCase("hi", "dijiye", ["दीजिए"]),
+    GoldenTranslitCase("hi", "chahiye", ["चाहिए"]),
+    GoldenTranslitCase("hi", "madad", ["मदद"]),
+    GoldenTranslitCase("hi", "aaiye", ["आइए"]),
+    GoldenTranslitCase("hi", "tumse", ["तुमसे"]),
+    GoldenTranslitCase("hi", "tumhara", ["तुम्हारा"]),
+    GoldenTranslitCase("hi", "aapka", ["आपका"]),
+    GoldenTranslitCase("hi", "aur", ["और"]),
+    GoldenTranslitCase("hi", "kab", ["कब"]),
+    GoldenTranslitCase("hi", "kahan", ["कहाँ"]),
+    GoldenTranslitCase("hi", "ghar", ["घर"]),
+    GoldenTranslitCase("hi", "baat", ["बात"]),
+    GoldenTranslitCase("hi", "karni", ["करनी"]),
+    GoldenTranslitCase("hi", "jayenge", ["जाएंगे"]),
+    GoldenTranslitCase("hi", "aaoge", ["आओगे"]),
+    GoldenTranslitCase("hi", "hoga", ["होगा"]),
+    GoldenTranslitCase("hi", "yeh", ["यह"]),
+    GoldenTranslitCase("hi", "bahut", ["बहुत"]),
+    GoldenTranslitCase("hi", "accha", ["अच्छा"]),
+    GoldenTranslitCase("hi", "mera naam", ["मेरा नाम"]),
+    GoldenTranslitCase("hi", "meri maa", ["मेरी माँ"]),
+    GoldenTranslitCase("hi", "mere pita", ["मेरे पिता"]),
+    GoldenTranslitCase("hi", "mera parivar", ["मेरा परिवार"]),
+    GoldenTranslitCase("hi", "mujhe baat", ["मुझे बात"]),
+    GoldenTranslitCase("hi", "bahut accha", ["बहुत अच्छा"]),
+    GoldenTranslitCase("hi", "bharat", ["भारत"], requires_backend=True),
+    GoldenTranslitCase("hi", "sarkar", ["सरकार"], requires_backend=True),
 ]
+
+
+def _load_language_sentence_cases() -> list[LanguageSentenceCase]:
+    path = packaged_data_path("language_sentence_cases.jsonl")
+    if not path.exists():
+        return []
+    out: list[LanguageSentenceCase] = []
+    for rec in iter_jsonl(path):
+        out.append(
+            LanguageSentenceCase(
+                language=str(rec.get("language", "gu") or "gu").strip().lower(),
+                raw=str(rec.get("raw", "") or ""),
+                expected=str(rec.get("expected", "") or ""),
+                source=str(rec.get("source", "unknown") or "unknown"),
+            )
+        )
+    return out
+
+
+def run_language_sentence_eval(
+    *,
+    language: str = "gu",
+    topk: int = 1,
+    translit_mode: str = "sentence",
+    preserve_case: bool = True,
+    preserve_numbers: bool = True,
+    aggressive_normalize: bool = False,
+) -> dict[str, Any]:
+    requested = str(language or "gu").strip().lower()
+    if requested == "all":
+        selected_languages = list(supported_language_codes())
+        effective_language = "all"
+    else:
+        selected_languages = [get_language_pack(requested).code]
+        effective_language = selected_languages[0]
+
+    cases = _load_language_sentence_cases()
+    language_slices: dict[str, Any] = {}
+    all_rows: list[dict[str, Any]] = []
+    n_total = 0
+    n_ok = 0
+
+    for lang in selected_languages:
+        rows: list[dict[str, Any]] = []
+        n_total_lang = 0
+        n_ok_lang = 0
+        for case in cases:
+            if case.language != lang:
+                continue
+            n_total_lang += 1
+            got = render_codemix(
+                case.raw,
+                language=lang,
+                topk=topk,
+                translit_mode=translit_mode,
+                preserve_case=preserve_case,
+                preserve_numbers=preserve_numbers,
+                aggressive_normalize=aggressive_normalize,
+            )
+            ok = normalize_text(got) == normalize_text(case.expected)
+            if ok:
+                n_ok_lang += 1
+            row = {
+                "language": lang,
+                "input": case.raw,
+                "output": got,
+                "expected": case.expected,
+                "ok": ok,
+                "source": case.source,
+            }
+            rows.append(row)
+            all_rows.append(row)
+
+        language_slices[lang] = {
+            "n_cases": int(n_total_lang),
+            "n_ok": int(n_ok_lang),
+            "accuracy": (n_ok_lang / n_total_lang) if n_total_lang else 0.0,
+            "examples_fail": [r for r in rows if not r["ok"]][:10],
+            "examples_ok": [r for r in rows if r["ok"]][:10],
+        }
+        n_total += n_total_lang
+        n_ok += n_ok_lang
+
+    return {
+        "dataset": "language_sentences",
+        "language_requested": requested,
+        "language": effective_language,
+        "topk": int(topk),
+        "translit_mode": translit_mode,
+        "preserve_case": bool(preserve_case),
+        "preserve_numbers": bool(preserve_numbers),
+        "aggressive_normalize": bool(aggressive_normalize),
+        "n_cases": int(n_total),
+        "n_ok": int(n_ok),
+        "accuracy": (n_ok / n_total) if n_total else 0.0,
+        "language_slices": language_slices,
+        "examples_fail": [r for r in all_rows if not r["ok"]][:10],
+        "examples_ok": [r for r in all_rows if r["ok"]][:10],
+    }
 
 
 def run_golden_translit_eval(
     *,
+    language: str = "gu",
     topk: int = 1,
     translit_mode: str = "token",
     preserve_case: bool = True,
@@ -475,50 +662,88 @@ def run_golden_translit_eval(
     aggressive_normalize: bool = False,
 ) -> dict[str, Any]:
     """
-    Golden Gujlish->Gujarati evaluation.
+    Golden romanized->native transliteration evaluation.
 
     This is intentionally tiny and hand-validated. It is meant as a regression guard
     for common function words and a few content words (when a backend is available).
     """
-    backend = transliteration_backend()
-    rows: list[dict[str, Any]] = []
+    requested = str(language or "gu").strip().lower()
+    if requested == "all":
+        selected_languages = list(supported_language_codes())
+        effective_language = "all"
+    else:
+        pack = get_language_pack(requested)
+        selected_languages = [pack.code]
+        effective_language = pack.code
+
+    language_slices: dict[str, Any] = {}
+    all_rows: list[dict[str, Any]] = []
     n_total = 0
     n_ok = 0
     n_skipped = 0
 
-    for c in _GOLDEN_TRANSLIT_CASES:
-        if c.requires_backend and backend == "none":
-            n_skipped += 1
-            continue
+    for lang in selected_languages:
+        backend = transliteration_backend(language=lang)
+        rows: list[dict[str, Any]] = []
+        n_total_lang = 0
+        n_ok_lang = 0
+        n_skipped_lang = 0
 
-        n_total += 1
-        got = render_codemix(
-            c.gujlish,
-            topk=topk,
-            translit_mode=translit_mode,
-            preserve_case=preserve_case,
-            preserve_numbers=preserve_numbers,
-            aggressive_normalize=aggressive_normalize,
-        )
-        got_norm = normalize_text(got)
-        expected_norms = [normalize_text(x) for x in c.expected_any_of]
-        ok = got_norm in expected_norms
-        if ok:
-            n_ok += 1
+        for c in _GOLDEN_TRANSLIT_CASES:
+            if c.language != lang:
+                continue
+            if c.requires_backend and backend == "none":
+                n_skipped_lang += 1
+                continue
 
-        rows.append(
-            {
-                "input": c.gujlish,
+            n_total_lang += 1
+            got = render_codemix(
+                c.romanized,
+                language=lang,
+                topk=topk,
+                translit_mode=translit_mode,
+                preserve_case=preserve_case,
+                preserve_numbers=preserve_numbers,
+                aggressive_normalize=aggressive_normalize,
+            )
+            got_norm = normalize_text(got)
+            expected_norms = [normalize_text(x) for x in c.expected_any_of]
+            ok = got_norm in expected_norms
+            if ok:
+                n_ok_lang += 1
+
+            row = {
+                "language": lang,
+                "input": c.romanized,
                 "output": got,
                 "expected_any_of": c.expected_any_of,
                 "ok": ok,
                 "requires_backend": c.requires_backend,
             }
-        )
+            rows.append(row)
+            all_rows.append(row)
 
+        language_slices[lang] = {
+            "transliteration_backend": backend,
+            "n_cases": int(n_total_lang),
+            "n_ok": int(n_ok_lang),
+            "accuracy": (n_ok_lang / n_total_lang) if n_total_lang else 0.0,
+            "n_skipped": int(n_skipped_lang),
+            "examples_fail": [r for r in rows if not r["ok"]][:10],
+            "examples_ok": [r for r in rows if r["ok"]][:10],
+        }
+        n_total += n_total_lang
+        n_ok += n_ok_lang
+        n_skipped += n_skipped_lang
+
+    default_backend = (
+        language_slices[selected_languages[0]]["transliteration_backend"] if selected_languages else "none"
+    )
     return {
         "dataset": "golden_translit",
-        "transliteration_backend": backend,
+        "language_requested": requested,
+        "language": effective_language,
+        "transliteration_backend": default_backend,
         "topk": int(topk),
         "translit_mode": translit_mode,
         "preserve_case": bool(preserve_case),
@@ -528,8 +753,9 @@ def run_golden_translit_eval(
         "n_ok": int(n_ok),
         "accuracy": (n_ok / n_total) if n_total else 0.0,
         "n_skipped": int(n_skipped),
-        "examples_fail": [r for r in rows if not r["ok"]][:10],
-        "examples_ok": [r for r in rows if r["ok"]][:10],
+        "language_slices": language_slices,
+        "examples_fail": [r for r in all_rows if not r["ok"]][:10],
+        "examples_ok": [r for r in all_rows if r["ok"]][:10],
     }
 
 
@@ -750,6 +976,7 @@ def run_prompt_stability_eval(
 def run_eval(
     dataset: str = "gujlish",
     *,
+    language: str = "gu",
     topk: int = 1,
     max_rows: Optional[int] = 2000,
     translit_mode: str = "token",
@@ -779,6 +1006,16 @@ def run_eval(
     """
     if dataset in {"golden", "golden_translit", "golden-translit"}:
         return run_golden_translit_eval(
+            language=language,
+            topk=topk,
+            translit_mode=translit_mode,
+            preserve_case=preserve_case,
+            preserve_numbers=preserve_numbers,
+            aggressive_normalize=aggressive_normalize,
+        )
+    if dataset in {"language_sentences", "language-sentences", "golden_sentences", "golden-sentences"}:
+        return run_language_sentence_eval(
+            language=language,
             topk=topk,
             translit_mode=translit_mode,
             preserve_case=preserve_case,
@@ -817,8 +1054,18 @@ def run_eval(
         )
     if dataset != "gujlish":
         raise InvalidConfigError(
-            "Unsupported dataset. Try one of: gujlish, golden_translit, retrieval, prompt_stability, dialect_id, dialect_normalization"
+            "Unsupported dataset. Try one of: gujlish, golden_translit, language_sentences, retrieval, prompt_stability, dialect_id, dialect_normalization"
         )
+
+    requested_language = str(language or "gu").strip().lower()
+    effective_language = get_language_pack(requested_language).code
+    fallback_reason: Optional[str] = None
+    if requested_language == "all":
+        effective_language = "gu"
+        fallback_reason = "gujlish dataset is Gujarati-only; using language='gu'."
+    elif effective_language != "gu":
+        fallback_reason = "gujlish dataset is Gujarati-only; using language='gu'."
+        effective_language = "gu"
 
     cache_dir = _default_cache_dir()
 
@@ -831,7 +1078,7 @@ def run_eval(
         for i, text in enumerate(_iter_texts_from_csv(csv_path, text_column=spec.text_column)):
             if max_rows is not None and i >= max_rows:
                 break
-            rows.append(_analyze_one(text, topk=topk))
+            rows.append(_analyze_one(text, topk=topk, language=effective_language))
 
         n = len(rows) or 1
         has_gu_raw = sum(1 for r in rows if r["has_gujarati_raw"])
@@ -850,9 +1097,11 @@ def run_eval(
 
     return {
         "dataset": dataset,
+        "language_requested": requested_language,
+        "language": effective_language,
+        "fallback_reason": fallback_reason,
         "cache_dir": str(cache_dir),
         "topk": int(topk),
         "max_rows": None if max_rows is None else int(max_rows),
         "splits": per_split,
     }
-

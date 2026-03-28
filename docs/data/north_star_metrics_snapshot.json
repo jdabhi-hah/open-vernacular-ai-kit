@@ -1,11 +1,11 @@
 {
-  "generated_at_utc": "2026-02-27T19:23:14.438809Z",
+  "generated_at_utc": "2026-03-20T19:56:48.450683Z",
   "environment": {
     "python": "3.13.5",
     "platform": "macOS-26.3-arm64-arm-64bit-Mach-O"
   },
   "metric_definitions": {
-    "transliteration_success": "Accuracy from run_eval(dataset='golden_translit'): expected Gujlish->Gujarati outputs matched on the packaged golden set.",
+    "transliteration_success": "Accuracy from run_eval(dataset='golden_translit', language='all'): expected Hindi/Gujarati romanized outputs matched on the packaged golden set.",
     "dialect_accuracy": "Accuracy from run_eval(dataset='dialect_id', dialect_backend='heuristic') on the packaged dialect-id set.",
     "p95_latency_ms": "95th percentile single-input pipeline latency (milliseconds) over a fixed representative sample set."
   },
@@ -13,8 +13,231 @@
     "transliteration_success": {
       "value": 1.0,
       "dataset": "golden_translit",
-      "n_cases": 17,
-      "n_ok": 17,
+      "language": "all",
+      "n_cases": 90,
+      "n_ok": 90,
+      "language_slices": {
+        "gu": {
+          "transliteration_backend": "none",
+          "n_cases": 49,
+          "n_ok": 49,
+          "accuracy": 1.0,
+          "n_skipped": 4,
+          "examples_fail": [],
+          "examples_ok": [
+            {
+              "language": "gu",
+              "input": "hu",
+              "output": "\u0ab9\u0ac1\u0a82",
+              "expected_any_of": [
+                "\u0ab9\u0ac1\u0a82"
+              ],
+              "ok": true,
+              "requires_backend": false
+            },
+            {
+              "language": "gu",
+              "input": "tu",
+              "output": "\u0aa4\u0ac1\u0a82",
+              "expected_any_of": [
+                "\u0aa4\u0ac1\u0a82"
+              ],
+              "ok": true,
+              "requires_backend": false
+            },
+            {
+              "language": "gu",
+              "input": "tame",
+              "output": "\u0aa4\u0aae\u0ac7",
+              "expected_any_of": [
+                "\u0aa4\u0aae\u0ac7"
+              ],
+              "ok": true,
+              "requires_backend": false
+            },
+            {
+              "language": "gu",
+              "input": "ame",
+              "output": "\u0a85\u0aae\u0ac7",
+              "expected_any_of": [
+                "\u0a85\u0aae\u0ac7"
+              ],
+              "ok": true,
+              "requires_backend": false
+            },
+            {
+              "language": "gu",
+              "input": "maru",
+              "output": "\u0aae\u0abe\u0ab0\u0ac1\u0a82",
+              "expected_any_of": [
+                "\u0aae\u0abe\u0ab0\u0ac1\u0a82"
+              ],
+              "ok": true,
+              "requires_backend": false
+            },
+            {
+              "language": "gu",
+              "input": "mare",
+              "output": "\u0aae\u0abe\u0ab0\u0ac7",
+              "expected_any_of": [
+                "\u0aae\u0abe\u0ab0\u0ac7"
+              ],
+              "ok": true,
+              "requires_backend": false
+            },
+            {
+              "language": "gu",
+              "input": "tamaro",
+              "output": "\u0aa4\u0aae\u0abe\u0ab0\u0acb",
+              "expected_any_of": [
+                "\u0aa4\u0aae\u0abe\u0ab0\u0acb"
+              ],
+              "ok": true,
+              "requires_backend": false
+            },
+            {
+              "language": "gu",
+              "input": "tamari",
+              "output": "\u0aa4\u0aae\u0abe\u0ab0\u0ac0",
+              "expected_any_of": [
+                "\u0aa4\u0aae\u0abe\u0ab0\u0ac0"
+              ],
+              "ok": true,
+              "requires_backend": false
+            },
+            {
+              "language": "gu",
+              "input": "chhe",
+              "output": "\u0a9b\u0ac7",
+              "expected_any_of": [
+                "\u0a9b\u0ac7"
+              ],
+              "ok": true,
+              "requires_backend": false
+            },
+            {
+              "language": "gu",
+              "input": "nathi",
+              "output": "\u0aa8\u0aa5\u0ac0",
+              "expected_any_of": [
+                "\u0aa8\u0aa5\u0ac0"
+              ],
+              "ok": true,
+              "requires_backend": false
+            }
+          ]
+        },
+        "hi": {
+          "transliteration_backend": "none",
+          "n_cases": 41,
+          "n_ok": 41,
+          "accuracy": 1.0,
+          "n_skipped": 2,
+          "examples_fail": [],
+          "examples_ok": [
+            {
+              "language": "hi",
+              "input": "main",
+              "output": "\u092e\u0948\u0902",
+              "expected_any_of": [
+                "\u092e\u0948\u0902"
+              ],
+              "ok": true,
+              "requires_backend": false
+            },
+            {
+              "language": "hi",
+              "input": "mera",
+              "output": "\u092e\u0947\u0930\u093e",
+              "expected_any_of": [
+                "\u092e\u0947\u0930\u093e"
+              ],
+              "ok": true,
+              "requires_backend": false
+            },
+            {
+              "language": "hi",
+              "input": "meri",
+              "output": "\u092e\u0947\u0930\u0940",
+              "expected_any_of": [
+                "\u092e\u0947\u0930\u0940"
+              ],
+              "ok": true,
+              "requires_backend": false
+            },
+            {
+              "language": "hi",
+              "input": "mere",
+              "output": "\u092e\u0947\u0930\u0947",
+              "expected_any_of": [
+                "\u092e\u0947\u0930\u0947"
+              ],
+              "ok": true,
+              "requires_backend": false
+            },
+            {
+              "language": "hi",
+              "input": "kya",
+              "output": "\u0915\u094d\u092f\u093e",
+              "expected_any_of": [
+                "\u0915\u094d\u092f\u093e"
+              ],
+              "ok": true,
+              "requires_backend": false
+            },
+            {
+              "language": "hi",
+              "input": "hai",
+              "output": "\u0939\u0948",
+              "expected_any_of": [
+                "\u0939\u0948"
+              ],
+              "ok": true,
+              "requires_backend": false
+            },
+            {
+              "language": "hi",
+              "input": "hain",
+              "output": "\u0939\u0948\u0902",
+              "expected_any_of": [
+                "\u0939\u0948\u0902"
+              ],
+              "ok": true,
+              "requires_backend": false
+            },
+            {
+              "language": "hi",
+              "input": "nahi",
+              "output": "\u0928\u0939\u0940\u0902",
+              "expected_any_of": [
+                "\u0928\u0939\u0940\u0902"
+              ],
+              "ok": true,
+              "requires_backend": false
+            },
+            {
+              "language": "hi",
+              "input": "namaste",
+              "output": "\u0928\u092e\u0938\u094d\u0924\u0947",
+              "expected_any_of": [
+                "\u0928\u092e\u0938\u094d\u0924\u0947"
+              ],
+              "ok": true,
+              "requires_backend": false
+            },
+            {
+              "language": "hi",
+              "input": "dhanyavad",
+              "output": "\u0927\u0928\u094d\u092f\u0935\u093e\u0926",
+              "expected_any_of": [
+                "\u0927\u0928\u094d\u092f\u0935\u093e\u0926"
+              ],
+              "ok": true,
+              "requires_backend": false
+            }
+          ]
+        }
+      },
       "transliteration_backend": "none"
     },
     "dialect_accuracy": {
@@ -24,9 +247,9 @@
       "backend": "heuristic"
     },
     "p95_latency_ms": {
-      "value": 0.17449999995733378,
-      "p50_ms": 0.16066600028352696,
-      "mean_ms": 0.15783816166352457,
+      "value": 0.21562492474913597,
+      "p50_ms": 0.19981246441602707,
+      "mean_ms": 0.19197426377407587,
       "n_calls": 1200,
       "iterations": 200,
       "sample_inputs": 6,

@@ -42,7 +42,7 @@ from open_vernacular_ai_kit.dialects import detect_dialect_from_tagged_tokens
 from open_vernacular_ai_kit.lexicon import load_user_lexicon
 from open_vernacular_ai_kit.normalize import normalize_text
 from open_vernacular_ai_kit.token_lid import TokenLang, tag_tokens, tokenize
-from open_vernacular_ai_kit.transliterate import translit_gu_roman_to_native_configured
+from open_vernacular_ai_kit.transliterate import translit_roman_to_native_configured
 
 try:
     # v0.5: RAG helpers (optional UI section).
@@ -420,13 +420,21 @@ def _analyze_via_api(
     return _to_namespace(data)
 
 
-def _examples() -> dict[str, str]:
+def _examples(language: str) -> dict[str, str]:
+    if str(language or "gu").strip().lower() == "hi":
+        return {
+            "Support: help request": "mujhe aap ki madad chahiye",
+            "Family / intro": "mera parivar delhi me rehta hai",
+            "Mixed Hindi + English": "mera order aaj deliver hoga kya?",
+            "Polite request": "mujhe paise dijiye",
+            "Multi-line": "mujhe aap ki madad chahiye.\n\nmeri maa ka naam kya hai?",
+        }
     return {
-        "Support: order update": "mare order update joie chhe... parcel kyare aavse??",
-        "Business plan": "maru business plan ready chhe!!!",
-        "Mixed Vernacular + English": "મારે tomorrow meeting છે, please confirm.",
-        "Delivery / numbers": "kal 2 baje delivery moklo, bill 450 rupiya.",
-        "Multi-line": "maru business plan ready chhe!!!\n\nમારું business plan ready છે!!!",
+        "Support: help request": "shu tame mane madad kari shako?",
+        "Business plan": "aapdu kaam saras rite thai gayu",
+        "Mixed Vernacular + English": "tamne aaje office ma aavu chhe",
+        "Conversation": "mane tari vaat samajh nathi padti",
+        "Multi-line": "maru ghar ahi chhe.\n\naaje hu to ready chhu.",
     }
 
 
@@ -445,6 +453,7 @@ def _write_uploaded_file_to_tmp(*, filename: str, data: bytes) -> str:
 def _transliteration_rows(
     normalized_text: str,
     *,
+    language: str,
     topk: int,
     aggressive_normalize: bool,
     translit_backend: str,
@@ -454,17 +463,23 @@ def _transliteration_rows(
 ) -> list[dict[str, str]]:
     rows: list[dict[str, str]] = []
     toks = tokenize(normalized_text or "")
-    tagged = tag_tokens(toks, lexicon_keys=lexicon_keys, fasttext_model_path=fasttext_model_path)
+    tagged = tag_tokens(
+        toks,
+        language=language,
+        lexicon_keys=lexicon_keys,
+        fasttext_model_path=fasttext_model_path,
+    )
     for tok in tagged:
         if tok.lang != TokenLang.GU_ROMAN:
             continue
-        cands = translit_gu_roman_to_native_configured(
+        cands = translit_roman_to_native_configured(
             tok.text,
             topk=topk,
             preserve_case=True,
             aggressive_normalize=aggressive_normalize,
             exceptions=lexicon,
             backend=translit_backend,  # type: ignore[arg-type]
+            language=language,
         )
         if not cands:
             continue
@@ -475,16 +490,25 @@ def _transliteration_rows(
 
 
 def _lid_counts(
-    text: str, *, lexicon_keys: set[str] | None, fasttext_model_path: str | None
+    text: str,
+    *,
+    language: str,
+    lexicon_keys: set[str] | None,
+    fasttext_model_path: str | None,
 ) -> dict[str, int]:
     toks = tokenize(normalize_text(text or ""))
-    tagged = tag_tokens(toks, lexicon_keys=lexicon_keys, fasttext_model_path=fasttext_model_path)
-    out = {"gu_native": 0, "gu_roman": 0, "en": 0, "other": 0}
+    tagged = tag_tokens(
+        toks,
+        language=language,
+        lexicon_keys=lexicon_keys,
+        fasttext_model_path=fasttext_model_path,
+    )
+    out = {"target_native": 0, "target_roman": 0, "en": 0, "other": 0}
     for t in tagged:
         if t.lang == TokenLang.GU_NATIVE:
-            out["gu_native"] += 1
+            out["target_native"] += 1
         elif t.lang == TokenLang.GU_ROMAN:
-            out["gu_roman"] += 1
+            out["target_roman"] += 1
         elif t.lang == TokenLang.EN:
             out["en"] += 1
         else:
@@ -492,13 +516,122 @@ def _lid_counts(
     return out
 
 
-def _token_set(text: str) -> set[str]:
+def _token_set(text: str, *, language: str) -> set[str]:
     toks = tokenize(normalize_text(text or ""))
+    common_stop = {
+        # English helpers
+        "the",
+        "a",
+        "an",
+        "is",
+        "are",
+        "was",
+        "were",
+        "to",
+        "of",
+        "in",
+        "on",
+        "for",
+        "and",
+        "or",
+    }
+    gu_stop = {
+        "che",
+        "chhe",
+        "shu",
+        "su",
+        "kem",
+        "hu",
+        "tu",
+        "tame",
+        "ame",
+        "nathi",
+        "kayu",
+        "kya",
+        "kyare",
+        "aaje",
+        "kaale",
+        "nu",
+        "na",
+        "ni",
+        "ne",
+        # Common Gujarati-script helpers/function words
+        "છે",
+        "શું",
+        "કેમ",
+        "હું",
+        "તું",
+        "તમે",
+        "અમે",
+        "નથી",
+        "નું",
+        "ના",
+        "ની",
+        "ને",
+        "કે",
+        "તો",
+        "અને",
+    }
+    hi_stop = {
+        "hai",
+        "hain",
+        "main",
+        "mai",
+        "mera",
+        "meri",
+        "mere",
+        "mujhe",
+        "aap",
+        "hum",
+        "ham",
+        "tum",
+        "kya",
+        "ka",
+        "ki",
+        "ke",
+        "me",
+        "se",
+        "ko",
+        "aur",
+        "kal",
+        "aaj",
+        "yah",
+        "vah",
+        "ye",
+        "wo",
+        "है",
+        "हैं",
+        "मैं",
+        "मेरा",
+        "मेरी",
+        "मेरे",
+        "मुझे",
+        "आप",
+        "हम",
+        "तुम",
+        "क्या",
+        "का",
+        "की",
+        "के",
+        "में",
+        "से",
+        "को",
+        "और",
+        "यह",
+        "वह",
+        "ये",
+    }
+    stop = common_stop | (hi_stop if str(language or "gu").strip().lower() == "hi" else gu_stop)
     out: set[str] = set()
     for t in toks:
         if not any(ch.isalnum() for ch in t):
             continue
-        out.add(t.lower())
+        key = t.lower().strip()
+        if len(key) <= 2:
+            continue
+        if key in stop:
+            continue
+        out.add(key)
     return out
 
 
@@ -520,10 +653,21 @@ def _kb_corpus() -> list[dict[str, str]]:
     ]
 
 
+def _kb_corpus_for_language(language: str) -> list[dict[str, str]]:
+    if str(language or "gu").strip().lower() == "hi":
+        return [
+            {"id": "kb1", "title": "Order delivery status", "text": "मुझे order update चाहिए. parcel कब आएगा?"},
+            {"id": "kb2", "title": "Meeting confirmation", "text": "मुझे कल office meeting join करनी है, please confirm time."},
+            {"id": "kb3", "title": "Business plan guidance", "text": "मेरा business plan ready है. next steps के लिए guidance चाहिए."},
+            {"id": "kb4", "title": "Invoice and billing", "text": "Bill amount confirm कीजिए. payment receipt भेज दीजिए."},
+        ]
+    return _kb_corpus()
+
+
 def _best_match(query_tokens: set[str], corpus: list[dict[str, str]]) -> dict[str, Any]:
     best: dict[str, Any] | None = None
     for doc in corpus:
-        doc_tokens = _token_set(doc["text"])
+        doc_tokens = _token_set(doc["text"], language="hi" if any("\u0900" <= ch <= "\u097f" for ch in doc["text"]) else "gu")
         score = _jaccard(query_tokens, doc_tokens)
         overlap = sorted(query_tokens & doc_tokens)
         cand = {
@@ -535,7 +679,12 @@ def _best_match(query_tokens: set[str], corpus: list[dict[str, str]]) -> dict[st
         }
         if best is None or cand["score"] > best["score"]:
             best = cand
-    return best or {"id": "", "title": "", "text": "", "score": 0.0, "overlap": []}
+    if best is None:
+        return {"id": "", "title": "", "text": "", "score": 0.0, "overlap": []}
+    # Avoid misleading "best" picks when overlap is too weak/noisy.
+    if float(best["score"]) < 0.08:
+        return {"id": "", "title": "", "text": "", "score": 0.0, "overlap": []}
+    return best
 
 
 def _apply_template(tpl: str, text: str) -> str:
@@ -558,6 +707,7 @@ def main() -> None:
     _try_load_dotenv()
     st.set_page_config(page_title="Open Vernacular AI Kit", layout="wide", initial_sidebar_state="collapsed")
     _inject_css()
+    language_options = {"Gujarati": "gu", "Hindi": "hi"}
 
     st.markdown(
         f"""
@@ -641,6 +791,13 @@ def main() -> None:
 
         s1, s2 = st.columns(2)
         with s1:
+            language_label = st.selectbox(
+                "Language profile",
+                options=list(language_options.keys()),
+                index=0,
+                help="Choose the vernacular profile used for transliteration and token labeling.",
+            )
+            language = language_options[language_label]
             topk = st.number_input("Transliteration top-k", min_value=1, max_value=5, value=1, step=1)
             numerals = st.selectbox("Numerals", options=["keep", "ascii"], index=0)
             translit_mode = st.selectbox(
@@ -802,18 +959,21 @@ def main() -> None:
         health = st.session_state.get("gck_api_last_health")
         if isinstance(health, dict):
             if bool(health.get("ok")):
-                st.caption(f"Runtime: API service ({api_base_url})")
+                st.caption(f"Runtime: API service ({api_base_url}) · Language: {language_label}")
             else:
                 st.caption(
                     f"Runtime: SDK fallback (API unavailable: {str(health.get('detail', 'unknown'))})"
                 )
         else:
-            st.caption(f"Runtime: API service ({api_base_url})")
+            st.caption(f"Runtime: API service ({api_base_url}) · Language: {language_label}")
     else:
-        st.caption("Runtime: SDK (in-process)")
+        st.caption(f"Runtime: SDK (in-process) · Language: {language_label}")
 
-    ex = _examples()
+    ex = _examples(language)
     ex_names = list(ex.keys())
+    if st.session_state.get("gck_selected_language") != language:
+        st.session_state["gck_selected_language"] = language
+        st.session_state["gck_msg"] = ex[ex_names[0]]
 
     with st.form("gck_form", clear_on_submit=False):
         needs_spacer = False
@@ -863,6 +1023,7 @@ def main() -> None:
         # Keep the demo resilient if an older SDK version is imported in some environments.
         # We only pass supported kwargs based on signature inspection.
         desired_kwargs: dict[str, Any] = {
+            "language": language,
             "topk": topk,
             "numerals": numerals,
             "translit_mode": translit_mode,
@@ -926,7 +1087,7 @@ def main() -> None:
                     f"Error: {e}"
                 )
                 st.session_state["gck_last_analysis"] = analyze_codemix(
-                    msg_to_analyze, topk=topk, numerals=numerals
+                    msg_to_analyze, language=language, topk=topk, numerals=numerals
                 )
         st.session_state["gck_last_runtime_mode"] = runtime_used
 
@@ -948,8 +1109,9 @@ def main() -> None:
         st.caption("Preprocessed input (v0.4):")
         st.code(pre)
 
-    m1, m2, m3, m4 = st.columns(4)
-    m1.metric("Romanized tokens", a.n_gu_roman_tokens)
+    m0, m1, m2, m3, m4 = st.columns(5)
+    m0.metric("Language", str(getattr(a, "language", language)).upper())
+    m1.metric("Romanized target tokens", a.n_gu_roman_tokens)
     m2.metric("Converted", a.n_gu_roman_transliterated)
     m3.metric("Conversion rate", f"{a.pct_gu_roman_transliterated * 100:.1f}%")
     m4.metric("Backend", a.transliteration_backend)
@@ -959,14 +1121,24 @@ def main() -> None:
         cs = a.codeswitch  # type: ignore[attr-defined]
     except Exception:
         toks = tokenize(a.normalized or "")
-        tagged = tag_tokens(toks, lexicon_keys=lexicon_keys, fasttext_model_path=ft_path)
+        tagged = tag_tokens(
+            toks,
+            language=language,
+            lexicon_keys=lexicon_keys,
+            fasttext_model_path=ft_path,
+        )
         cs = compute_code_switch_metrics(tagged)
 
     try:
         d = a.dialect  # type: ignore[attr-defined]
     except Exception:
         toks = tokenize(a.normalized or "")
-        tagged = tag_tokens(toks, lexicon_keys=lexicon_keys, fasttext_model_path=ft_path)
+        tagged = tag_tokens(
+            toks,
+            language=language,
+            lexicon_keys=lexicon_keys,
+            fasttext_model_path=ft_path,
+        )
         d = detect_dialect_from_tagged_tokens(tagged)
 
     try:
@@ -983,6 +1155,7 @@ def main() -> None:
     st.markdown("## What Changed")
     rows = _transliteration_rows(
         a.normalized,
+        language=language,
         topk=topk,
         aggressive_normalize=aggressive_normalize,
         translit_backend=translit_backend,
@@ -993,14 +1166,19 @@ def main() -> None:
     if rows:
         st.dataframe(rows, width="stretch", hide_index=True)
     else:
-        st.info("No romanized-token conversions detected for this input.")
+        st.info("No romanized-token conversions detected for this input under the selected language profile.")
 
     with st.expander("Token LID (v0.3: confidence + reason)", expanded=False):
         toks = tokenize(a.normalized or "")
-        tagged = tag_tokens(toks, lexicon_keys=lexicon_keys, fasttext_model_path=ft_path)
+        tagged = tag_tokens(
+            toks,
+            language=language,
+            lexicon_keys=lexicon_keys,
+            fasttext_model_path=ft_path,
+        )
         st.caption(
             "This is the token-level language ID used by the pipeline. "
-            "Lexicon + optional fastText can influence Latin tokens."
+            "Lexicon + optional fastText can influence Latin tokens under the selected language profile."
         )
         st.dataframe(
             [
@@ -1019,24 +1197,29 @@ def main() -> None:
 
     with st.expander("Code-switching + dialect (v0.4)", expanded=False):
         st.caption("Heuristic metrics to quantify how mixed the input is (vernacular vs English).")
+        if str(language or "gu").strip().lower() != "gu":
+            st.caption("Dialect detection and normalization are currently Gujarati-first; Hindi dialect signal is limited.")
         dialect_norm_applied = bool(getattr(dn, "changed", False)) if dn is not None else False
         dialect_norm_backend = getattr(dn, "backend", "none") if dn is not None else "none"
+        dialect_rows = [
+            {
+                "Metric": "CMI (0..100)",
+                "Value": round(float(cs.cmi), 2),
+            },
+            {"Metric": "Switch points", "Value": int(cs.n_switch_points)},
+            {"Metric": "Native-script tokens", "Value": int(cs.n_gu_tokens)},
+            {"Metric": "English tokens", "Value": int(cs.n_en_tokens)},
+            {"Metric": "Lexical tokens considered", "Value": int(cs.n_tokens_considered)},
+            {"Metric": "Dialect guess", "Value": _dialect_label(d)},
+            {"Metric": "Dialect backend", "Value": getattr(d, "backend", "heuristic")},
+            {"Metric": "Dialect confidence", "Value": round(float(getattr(d, "confidence", 0.0)), 3)},
+            {"Metric": "Dialect normalized", "Value": dialect_norm_applied},
+            {"Metric": "Dialect normalizer backend", "Value": dialect_norm_backend},
+        ]
+        # Keep Value column string-typed to avoid Arrow mixed-type warnings in Streamlit.
+        dialect_rows = [{"Metric": r["Metric"], "Value": str(r["Value"])} for r in dialect_rows]
         st.dataframe(
-            [
-                {
-                    "Metric": "CMI (0..100)",
-                    "Value": round(float(cs.cmi), 2),
-                },
-                {"Metric": "Switch points", "Value": int(cs.n_switch_points)},
-                {"Metric": "Native-script tokens", "Value": int(cs.n_gu_tokens)},
-                {"Metric": "English tokens", "Value": int(cs.n_en_tokens)},
-                {"Metric": "Lexical tokens considered", "Value": int(cs.n_tokens_considered)},
-                {"Metric": "Dialect guess", "Value": _dialect_label(d)},
-                {"Metric": "Dialect backend", "Value": getattr(d, "backend", "heuristic")},
-                {"Metric": "Dialect confidence", "Value": round(float(getattr(d, "confidence", 0.0)), 3)},
-                {"Metric": "Dialect normalized", "Value": dialect_norm_applied},
-                {"Metric": "Dialect normalizer backend", "Value": dialect_norm_backend},
-            ],
+            dialect_rows,
             width="stretch",
             hide_index=True,
         )
@@ -1091,20 +1274,24 @@ def main() -> None:
     st.divider()
 
     st.markdown("## Impact Without AI")
-    st.caption("These are measurable improvements you can explain to a product team without talking about tokens.")
 
     impact_left, impact_right = st.columns(2)
     with impact_left:
         st.subheader("Search / retrieval (simulation)")
         st.caption("Stored KB/ticket text stays the same. Only the query changes after canonicalization.")
-        corpus = _kb_corpus()
-        q_before = _token_set(a.raw)
-        q_after = _token_set(a.codemix)
+        corpus = _kb_corpus_for_language(language)
+        q_before = _token_set(a.raw, language=language)
+        q_after = _token_set(a.codemix, language=language)
         bm_before = _best_match(q_before, corpus)
         bm_after = _best_match(q_after, corpus)
 
         st.metric("Top match score (Before)", f"{bm_before['score']*100:.1f}")
         st.metric("Top match score (After)", f"{bm_after['score']*100:.1f}", delta=f"{(bm_after['score']-bm_before['score'])*100:+.1f}")
+        if bm_before["score"] <= 0.0 and bm_after["score"] <= 0.0:
+            st.info(
+                "No lexical overlap with the mini demo KB for this query. "
+                f"Try: '{ex[ex_names[0]]}'"
+            )
 
         st.markdown("**Query tokens (Before)**")
         st.code(" ".join(sorted(q_before)) if q_before else "(empty)")
@@ -1117,18 +1304,32 @@ def main() -> None:
         st.code(", ".join(bm_after["overlap"]) if bm_after["overlap"] else "(none)")
 
         with st.expander("Stored KB/ticket example (unchanged)"):
-            st.write(bm_after["title"] or bm_before["title"])
-            st.code(bm_after["text"] or bm_before["text"])
+            chosen = bm_after if float(bm_after.get("score", 0.0)) > 0.0 else bm_before
+            if float(chosen.get("score", 0.0)) <= 0.0:
+                st.info("No confident KB match for this query in the mini demo corpus.")
+            else:
+                st.write(chosen["title"])
+                st.code(chosen["text"])
 
     with impact_right:
         st.subheader("Routing / analytics signal")
         st.caption("Token-level language mix becomes cleaner after romanized-text conversion.")
-        c_before = _lid_counts(a.raw, lexicon_keys=lexicon_keys, fasttext_model_path=ft_path)
-        c_after = _lid_counts(a.codemix, lexicon_keys=lexicon_keys, fasttext_model_path=ft_path)
+        c_before = _lid_counts(
+            a.raw,
+            language=language,
+            lexicon_keys=lexicon_keys,
+            fasttext_model_path=ft_path,
+        )
+        c_after = _lid_counts(
+            a.codemix,
+            language=language,
+            lexicon_keys=lexicon_keys,
+            fasttext_model_path=ft_path,
+        )
         st.dataframe(
             [
-                {"Lang": "gu_native", "Before": c_before["gu_native"], "After": c_after["gu_native"], "Delta": c_after["gu_native"] - c_before["gu_native"]},
-                {"Lang": "gu_roman", "Before": c_before["gu_roman"], "After": c_after["gu_roman"], "Delta": c_after["gu_roman"] - c_before["gu_roman"]},
+                {"Lang": "target_native", "Before": c_before["target_native"], "After": c_after["target_native"], "Delta": c_after["target_native"] - c_before["target_native"]},
+                {"Lang": "target_roman", "Before": c_before["target_roman"], "After": c_after["target_roman"], "Delta": c_after["target_roman"] - c_before["target_roman"]},
                 {"Lang": "en", "Before": c_before["en"], "After": c_after["en"], "Delta": c_after["en"] - c_before["en"]},
                 {"Lang": "other", "Before": c_before["other"], "After": c_after["other"], "Delta": c_after["other"] - c_before["other"]},
             ],
@@ -1154,7 +1355,7 @@ def main() -> None:
         default_q = (
             q_examples[0]
             if q_examples
-            else "Which language is commonly used in Gujarat customer support workflows (Gujarati)?"
+            else "Which language is commonly used in Gujarat customer support workflows?"
         )
 
         with st.form("gck_rag_form", clear_on_submit=False):
@@ -1172,7 +1373,11 @@ def main() -> None:
                 "Query",
                 value=(a.codemix if use_after else ex),
                 height=80,
-                help="Try romanized text too (e.g., 'gujarat ma support mate kai language vapray che?').",
+                help=(
+                    "Try romanized text too "
+                    "(Gujarati: 'gujarat ma support mate kai language vapray che?', "
+                    "Hindi: 'mujhe batayiye gujarat support me kaunsi language use hoti hai?')."
+                ),
             )
 
             preprocess_query = st.checkbox(

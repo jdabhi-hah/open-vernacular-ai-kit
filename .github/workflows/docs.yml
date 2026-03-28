@@ -36,15 +36,18 @@ jobs:
           mkdocs build --strict
 
       - name: Setup Pages
+        if: ${{ vars.ENABLE_GITHUB_PAGES == 'true' }}
         uses: actions/configure-pages@v5
 
       - name: Upload artifact
+        if: ${{ vars.ENABLE_GITHUB_PAGES == 'true' }}
         uses: actions/upload-pages-artifact@v4
         with:
           path: site
 
   deploy:
     needs: build
+    if: ${{ vars.ENABLE_GITHUB_PAGES == 'true' }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -53,4 +56,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-

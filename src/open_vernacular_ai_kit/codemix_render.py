@@ -21,6 +21,7 @@ class CodeMixAnalysis:
     raw: str
     normalized: str
     codemix: str
+    language: str
 
     # v0.4 additions: code-switching + dialect heuristics (MVP).
     codeswitch: CodeSwitchMetrics
@@ -47,6 +48,7 @@ def _result_to_analysis(result: CodeMixPipelineResult) -> CodeMixAnalysis:
         raw=result.raw,
         normalized=result.normalized,
         codemix=result.codemix,
+        language=result.language,
         codeswitch=result.codeswitch,
         dialect=result.dialect,
         dialect_normalization=result.dialect_normalization,
@@ -88,6 +90,7 @@ def render_codemix_with_config(
 def analyze_codemix(
     text: str,
     *,
+    language: str = "gu",
     topk: int = 1,
     numerals: str = "keep",
     preserve_case: bool = True,
@@ -113,6 +116,7 @@ def analyze_codemix(
     Gujarati-roman tokens that were converted into native script.
     """
     cfg = CodeMixConfig(
+        language=language,  # type: ignore[arg-type]
         topk=topk,
         numerals=numerals,  # type: ignore[arg-type]
         preserve_case=preserve_case,
@@ -137,6 +141,7 @@ def analyze_codemix(
 def render_codemix(
     text: str,
     *,
+    language: str = "gu",
     topk: int = 1,
     numerals: str = "keep",
     preserve_case: bool = True,
@@ -163,6 +168,7 @@ def render_codemix(
     - Romanized tokens are transliterated to native script when possible
     """
     cfg = CodeMixConfig(
+        language=language,  # type: ignore[arg-type]
         topk=topk,
         numerals=numerals,  # type: ignore[arg-type]
         preserve_case=preserve_case,

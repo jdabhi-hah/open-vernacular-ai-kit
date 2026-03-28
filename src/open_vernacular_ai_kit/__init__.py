@@ -54,6 +54,30 @@ from .rag_datasets import (
     load_gujarat_facts_tiny,
     load_vernacular_facts_tiny,
 )
+from .sarvam_review import (
+    SarvamTeacherReviewedRecord,
+    dump_reviewed_records_jsonl,
+    init_review_record,
+    init_review_records_from_candidates,
+    load_reviewed_records_jsonl,
+)
+from .sarvam_seed import (
+    SarvamTeacherSeedRecord,
+    build_failure_seed,
+    build_failure_seed_from_golden_translit,
+    build_failure_seed_from_language_sentences,
+    dump_teacher_seed_jsonl,
+)
+from .sarvam_teacher import (
+    SarvamTeacherCandidateRecord,
+    SarvamTeacherInput,
+    SarvamTeacherTokenCandidate,
+    build_sarvam_teacher_prompt,
+    dump_sarvam_teacher_records_jsonl,
+    load_sarvam_teacher_inputs_jsonl,
+    mine_sarvam_teacher_candidate,
+    parse_sarvam_teacher_response,
+)
 
 __all__ = [
     "CodeMixConfig",
@@ -101,7 +125,25 @@ __all__ = [
     "download_vernacular_facts_dataset",
     "load_gujarat_facts_tiny",
     "download_gujarat_facts_dataset",
+    "SarvamTeacherInput",
+    "SarvamTeacherTokenCandidate",
+    "SarvamTeacherCandidateRecord",
+    "SarvamTeacherReviewedRecord",
+    "SarvamTeacherSeedRecord",
+    "build_sarvam_teacher_prompt",
+    "build_failure_seed",
+    "build_failure_seed_from_language_sentences",
+    "build_failure_seed_from_golden_translit",
+    "parse_sarvam_teacher_response",
+    "mine_sarvam_teacher_candidate",
+    "load_sarvam_teacher_inputs_jsonl",
+    "dump_sarvam_teacher_records_jsonl",
+    "dump_teacher_seed_jsonl",
+    "init_review_record",
+    "init_review_records_from_candidates",
+    "load_reviewed_records_jsonl",
+    "dump_reviewed_records_jsonl",
 ]
 
-__version__ = "1.0.2"
+__version__ = "1.2.0"
  

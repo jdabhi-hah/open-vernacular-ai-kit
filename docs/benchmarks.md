@@ -21,13 +21,41 @@ For release tracking, generate the 3-metric baseline snapshot:
 python3 scripts/snapshot_north_star_metrics.py --output docs/data/north_star_metrics_snapshot.json --iterations 200
 ```
 
-Current snapshot (`2026-02-27T19:23:14Z`):
+Current snapshot (`2026-03-20T19:56:48Z`):
 
 | Metric | Value | Notes |
 | --- | --- | --- |
-| `transliteration_success` | `1.000` | Golden transliteration accuracy (`17/17`; backend=`none`) |
+| `transliteration_success` | `1.000` | Golden transliteration accuracy across packaged Hindi/Gujarati cases (`90/90`; backend=`none`) |
 | `dialect_accuracy` | `0.833` | Heuristic dialect-id accuracy (`5/6`) |
-| `p95_latency_ms` | `0.174` | Pipeline p95 latency in ms (`iterations=200`, `n_calls=1200`) |
+| `p95_latency_ms` | `0.216` | Pipeline p95 latency in ms (`iterations=200`, `n_calls=1200`) |
+
+## Golden Transliteration Regression Guard
+
+For offline regression tracking across the packaged Gujarati and Hindi language profiles, run:
+
+```bash
+gck eval --dataset golden_translit --language all --translit-mode sentence
+```
+
+This hand-validated suite is intended to catch regressions in common vernacular pronouns, question
+words, support-style phrases, and inflected verb forms without requiring any hosted model access.
+
+## Sentence-Level Language Regression Guard
+
+For source-backed sentence regressions across the packaged Hindi and Gujarati language profiles, run:
+
+```bash
+gck eval --dataset language_sentences --language all --translit-mode sentence
+```
+
+This suite uses textbook/dialog-inspired examples plus Gujarati grammar-derived code-mix cases to
+check that pronouns, possessives, case markers, adverbs, and common support phrases still render
+correctly in full sentences.
+
+The packaged dataset currently contains `120` exact-match sentence cases:
+
+- `56` Hindi textbook/dialog-derived cases
+- `64` Gujarati grammar and support-style cases
 
 ## Quality / Coverage (Gujarati Baseline Eval)
 

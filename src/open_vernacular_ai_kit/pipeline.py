@@ -4,8 +4,6 @@ from dataclasses import dataclass
 from functools import lru_cache
 from typing import Any, Callable, Optional, Sequence
 
-import regex as re
-
 from .codeswitch import CodeSwitchMetrics, compute_code_switch_metrics
 from .config import CodeMixConfig
 from .dialect_backends import get_dialect_backend
@@ -16,16 +14,16 @@ from .dialects import (
     detect_dialect_from_tagged_tokens,
 )
 from .errors import InvalidConfigError
+from .language_packs import get_language_pack
 from .lexicon import LexiconLoadResult, load_user_lexicon
 from .normalize import normalize_text
 from .rendering import render_tokens
 from .token_lid import Token, TokenLang, tag_tokens, tokenize
 from .transliterate import (
-    translit_gu_roman_to_native_configured,
+    translit_roman_to_native_configured,
     transliteration_backend_configured,
 )
 
-_GUJARATI_RE = re.compile(r"[\p{Gujarati}]", flags=re.VERSION1)
 _JOINERS = {"-", "_", "/", "@"}
 
 EventHook = Callable[[dict[str, Any]], None]
@@ -53,6 +51,7 @@ class CodeMixPipelineResult:
     dialect_normalization: DialectNormalizationResult
     rendered_tokens: list[str]
     codemix: str
+    language: str
 
     n_tokens: int
     n_en_tokens: int
@@ -100,12 +99,18 @@ def tokenize_stage(text: str, *, on_event: Optional[EventHook] = None) -> list[s
 def lid_stage(
     tokens: list[str],
     *,
+    language: str = "gu",
     lexicon_keys: Optional[set[str]] = None,
     fasttext_model_path: Optional[str] = None,
     user_lexicon_source: str = "none",
     on_event: Optional[EventHook] = None,
 ) -> list[Token]:
-    tagged = tag_tokens(tokens, lexicon_keys=lexicon_keys, fasttext_model_path=fasttext_model_path)
+    tagged = tag_tokens(
+        tokens,
+        language=language,
+        lexicon_keys=lexicon_keys,
+        fasttext_model_path=fasttext_model_path,
+    )
     counts = {k.value: 0 for k in TokenLang}
     for t in tagged:
         counts[t.lang.value] = counts.get(t.lang.value, 0) + 1
@@ -134,10 +139,12 @@ def transliterate_stage(
     tagged: list[Token],
     *,
     config: CodeMixConfig,
+    language: str = "gu",
     lexicon: Optional[dict[str, str]] = None,
     on_event: Optional[EventHook] = None,
 ) -> tuple[list[str], int]:
     cfg = config.normalized()
+    pack = get_language_pack(language)
 
     if cfg.translit_mode not in ("token", "sentence"):
         raise InvalidConfigError("translit_mode must be one of: token, sentence")
@@ -147,24 +154,25 @@ def transliterate_stage(
 
     if cfg.translit_mode == "token":
         for tok in tagged:
-            if tok.lang != TokenLang.GU_ROMAN:
+            if tok.lang != TokenLang.TARGET_ROMAN:
                 rendered.append(tok.text if cfg.preserve_case else tok.text.lower())
                 continue
 
-            cands = translit_gu_roman_to_native_configured(
+            cands = translit_roman_to_native_configured(
                 tok.text,
                 topk=cfg.topk,
                 preserve_case=cfg.preserve_case,
                 aggressive_normalize=cfg.aggressive_normalize,
                 exceptions=lexicon,
                 backend=cfg.translit_backend,
+                language=pack.code,
             )
             if not cands:
                 rendered.append(tok.text if cfg.preserve_case else tok.text.lower())
                 continue
             best = cands[0]
             rendered.append(best)
-            if best != tok.text and _GUJARATI_RE.search(best):
+            if best != tok.text and pack.native_script_re.search(best):
                 n_transliterated += 1
 
         _emit(
@@ -181,7 +189,7 @@ def transliterate_stage(
     i = 0
     while i < len(tagged):
         tok = tagged[i]
-        if tok.lang != TokenLang.GU_ROMAN:
+        if tok.lang != TokenLang.TARGET_ROMAN:
             rendered.append(tok.text if cfg.preserve_case else tok.text.lower())
             i += 1
             continue
@@ -192,14 +200,14 @@ def transliterate_stage(
         span: list[Token] = []
         while j < len(tagged):
             cur = tagged[j]
-            if cur.lang == TokenLang.GU_ROMAN:
+            if cur.lang == TokenLang.TARGET_ROMAN:
                 span.append(cur)
                 j += 1
                 continue
             if (
                 cur.text in _JOINERS
                 and j + 1 < len(tagged)
-                and tagged[j + 1].lang == TokenLang.GU_ROMAN
+                and tagged[j + 1].lang == TokenLang.TARGET_ROMAN
             ):
                 span.append(cur)  # keep joiner
                 span.append(tagged[j + 1])
@@ -207,20 +215,21 @@ def transliterate_stage(
                 continue
             break
 
-        roman_words = [t for t in span if t.lang == TokenLang.GU_ROMAN]
-        joiners = [t.text for t in span if t.text in _JOINERS and t.lang != TokenLang.GU_ROMAN]
+        roman_words = [t for t in span if t.lang == TokenLang.TARGET_ROMAN]
+        joiners = [t.text for t in span if t.text in _JOINERS and t.lang != TokenLang.TARGET_ROMAN]
         phrase = " ".join(t.text for t in roman_words)
-        cands = translit_gu_roman_to_native_configured(
+        cands = translit_roman_to_native_configured(
             phrase,
             topk=cfg.topk,
             preserve_case=cfg.preserve_case,
             aggressive_normalize=cfg.aggressive_normalize,
             exceptions=lexicon,
             backend=cfg.translit_backend,
+            language=pack.code,
         )
         if cands:
             best = cands[0]
-            if _GUJARATI_RE.search(best):
+            if pack.native_script_re.search(best):
                 out_toks = tokenize(best)
                 if joiners:
                     # Preserve joiners only when we can align word-to-word.
@@ -233,7 +242,7 @@ def transliterate_stage(
                         i = j
                         continue
                 else:
-                    # Tokenize the Gujarati output so spacing/punct render stays consistent.
+                    # Tokenize native-script output so spacing/punct render stays consistent.
                     rendered.extend(out_toks)
                     n_transliterated += len(roman_words)
                     i = j
@@ -241,23 +250,24 @@ def transliterate_stage(
 
         # Fallback: token-by-token.
         for t in span:
-            if t.lang != TokenLang.GU_ROMAN:
+            if t.lang != TokenLang.TARGET_ROMAN:
                 rendered.append(t.text)
                 continue
-            cands = translit_gu_roman_to_native_configured(
+            cands = translit_roman_to_native_configured(
                 t.text,
                 topk=cfg.topk,
                 preserve_case=cfg.preserve_case,
                 aggressive_normalize=cfg.aggressive_normalize,
                 exceptions=lexicon,
                 backend=cfg.translit_backend,
+                language=pack.code,
             )
             if not cands:
                 rendered.append(t.text if cfg.preserve_case else t.text.lower())
                 continue
             best = cands[0]
             rendered.append(best)
-            if best != t.text and _GUJARATI_RE.search(best):
+            if best != t.text and pack.native_script_re.search(best):
                 n_transliterated += 1
 
         i = j
@@ -337,11 +347,14 @@ class CodeMixPipeline:
     def run(self, text: str) -> CodeMixPipelineResult:
         raw = text or ""
         cfg = self.config
+        pack = get_language_pack(cfg.language)
         lex_res, lex, lex_keys = self._lexicon_bundle()
 
         norm = normalize_stage(raw, config=cfg, on_event=self.on_event)
         if not norm:
-            backend = transliteration_backend_configured(preferred=cfg.translit_backend)
+            backend = transliteration_backend_configured(
+                preferred=cfg.translit_backend, language=pack.code
+            )
             cs = compute_code_switch_metrics([])
             d = detect_dialect_from_tagged_tokens([])
             dn = DialectNormalizationResult(
@@ -353,6 +366,7 @@ class CodeMixPipeline:
                     "stage": "done",
                     "empty_input": True,
                     "backend": backend,
+                    "language": pack.code,
                     "user_lexicon": lex_res.source,
                     "cmi": cs.cmi,
                     "switch_points": cs.n_switch_points,
@@ -373,6 +387,7 @@ class CodeMixPipeline:
                 dialect_normalization=dn,
                 rendered_tokens=[],
                 codemix="",
+                language=pack.code,
                 n_tokens=0,
                 n_en_tokens=0,
                 n_gu_native_tokens=0,
@@ -384,6 +399,7 @@ class CodeMixPipeline:
         toks = tokenize_stage(norm, on_event=self.on_event)
         tagged = lid_stage(
             toks,
+            language=pack.code,
             lexicon_keys=lex_keys,
             fasttext_model_path=cfg.fasttext_model_path,
             user_lexicon_source=lex_res.source,
@@ -391,48 +407,67 @@ class CodeMixPipeline:
         )
         cs = compute_code_switch_metrics(tagged)
 
-        # Dialect detection is pluggable; default stays offline heuristic.
-        if cfg.dialect_force:
-            forced = str(cfg.dialect_force).strip().lower().replace("-", "_").replace(" ", "_")
-            # Avoid importing GujaratiDialect at module import time; keep it local.
-            from .dialects import GujaratiDialect
+        if pack.dialect_enabled:
+            # Dialect detection is pluggable; default stays offline heuristic.
+            if cfg.dialect_force:
+                forced = str(cfg.dialect_force).strip().lower().replace("-", "_").replace(" ", "_")
+                # Avoid importing GujaratiDialect at module import time; keep it local.
+                from .dialects import GujaratiDialect
 
-            try:
-                forced_dialect = GujaratiDialect(forced)  # type: ignore[arg-type]
-            except Exception:
-                forced_dialect = GujaratiDialect.UNKNOWN
-            d = DialectDetection(
-                dialect=forced_dialect,
-                scores={"forced": 1},
-                markers_found={},
-                backend="forced",
-                confidence=1.0,
-            )
-        else:
-            backend = self._dialect_backend()
-            if backend is None:
+                try:
+                    forced_dialect = GujaratiDialect(forced)  # type: ignore[arg-type]
+                except Exception:
+                    forced_dialect = GujaratiDialect.UNKNOWN
                 d = DialectDetection(
-                    dialect=detect_dialect_from_tagged_tokens(tagged).dialect,
-                    scores={},
+                    dialect=forced_dialect,
+                    scores={"forced": 1},
                     markers_found={},
-                    backend="none",
-                    confidence=0.0,
+                    backend="forced",
+                    confidence=1.0,
                 )
             else:
-                d = backend.detect(text=norm, tagged_tokens=tagged, config=cfg)  # type: ignore[attr-defined]
+                backend = self._dialect_backend()
+                if backend is None:
+                    d = DialectDetection(
+                        dialect=detect_dialect_from_tagged_tokens(tagged).dialect,
+                        scores={},
+                        markers_found={},
+                        backend="none",
+                        confidence=0.0,
+                    )
+                else:
+                    d = backend.detect(text=norm, tagged_tokens=tagged, config=cfg)  # type: ignore[attr-defined]
+            normalizer = self._dialect_normalizer()
+        else:
+            # Fail-safe: dialect stack is Gujarati-only today; disable it for beta languages.
+            from .dialects import GujaratiDialect
 
-        normalizer = self._dialect_normalizer()
+            d = DialectDetection(
+                dialect=GujaratiDialect.UNKNOWN,
+                scores={},
+                markers_found={},
+                backend="disabled_for_language",
+                confidence=0.0,
+            )
+            normalizer = None
+
         dn = DialectNormalizationResult(
             dialect=d.dialect, changed=False, tokens_in=toks, tokens_out=toks, backend="none"
         )
         dialect_normalized = False
         tagged_eff = tagged
-        if cfg.dialect_normalize and normalizer is not None and (d.confidence >= float(cfg.dialect_min_confidence)):
+        if (
+            pack.dialect_enabled
+            and cfg.dialect_normalize
+            and normalizer is not None
+            and (d.confidence >= float(cfg.dialect_min_confidence))
+        ):
             dn = normalizer.normalize(tagged_tokens=tagged, dialect=d.dialect, config=cfg)
             if dn.changed:
                 # Re-tag after dialect normalization so transliteration + metrics see consistent TokenLang.
                 tagged_eff = tag_tokens(
                     dn.tokens_out,
+                    language=pack.code,
                     lexicon_keys=lex_keys,
                     fasttext_model_path=cfg.fasttext_model_path,
                 )
@@ -444,22 +479,29 @@ class CodeMixPipeline:
         for tok in tagged_eff:
             if tok.lang == TokenLang.EN:
                 n_en += 1
-            elif tok.lang == TokenLang.GU_NATIVE:
+            elif tok.lang == TokenLang.TARGET_NATIVE:
                 n_gu_native += 1
-            elif tok.lang == TokenLang.GU_ROMAN:
+            elif tok.lang == TokenLang.TARGET_ROMAN:
                 n_gu_roman += 1
 
         rendered, n_transliterated = transliterate_stage(
-            tagged_eff, config=cfg, lexicon=lex, on_event=self.on_event
+            tagged_eff,
+            config=cfg,
+            language=pack.code,
+            lexicon=lex,
+            on_event=self.on_event,
         )
         out = render_stage(rendered, config=cfg, on_event=self.on_event)
 
-        backend_name = transliteration_backend_configured(preferred=cfg.translit_backend)
+        backend_name = transliteration_backend_configured(
+            preferred=cfg.translit_backend, language=pack.code
+        )
         _emit(
             self.on_event,
             {
                 "stage": "done",
                 "backend": backend_name,
+                "language": pack.code,
                 "n_tokens": len(toks),
                 "n_gu_roman_tokens": n_gu_roman,
                 "n_gu_roman_transliterated": n_transliterated,
@@ -484,6 +526,7 @@ class CodeMixPipeline:
             dialect_normalization=dn,
             rendered_tokens=rendered,
             codemix=out,
+            language=pack.code,
             n_tokens=len(toks),
             n_en_tokens=n_en,
             n_gu_native_tokens=n_gu_native,
@@ -504,4 +547,3 @@ class CodeMixPipeline:
         for t in texts:
             out.append(self.run(t))
         return out
-

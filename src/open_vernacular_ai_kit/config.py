@@ -4,12 +4,14 @@ from dataclasses import asdict, dataclass, fields
 from typing import Any, Literal, Optional
 
 from .errors import InvalidConfigError
+from .language_packs import DEFAULT_LANGUAGE, is_supported_language, normalize_language_code
 
 NumeralsMode = Literal["keep", "ascii"]
 TranslitMode = Literal["token", "sentence"]
 TranslitBackend = Literal["auto", "ai4bharat", "sanscript", "none"]
 DialectBackend = Literal["auto", "heuristic", "transformers", "llm", "none"]
 DialectNormalizerBackend = Literal["auto", "heuristic", "seq2seq", "none"]
+LanguageCode = Literal["gu", "hi"]
 
 
 @dataclass(frozen=True)
@@ -19,6 +21,9 @@ class CodeMixConfig:
 
     The CLI should map flags -> this object; the SDK should accept this object directly.
     """
+
+    # Target language profile for code-mix normalization/transliteration.
+    language: LanguageCode = "gu"
 
     # Text normalization
     numerals: NumeralsMode = "keep"
@@ -71,6 +76,10 @@ class CodeMixConfig:
         """Return a defensively normalized config (types/constraints)."""
 
         topk = max(1, int(self.topk))
+        language = normalize_language_code(str(self.language))
+        if not is_supported_language(language):
+            # Fail-safe fallback for forwards compatibility with external config payloads.
+            language = DEFAULT_LANGUAGE
         numerals: NumeralsMode = self.numerals
         if numerals not in ("keep", "ascii"):
             raise InvalidConfigError("numerals must be one of: keep, ascii")
@@ -108,6 +117,7 @@ class CodeMixConfig:
         seed = None if self.seed is None else int(self.seed)
         schema_version = max(1, int(self.schema_version))
         return CodeMixConfig(
+            language=language,  # type: ignore[arg-type]
             numerals=numerals,
             preserve_numbers=bool(self.preserve_numbers),
             preserve_case=bool(self.preserve_case),
@@ -197,6 +207,8 @@ class CodeMixConfig:
 
         # NOTE: most string literals are validated in `.normalized()`; we just coerce to str here.
         kwargs: dict[str, Any] = {}
+        if "language" in data:
+            kwargs["language"] = str(data.get("language") or "").strip() or DEFAULT_LANGUAGE
         if "numerals" in data:
             kwargs["numerals"] = str(data.get("numerals") or "").strip() or "keep"
         if "preserve_numbers" in data:
@@ -246,4 +258,3 @@ class CodeMixConfig:
         kwargs["schema_version"] = as_int(data.get("schema_version"), default=1)
 
         return cls(**kwargs).normalized()
-

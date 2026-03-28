@@ -12,6 +12,7 @@ def test_config_to_dict_includes_schema_version() -> None:
 
 def test_config_roundtrip_to_from_dict() -> None:
     cfg = CodeMixConfig(
+        language="hi",
         numerals="ascii",
         preserve_case=False,
         preserve_numbers=False,
@@ -44,10 +45,14 @@ def test_config_from_dict_accepts_v0_without_schema_version() -> None:
     assert cfg.topk == 2
 
 
+def test_config_from_dict_unknown_language_falls_back_to_default() -> None:
+    cfg = CodeMixConfig.from_dict({"language": "unknown-lang"})
+    assert cfg.language == "gu"
+
+
 def test_config_from_dict_strict_rejects_unknown_keys() -> None:
     try:
         _ = CodeMixConfig.from_dict({"numerals": "keep", "unknown": 1}, strict=True)
         assert False, "Expected ValueError"
     except ValueError:
         assert True
-
