@@ -21,13 +21,13 @@ For release tracking, generate the 3-metric baseline snapshot:
 python3 scripts/snapshot_north_star_metrics.py --output docs/data/north_star_metrics_snapshot.json --iterations 200
 ```
 
-Current snapshot (`2026-03-29T17:30:50Z`):
+Current snapshot (`2026-03-29T17:39:16Z`):
 
 | Metric | Value | Notes |
 | --- | --- | --- |
 | `transliteration_success` | `1.000` | Golden transliteration accuracy across packaged Hindi/Gujarati cases (`90/90`; backend=`none`) |
 | `dialect_accuracy` | `1.000` | Heuristic dialect-id accuracy (`14/14`) |
-| `p95_latency_ms` | `0.213` | Pipeline p95 latency in ms (`iterations=200`, `n_calls=1200`) |
+| `p95_latency_ms` | `0.235` | Pipeline p95 latency in ms (`iterations=200`, `n_calls=1200`) |
 
 ## Golden Transliteration Regression Guard
 

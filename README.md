@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/SudhirGadhvi/open-vernacular-ai-kit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/SudhirGadhvi/open-vernacular-ai-kit/actions/workflows/ci.yml)
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://sudhirgadhvi.github.io/open-vernacular-ai-kit/)
-[![Version](https://img.shields.io/badge/version-1.3.0rc1-brightgreen)](pyproject.toml)
+[![Version](https://img.shields.io/badge/version-1.3.0-brightgreen)](pyproject.toml)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](pyproject.toml)
  
  `open-vernacular-ai-kit` is an open-source SDK + CLI for cleaning up Indian vernacular-English code-mixed
@@ -79,7 +79,7 @@ Example result from one local run (topk=1, max_rows=2000):
 
 See `docs/benchmarks.md` for details.
 
-## North-Star Baseline Snapshot (Current RC)
+## North-Star Baseline Snapshot (Current Release)
 
 Generate the snapshot:
 
@@ -87,15 +87,15 @@ Generate the snapshot:
 python3 scripts/snapshot_north_star_metrics.py --output docs/data/north_star_metrics_snapshot.json --iterations 200
 ```
 
-Current snapshot (`2026-03-29T17:30:50Z`):
+Current snapshot (`2026-03-29T17:39:16Z`):
 
 | Metric | Value | Notes |
 | --- | --- | --- |
 | `transliteration_success` | `1.000` | Golden transliteration accuracy across packaged Hindi/Gujarati cases (`90/90`; backend=`none`) |
 | `dialect_accuracy` | `1.000` | Heuristic dialect-id accuracy (`14/14`) |
-| `p95_latency_ms` | `0.213` | Pipeline p95 latency in ms (`iterations=200`, `n_calls=1200`) |
+| `p95_latency_ms` | `0.235` | Pipeline p95 latency in ms (`iterations=200`, `n_calls=1200`) |
 
-## Downstream Uplift Snapshot (Current RC)
+## Downstream Uplift Snapshot (Current Release)
 
 The repo now ships committed downstream benchmark snapshots, not just token-level regressions.
 
