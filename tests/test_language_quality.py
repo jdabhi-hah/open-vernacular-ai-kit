@@ -56,15 +56,15 @@ def test_short_context_tokens_do_not_become_global_target_words() -> None:
     ("raw", "expected"),
     [
         ("mane tari vaat samajh nathi padti", "મને તારી વાત સમજ નથી પડતી"),
-        ("tamne aaje office ma aavu chhe", "તમને આજે office માં આવું છે"),
+        ("tamne aaje office ma aavu chhe", "તમને આજે office માં આવવું છે"),
         ("aapdu kaam saras rite thai gayu", "આપણું કામ સરસ રીતે થઈ ગયું"),
         ("shu tame mane madad kari shako?", "શું તમે મને મદદ કરી શકો?"),
-        ("amne ahi badma aavu joie", "અમને અહીં બાદમાં આવું જોઈએ"),
+        ("amne ahi badma aavu joie", "અમને અહીં બાદમાં આવવું જોઈએ"),
         ("tamaro parivar kya chhe?", "તમારો પરિવાર ક્યાં છે?"),
         ("ame kale amdavad ma chhiye", "અમે કાલે અમદાવાદ માં છીએ"),
         ("tame savare ahi aavo", "તમે સવારે અહીં આવો"),
         ("tame sanje tya jao", "તમે સાંજે ત્યાં જાઓ"),
-        ("tamare ahi aavu joie", "તમારે અહીં આવું જોઈએ"),
+        ("tamare ahi aavu joie", "તમારે અહીં આવવું જોઈએ"),
         ("aa ghar tyaa chhe", "આ ઘર ત્યાં છે"),
         ("aa refund ni vaat chhe", "આ refund ની વાત છે"),
         ("aa refund ni jagyae replacement joie", "આ refund ની જગ્યાએ replacement જોઈએ"),
@@ -115,6 +115,7 @@ def test_short_context_tokens_do_not_become_global_target_words() -> None:
         ("kyc screen shot ma surname blur dekhae chhe pn original clear htu", "kyc screen shot માં surname blur dekhae છે pn original clear હતું"),
         ("aa screenshot ma refund initiated lakhyu chhe pn paisa account ma nathi aavya", "આ screenshot માં refund initiated lakhyu છે pn પૈસા account માં નથી આવ્યા"),
         ("product label ni photo mathi color black ni jagyae blk j read thay chhe", "product label ની photo માંથી color black ની જગ્યાએ blk j read thay છે"),
+        ("aa dress aavu chhe", "આ dress આવું છે"),
     ],
 )
 def test_render_codemix_gujarati_quality_cases(raw: str, expected: str) -> None:

@@ -1,7 +1,12 @@
 from __future__ import annotations
 
+import pytest
+
 from open_vernacular_ai_kit.rag import RagIndex
-from open_vernacular_ai_kit.rag_datasets import load_vernacular_facts_tiny
+from open_vernacular_ai_kit.rag_datasets import (
+    load_vernacular_facts_tiny,
+    load_vernacular_facts_tiny_answer_cases,
+)
 
 
 def _keyword_embed(texts: list[str]) -> list[list[float]]:
@@ -62,3 +67,56 @@ def test_rag_index_json_roundtrip(tmp_path) -> None:
     assert res
     assert res[0].doc_id == "doc_marathi_admin"
 
+
+def test_load_vernacular_facts_tiny_supports_codemix_query_pack() -> None:
+    ds = load_vernacular_facts_tiny(query_pack="codemix")
+    assert ds.name == "vernacular_facts_tiny_codemix"
+    assert len(ds.docs) >= 8
+    assert len(ds.queries) >= 6
+    assert "use thay chhe" in ds.queries[0].query
+
+
+def test_load_vernacular_facts_tiny_supports_hard_codemix_query_pack() -> None:
+    ds = load_vernacular_facts_tiny(query_pack="codemix_hard")
+    assert ds.name == "vernacular_facts_tiny_codemix_hard"
+    assert len(ds.docs) >= 10
+    assert len(ds.queries) >= 10
+    assert "customer help flow" in ds.queries[0].query
+
+
+def test_load_vernacular_facts_tiny_rejects_unknown_query_pack() -> None:
+    with pytest.raises(ValueError, match="query_pack must be one of"):
+        load_vernacular_facts_tiny(query_pack="unknown-pack")
+
+
+def test_load_vernacular_facts_tiny_answer_cases() -> None:
+    rows = load_vernacular_facts_tiny_answer_cases()
+    assert len(rows) >= 8
+    assert rows[0].expected_answer
+    assert rows[0].context_doc_ids
+
+
+def test_load_vernacular_facts_tiny_hard_answer_cases() -> None:
+    rows = load_vernacular_facts_tiny_answer_cases(case_pack="hard")
+    assert len(rows) >= 10
+    assert " " in rows[0].expected_answer
+    assert rows[0].meta
+
+
+def test_load_vernacular_facts_tiny_distractor_answer_cases() -> None:
+    rows = load_vernacular_facts_tiny_answer_cases(case_pack="distractor")
+    assert len(rows) >= 12
+    assert len(rows[0].context_doc_ids) >= 3
+    assert rows[0].meta
+
+
+def test_load_vernacular_facts_tiny_abstention_answer_cases() -> None:
+    rows = load_vernacular_facts_tiny_answer_cases(case_pack="abstention")
+    assert len(rows) >= 10
+    assert all(row.expected_answer == "UNKNOWN" for row in rows)
+    assert len(rows[0].context_doc_ids) >= 3
+
+
+def test_load_vernacular_facts_tiny_rejects_unknown_answer_case_pack() -> None:
+    with pytest.raises(ValueError, match="case_pack must be one of"):
+        load_vernacular_facts_tiny_answer_cases(case_pack="unknown-pack")

@@ -147,11 +147,11 @@ def transliteration_backend_configured(
     if preferred == "sanscript":
         return "sanscript" if (_get_sanscript() is not None and pack.sanscript_target) else "none"
 
-    # auto
+    # auto stays conservative: AI4Bharat is the only backend enabled implicitly.
+    # Sanscript remains available as an explicit opt-in, but should not silently
+    # change runtime behavior just because an unrelated dependency is installed.
     if _get_xlit_engine(pack.code) is not None:
         return "ai4bharat"
-    if _get_sanscript() is not None and pack.sanscript_target:
-        return "sanscript"
     return "none"
 
 

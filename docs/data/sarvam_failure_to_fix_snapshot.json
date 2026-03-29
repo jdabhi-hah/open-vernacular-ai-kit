@@ -1,0 +1,87 @@
+{
+  "generated_at_utc": "2026-03-28T07:28:34.230960Z",
+  "n_review_files": 16,
+  "review_files": [
+    "eval/datasets/sarvam_teacher_large_profile_reviewed_batch1.jsonl",
+    "eval/datasets/sarvam_teacher_large_profile_reviewed_batch2.jsonl",
+    "eval/datasets/sarvam_teacher_noisy_chat_reviewed_batch1.jsonl",
+    "eval/datasets/sarvam_teacher_noisy_chat_reviewed_batch2.jsonl",
+    "eval/datasets/sarvam_teacher_ocr_screenshot_reviewed_batch1.jsonl",
+    "eval/datasets/sarvam_teacher_ocr_screenshot_reviewed_batch2.jsonl",
+    "eval/datasets/sarvam_teacher_realworld_followup_reviewed_batch1.jsonl",
+    "eval/datasets/sarvam_teacher_realworld_followup_reviewed_batch2.jsonl",
+    "eval/datasets/sarvam_teacher_realworld_reviewed_batch1.jsonl",
+    "eval/datasets/sarvam_teacher_realworld_reviewed_batch2.jsonl",
+    "eval/datasets/sarvam_teacher_realworld_reviewed_batch3.jsonl",
+    "eval/datasets/sarvam_teacher_seed_reviewed.jsonl",
+    "eval/datasets/sarvam_teacher_voice_note_reviewed_batch1.jsonl",
+    "eval/datasets/sarvam_teacher_voice_note_reviewed_batch2.jsonl",
+    "eval/datasets/sarvam_teacher_whatsapp_export_reviewed_batch1.jsonl",
+    "eval/datasets/sarvam_teacher_whatsapp_export_reviewed_batch2.jsonl"
+  ],
+  "n_reviewed_rows": 118,
+  "review_action_counts": {
+    "accept_lexicon": 66,
+    "accept_context_rule": 26,
+    "accept_sentence_case": 15,
+    "reject": 11
+  },
+  "review_source_counts": {
+    "language_sentence_cases": 2,
+    "teacher_large_extra": 9,
+    "teacher_noisy_chat_pack": 16,
+    "teacher_ocr_screenshot_pack": 3,
+    "teacher_realworld_followup_pack": 14,
+    "teacher_realworld_pack": 22,
+    "teacher_seed": 26,
+    "teacher_voice_note_pack": 13,
+    "teacher_whatsapp_export_pack": 13
+  },
+  "accepted_summary": {
+    "n_accepted_rows": 107,
+    "n_fixed_rows": 107,
+    "acceptance_rate_vs_reviewed": 0.9067796610169492,
+    "fix_conversion_rate_vs_reviewed": 0.9067796610169492,
+    "fix_rate_vs_accepted": 1.0
+  },
+  "profile_token_summary": {
+    "n_token_checks": 97,
+    "n_token_fixed": 97,
+    "token_fix_rate": 1.0
+  },
+  "by_action": {
+    "accept_lexicon": {
+      "n_rows": 66,
+      "n_fixed_rows": 66,
+      "n_token_checks": 70,
+      "n_token_fixed": 70,
+      "fix_rate": 1.0,
+      "token_fix_rate": 1.0
+    },
+    "accept_context_rule": {
+      "n_rows": 26,
+      "n_fixed_rows": 26,
+      "n_token_checks": 27,
+      "n_token_fixed": 27,
+      "fix_rate": 1.0,
+      "token_fix_rate": 1.0
+    },
+    "accept_sentence_case": {
+      "n_rows": 15,
+      "n_fixed_rows": 15,
+      "n_token_checks": 0,
+      "n_token_fixed": 0,
+      "fix_rate": 1.0,
+      "token_fix_rate": 0.0
+    },
+    "reject": {
+      "n_rows": 11,
+      "n_fixed_rows": 0,
+      "n_token_checks": 0,
+      "n_token_fixed": 0,
+      "fix_rate": 0.0,
+      "token_fix_rate": 0.0
+    }
+  },
+  "unfixed_examples": []
+}

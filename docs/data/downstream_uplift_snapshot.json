@@ -1,0 +1,299 @@
+{
+  "generated_at_utc": "2026-03-29T17:23:45.123205Z",
+  "environment": {
+    "python": "3.13.5",
+    "platform": "macOS-26.3-arm64-arm-64bit-Mach-O"
+  },
+  "metric_definitions": {
+    "retrieval_uplift": "Top-k retrieval recall delta from run_retrieval_uplift_eval: compares raw queries vs OVAK-normalized queries on packaged retrieval query packs.",
+    "answer_quality_uplift": "Short-answer quality delta from run_answer_quality_uplift_eval: compares Sarvam answers under raw questions vs OVAK-normalized questions using packaged gold contexts.",
+    "prompt_stability_uplift": "Pairwise semantic similarity delta from run_prompt_stability_uplift_eval: compares raw prompts vs OVAK-normalized prompts for the configured Sarvam model."
+  },
+  "snapshot_config": {
+    "retrieval_query_packs": [
+      "default",
+      "codemix",
+      "codemix_hard"
+    ],
+    "k_values": [
+      1,
+      3,
+      5
+    ],
+    "embedding_model_requested": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+    "answer_quality": {
+      "included": true,
+      "model": "sarvam-m",
+      "answer_case_pack": "suite",
+      "cache_dir": null
+    },
+    "prompt_stability": {
+      "included": true,
+      "model": "sarvam-m",
+      "n_variants": 10,
+      "base_question_gu": "\u0a85\u0aae\u0aa6\u0abe\u0ab5\u0abe\u0aa6\u0aae\u0abe\u0a82 \u0ab6\u0abf\u0aaf\u0abe\u0ab3\u0abe\u0aae\u0abe\u0a82 \u0a95\u0a88 \u0a96\u0abe\u0ab8 \u0ab5\u0abe\u0aa8\u0a97\u0ac0 \u0ab2\u0acb\u0a95\u0aaa\u0acd\u0ab0\u0abf\u0aaf \u0a9b\u0ac7?",
+      "cache_dir": null
+    }
+  },
+  "downstream_uplift_metrics": {
+    "retrieval_uplift": {
+      "default": {
+        "retrieval_query_pack": "default",
+        "embedding_model_requested": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+        "embedding_model_used": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+        "k_values": [
+          1,
+          3,
+          5
+        ],
+        "n_queries": 6,
+        "raw_recall_at_k": {
+          "1": 1.0,
+          "3": 1.0,
+          "5": 1.0
+        },
+        "normalized_recall_at_k": {
+          "1": 1.0,
+          "3": 1.0,
+          "5": 1.0
+        },
+        "recall_uplift": {
+          "1": {
+            "raw": 1.0,
+            "normalized": 1.0,
+            "absolute_uplift": 0.0
+          },
+          "3": {
+            "raw": 1.0,
+            "normalized": 1.0,
+            "absolute_uplift": 0.0
+          },
+          "5": {
+            "raw": 1.0,
+            "normalized": 1.0,
+            "absolute_uplift": 0.0
+          }
+        }
+      },
+      "codemix": {
+        "retrieval_query_pack": "codemix",
+        "embedding_model_requested": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+        "embedding_model_used": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+        "k_values": [
+          1,
+          3,
+          5
+        ],
+        "n_queries": 6,
+        "raw_recall_at_k": {
+          "1": 1.0,
+          "3": 1.0,
+          "5": 1.0
+        },
+        "normalized_recall_at_k": {
+          "1": 1.0,
+          "3": 1.0,
+          "5": 1.0
+        },
+        "recall_uplift": {
+          "1": {
+            "raw": 1.0,
+            "normalized": 1.0,
+            "absolute_uplift": 0.0
+          },
+          "3": {
+            "raw": 1.0,
+            "normalized": 1.0,
+            "absolute_uplift": 0.0
+          },
+          "5": {
+            "raw": 1.0,
+            "normalized": 1.0,
+            "absolute_uplift": 0.0
+          }
+        }
+      },
+      "codemix_hard": {
+        "retrieval_query_pack": "codemix_hard",
+        "embedding_model_requested": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+        "embedding_model_used": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+        "k_values": [
+          1,
+          3,
+          5
+        ],
+        "n_queries": 10,
+        "raw_recall_at_k": {
+          "1": 0.8,
+          "3": 0.9,
+          "5": 1.0
+        },
+        "normalized_recall_at_k": {
+          "1": 1.0,
+          "3": 1.0,
+          "5": 1.0
+        },
+        "recall_uplift": {
+          "1": {
+            "raw": 0.8,
+            "normalized": 1.0,
+            "absolute_uplift": 0.19999999999999996
+          },
+          "3": {
+            "raw": 0.9,
+            "normalized": 1.0,
+            "absolute_uplift": 0.09999999999999998
+          },
+          "5": {
+            "raw": 1.0,
+            "normalized": 1.0,
+            "absolute_uplift": 0.0
+          }
+        }
+      }
+    },
+    "answer_quality_uplift": {
+      "model": "sarvam-m",
+      "answer_case_pack": "suite",
+      "embedding_model_requested": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+      "embedding_model_used": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+      "raw_metrics": {
+        "exact_match_rate": 0.9545454545454546,
+        "mean_answer_similarity": 0.3582076800309799,
+        "min_answer_similarity": 0.02452225051820278
+      },
+      "normalized_metrics": {
+        "exact_match_rate": 1.0,
+        "mean_answer_similarity": 0.3684973450038921,
+        "min_answer_similarity": -0.007157428190112114
+      },
+      "answer_quality_uplift": {
+        "exact_match_rate": {
+          "raw": 0.9545454545454546,
+          "normalized": 1.0,
+          "absolute_uplift": 0.045454545454545414
+        },
+        "mean_answer_similarity": {
+          "raw": 0.3582076800309799,
+          "normalized": 0.3684973450038921,
+          "absolute_uplift": 0.010289664972912171
+        },
+        "min_answer_similarity": {
+          "raw": 0.02452225051820278,
+          "normalized": -0.007157428190112114,
+          "absolute_uplift": -0.031679678708314896
+        }
+      },
+      "raw_used_cache_n": 22,
+      "normalized_used_cache_n": 22,
+      "case_packs": [
+        "distractor",
+        "abstention"
+      ],
+      "per_pack": {
+        "distractor": {
+          "raw_metrics": {
+            "exact_match_rate": 1.0,
+            "mean_answer_similarity": 0.5242987101276716,
+            "min_answer_similarity": 0.03543016314506531
+          },
+          "normalized_metrics": {
+            "exact_match_rate": 1.0,
+            "mean_answer_similarity": 0.5300897870523235,
+            "min_answer_similarity": -0.007157428190112114
+          },
+          "answer_quality_uplift": {
+            "exact_match_rate": {
+              "raw": 1.0,
+              "normalized": 1.0,
+              "absolute_uplift": 0.0
+            },
+            "mean_answer_similarity": {
+              "raw": 0.5242987101276716,
+              "normalized": 0.5300897870523235,
+              "absolute_uplift": 0.005791076924651861
+            },
+            "min_answer_similarity": {
+              "raw": 0.03543016314506531,
+              "normalized": -0.007157428190112114,
+              "absolute_uplift": -0.04258759133517742
+            }
+          }
+        },
+        "abstention": {
+          "raw_metrics": {
+            "exact_match_rate": 0.9,
+            "mean_answer_similarity": 0.1588984439149499,
+            "min_answer_similarity": 0.02452225051820278
+          },
+          "normalized_metrics": {
+            "exact_match_rate": 1.0,
+            "mean_answer_similarity": 0.17458641454577445,
+            "min_answer_similarity": 0.10013232380151749
+          },
+          "answer_quality_uplift": {
+            "exact_match_rate": {
+              "raw": 0.9,
+              "normalized": 1.0,
+              "absolute_uplift": 0.09999999999999998
+            },
+            "mean_answer_similarity": {
+              "raw": 0.1588984439149499,
+              "normalized": 0.17458641454577445,
+              "absolute_uplift": 0.015687970630824555
+            },
+            "min_answer_similarity": {
+              "raw": 0.02452225051820278,
+              "normalized": 0.10013232380151749,
+              "absolute_uplift": 0.0756100732833147
+            }
+          }
+        }
+      }
+    },
+    "prompt_stability_uplift": {
+      "model": "sarvam-m",
+      "n_variants": 10,
+      "embedding_model_requested": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+      "embedding_model_used": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+      "raw_pairwise_similarity": {
+        "mean_offdiag": 0.8717888474464417,
+        "min_offdiag": 0.7456535696983337,
+        "max_offdiag": 0.9614042639732361,
+        "ref_mean": 0.8828473687171936,
+        "ref_min": 0.8024172186851501
+      },
+      "normalized_pairwise_similarity": {
+        "mean_offdiag": 0.89065054125256,
+        "min_offdiag": 0.8288030624389648,
+        "max_offdiag": 0.9332329034805298,
+        "ref_mean": 0.9016639192899069,
+        "ref_min": 0.8826171159744263
+      },
+      "pairwise_similarity_uplift": {
+        "mean_offdiag": {
+          "raw": 0.8717888474464417,
+          "normalized": 0.89065054125256,
+          "absolute_uplift": 0.01886169380611835
+        },
+        "min_offdiag": {
+          "raw": 0.7456535696983337,
+          "normalized": 0.8288030624389648,
+          "absolute_uplift": 0.0831494927406311
+        },
+        "ref_mean": {
+          "raw": 0.8828473687171936,
+          "normalized": 0.9016639192899069,
+          "absolute_uplift": 0.018816550572713253
+        },
+        "ref_min": {
+          "raw": 0.8024172186851501,
+          "normalized": 0.8826171159744263,
+          "absolute_uplift": 0.08019989728927612
+        }
+      },
+      "raw_used_cache_n": 10,
+      "normalized_used_cache_n": 10
+    }
+  }
+}

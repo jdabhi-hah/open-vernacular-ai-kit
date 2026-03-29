@@ -20,16 +20,33 @@ from .dialect_datasets import (
 from .errors import DownloadError, InvalidConfigError, OptionalDependencyError
 from .language_packs import get_language_pack, supported_language_codes
 from .normalize import normalize_text
-from .rag_datasets import load_vernacular_facts_tiny
+from .rag_datasets import load_vernacular_facts_tiny, load_vernacular_facts_tiny_answer_cases
 from .rendering import render_tokens
 from .token_lid import tokenize
 from .transliterate import transliteration_backend
 
 _GUJARATI_RE = re.compile(r"[\p{Gujarati}]")
+_SPACE_BEFORE_PUNCT_RE = re.compile(r"\s+([?!.,:;])")
 
 _DEFAULT_EMBEDDING_MODEL = "ai4bharat/indic-bert"
 # Fallback used when IndicBERT is gated on Hugging Face (no auth token).
 _FALLBACK_EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+_RETRIEVAL_PROTECTED_TOKENS = {
+    "bengali",
+    "gujarat",
+    "gujarati",
+    "hindi",
+    "india",
+    "kannada",
+    "karnataka",
+    "kerala",
+    "maharashtra",
+    "malayalam",
+    "marathi",
+    "punjab",
+    "punjabi",
+    "tamil",
+}
 
 
 @dataclass(frozen=True)
@@ -132,6 +149,51 @@ def _analyze_one(text: str, *, topk: int = 1, language: str = "gu") -> dict[str,
         "n_gu_roman_tokens_changed_est": a.n_gu_roman_transliterated,
         "transliteration_backend": a.transliteration_backend,
     }
+
+
+def _preprocess_retrieval_query(text: str) -> str:
+    """
+    Conservatively preprocess retrieval queries.
+
+    Retrieval prompts are often English-first even when they mention Indian-language labels.
+    Blind codemix rendering can hurt recall by transliterating English words like "Which".
+    Only apply codemix rendering when the query shows enough vernacular signal to justify it.
+    """
+    analysis = analyze_codemix(text)
+    target_token_count = int(analysis.n_gu_native_tokens + analysis.n_gu_roman_tokens)
+    if analysis.n_gu_native_tokens > 0:
+        return analysis.codemix
+    if target_token_count < 2:
+        return text
+    if int(analysis.n_en_tokens) >= max(1, int(analysis.n_tokens) - 2):
+        return text
+    if int(analysis.n_en_tokens) >= (2 * target_token_count):
+        return text
+    return _restore_protected_retrieval_tokens(text, analysis.codemix)
+
+
+def _restore_protected_retrieval_tokens(raw: str, rendered: str) -> str:
+    """
+    Keep benchmark labels and place names stable in retrieval queries.
+
+    Retrieval prompts can contain Indian language/state names as labels rather than
+    vernacular tokens. If the Gujarati pipeline transliterates those named entities,
+    the benchmark becomes less realistic even when recall is unchanged.
+    """
+    raw_tokens = tokenize(raw)
+    rendered_tokens = tokenize(rendered)
+    if len(raw_tokens) != len(rendered_tokens):
+        return rendered
+
+    out_tokens: list[str] = []
+    for raw_tok, rendered_tok in zip(raw_tokens, rendered_tokens, strict=False):
+        if raw_tok.casefold() in _RETRIEVAL_PROTECTED_TOKENS:
+            out_tokens.append(raw_tok)
+            continue
+        out_tokens.append(rendered_tok)
+
+    out = " ".join(out_tokens)
+    return _SPACE_BEFORE_PUNCT_RE.sub(r"\1", out)
 
 
 def _sha256_hex(s: str) -> str:
@@ -764,6 +826,7 @@ def run_retrieval_eval(
     k_values: Sequence[int] = (1, 3, 5),
     embedding_model: str = _DEFAULT_EMBEDDING_MODEL,
     preprocess_query: bool = True,
+    retrieval_query_pack: str = "default",
 ) -> dict[str, Any]:
     """
     Tiny retrieval benchmark: IndicBERT embeddings + top-k recall on curated snippets.
@@ -772,7 +835,7 @@ def run_retrieval_eval(
     if not k_values:
         raise InvalidConfigError("k_values must contain at least one positive integer")
 
-    ds = load_vernacular_facts_tiny()
+    ds = load_vernacular_facts_tiny(query_pack=retrieval_query_pack)
     docs = ds.docs
     queries = ds.queries
 
@@ -783,8 +846,9 @@ def run_retrieval_eval(
     for q in queries:
         s = q.query
         if preprocess_query:
-            # Allows running romanized queries through the same normalization pipeline.
-            s = render_codemix(normalize_text(s))
+            # Allows running romanized queries through the same normalization pipeline
+            # without mangling English-first retrieval prompts.
+            s = _preprocess_retrieval_query(normalize_text(s))
         q_texts.append(s)
 
     used_model, tok, model = _get_tokenizer_and_model_with_fallback(embedding_model)
@@ -822,6 +886,7 @@ def run_retrieval_eval(
         "dataset": "retrieval",
         "retrieval_dataset": ds.name,
         "retrieval_dataset_source": ds.source,
+        "retrieval_query_pack": retrieval_query_pack,
         "embedding_model_requested": embedding_model,
         "embedding_model_used": used_model,
         "k_values": list(k_values),
@@ -830,6 +895,363 @@ def run_retrieval_eval(
         "n_queries": len(queries),
         "recall_at_k": recall_at_k,
         "examples": per_query[:6],
+    }
+
+
+def _metric_delta(after: float, before: float) -> dict[str, float]:
+    return {
+        "raw": float(before),
+        "normalized": float(after),
+        "absolute_uplift": float(after - before),
+    }
+
+
+def _normalize_eval_answer_text(text: str) -> str:
+    s = normalize_text(str(text or "")).casefold()
+    s = re.sub(r"[^\p{L}\p{N}\s]+", " ", s)
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
+
+
+def _answer_matches_expected(expected: str, actual: str) -> bool:
+    exp = _normalize_eval_answer_text(expected)
+    act = _normalize_eval_answer_text(actual)
+    if not exp or not act:
+        return False
+    if exp == act:
+        return True
+    return f" {exp} " in f" {act} "
+
+
+def _build_answer_quality_prompt(*, question: str, context: str) -> str:
+    return (
+        "Use only the provided context.\n"
+        "Answer with a short English phrase only.\n"
+        "If the context does not contain the answer, reply UNKNOWN.\n\n"
+        f"Context:\n{context}\n\n"
+        f"Question:\n{question}\n\n"
+        "Answer:"
+    )
+
+
+def run_retrieval_uplift_eval(
+    *,
+    k_values: Sequence[int] = (1, 3, 5),
+    embedding_model: str = _DEFAULT_EMBEDDING_MODEL,
+    retrieval_query_pack: str = "default",
+) -> dict[str, Any]:
+    """
+    Compare retrieval quality with and without OVAK preprocessing.
+    """
+    raw_eval = run_retrieval_eval(
+        k_values=k_values,
+        embedding_model=embedding_model,
+        preprocess_query=False,
+        retrieval_query_pack=retrieval_query_pack,
+    )
+    normalized_eval = run_retrieval_eval(
+        k_values=k_values,
+        embedding_model=embedding_model,
+        preprocess_query=True,
+        retrieval_query_pack=retrieval_query_pack,
+    )
+    recall_delta = {
+        key: _metric_delta(
+            float(normalized_eval["recall_at_k"][key]),
+            float(raw_eval["recall_at_k"][key]),
+        )
+        for key in normalized_eval["recall_at_k"].keys()
+    }
+    return {
+        "dataset": "retrieval_uplift",
+        "retrieval_query_pack": retrieval_query_pack,
+        "embedding_model_requested": embedding_model,
+        "embedding_model_used": normalized_eval["embedding_model_used"],
+        "k_values": list(normalized_eval["k_values"]),
+        "raw_eval": raw_eval,
+        "normalized_eval": normalized_eval,
+        "recall_uplift": recall_delta,
+    }
+
+
+def run_answer_quality_eval(
+    *,
+    model: str = "sarvam-m",
+    embedding_model: str = _DEFAULT_EMBEDDING_MODEL,
+    cache_dir: Optional[Path] = None,
+    api_key: Optional[str] = None,
+    preprocess_question: bool = True,
+    answer_case_pack: str = "default",
+) -> dict[str, Any]:
+    """
+    Downstream answer-quality benchmark:
+      - use packaged gold contexts
+      - ask Sarvam to answer short code-mixed questions
+      - compare answers against expected short labels
+
+    This isolates prompt conditioning quality from retrieval quality.
+    """
+    try:
+        from .sarvam_adapters import sarvam_chat
+    except Exception as e:  # pragma: no cover
+        raise OptionalDependencyError(
+            "Answer-quality eval currently requires Sarvam integration. Install with: "
+            "pip install -e \".[sarvam,eval]\""
+        ) from e
+
+    import os
+
+    api_key_value = api_key or os.environ.get("SARVAM_API_KEY")
+    if not api_key_value:
+        raise InvalidConfigError(
+            "Missing SARVAM_API_KEY. Set it in your shell (export SARVAM_API_KEY=...) "
+            "or pass --api-key."
+        )
+
+    ds = load_vernacular_facts_tiny(query_pack="default")
+    answer_cases = load_vernacular_facts_tiny_answer_cases(case_pack=answer_case_pack)
+    docs_by_id = {doc.doc_id: doc for doc in ds.docs}
+    cache_root = cache_dir or (_default_cache_dir() / "eval-cache" / "answer-quality")
+
+    outputs: list[str] = []
+    expected_answers: list[str] = []
+    examples: list[dict[str, Any]] = []
+    used_cache = 0
+
+    for case in answer_cases:
+        context_parts = [
+            docs_by_id[doc_id].text for doc_id in case.context_doc_ids if doc_id in docs_by_id
+        ]
+        if not context_parts:
+            raise InvalidConfigError(
+                f"Missing context_doc_ids for answer-quality case: {case.question!r}"
+            )
+        question_used = case.question
+        if preprocess_question:
+            question_used = _preprocess_retrieval_query(normalize_text(question_used))
+        context_text = "\n".join(f"- {part}" for part in context_parts)
+        prompt = _build_answer_quality_prompt(question=question_used, context=context_text)
+
+        cache_key = _sha256_hex(
+            f"{model}\n{preprocess_question}\n{question_used}\n{context_text}\n{case.expected_answer}"
+        )
+        path = cache_root / f"{cache_key}.json"
+        cached = _cache_load_json(path)
+        if (
+            cached
+            and cached.get("prompt") == prompt
+            and cached.get("model") == model
+            and bool(cached.get("preprocess_question", bool(preprocess_question)))
+            == bool(preprocess_question)
+        ):
+            output = str(cached.get("output", ""))
+            used_cache += 1
+        else:
+            output = sarvam_chat(prompt, model=model, api_key=api_key_value, preprocess=False)
+            _cache_write_json(
+                path,
+                {
+                    "created_at_unix": int(time.time()),
+                    "model": model,
+                    "preprocess_question": bool(preprocess_question),
+                    "prompt": prompt,
+                    "output": output,
+                },
+            )
+
+        outputs.append(output)
+        expected_answers.append(case.expected_answer)
+        examples.append(
+            {
+                "question_raw": case.question,
+                "question_used": question_used,
+                "expected_answer": case.expected_answer,
+                "answer": output,
+                "context_doc_ids": list(case.context_doc_ids),
+            }
+        )
+
+    used_model, tok, model_obj = _get_tokenizer_and_model_with_fallback(embedding_model)
+    emb = _embed_texts_with_model(expected_answers + outputs, tok=tok, model=model_obj)
+    sims = _cosine_sim_matrix(emb)
+    n_cases = len(answer_cases)
+
+    exact_matches = [
+        1.0 if _answer_matches_expected(expected, output) else 0.0
+        for expected, output in zip(expected_answers, outputs, strict=False)
+    ]
+    answer_similarities = [float(sims[i][n_cases + i]) for i in range(n_cases)] if sims else []
+
+    for i in range(n_cases):
+        examples[i]["answer_similarity"] = answer_similarities[i] if i < len(answer_similarities) else 0.0
+        examples[i]["exact_match"] = bool(exact_matches[i]) if i < len(exact_matches) else False
+
+    return {
+        "dataset": "answer_quality",
+        "model": model,
+        "answer_case_pack": str(answer_case_pack),
+        "embedding_model_requested": embedding_model,
+        "embedding_model_used": used_model,
+        "cache_dir": str(cache_root),
+        "used_cache_n": int(used_cache),
+        "preprocess_question": bool(preprocess_question),
+        "n_cases": n_cases,
+        "metrics": {
+            "exact_match_rate": (sum(exact_matches) / n_cases) if n_cases else 0.0,
+            "mean_answer_similarity": (
+                sum(answer_similarities) / len(answer_similarities)
+            )
+            if answer_similarities
+            else 0.0,
+            "min_answer_similarity": min(answer_similarities) if answer_similarities else 0.0,
+        },
+        "examples": examples[:8],
+    }
+
+
+def run_answer_quality_uplift_eval(
+    *,
+    model: str = "sarvam-m",
+    embedding_model: str = _DEFAULT_EMBEDDING_MODEL,
+    cache_dir: Optional[Path] = None,
+    api_key: Optional[str] = None,
+    answer_case_pack: str = "default",
+) -> dict[str, Any]:
+    if str(answer_case_pack).strip().lower() == "suite":
+        return run_answer_quality_suite_uplift_eval(
+            model=model,
+            embedding_model=embedding_model,
+            cache_dir=cache_dir,
+            api_key=api_key,
+        )
+
+    raw_eval = run_answer_quality_eval(
+        model=model,
+        embedding_model=embedding_model,
+        cache_dir=cache_dir,
+        api_key=api_key,
+        preprocess_question=False,
+        answer_case_pack=answer_case_pack,
+    )
+    normalized_eval = run_answer_quality_eval(
+        model=model,
+        embedding_model=embedding_model,
+        cache_dir=cache_dir,
+        api_key=api_key,
+        preprocess_question=True,
+        answer_case_pack=answer_case_pack,
+    )
+    raw_metrics = raw_eval["metrics"]
+    normalized_metrics = normalized_eval["metrics"]
+    return {
+        "dataset": "answer_quality_uplift",
+        "model": model,
+        "answer_case_pack": str(answer_case_pack),
+        "embedding_model_requested": embedding_model,
+        "embedding_model_used": normalized_eval["embedding_model_used"],
+        "raw_eval": raw_eval,
+        "normalized_eval": normalized_eval,
+        "answer_quality_uplift": {
+            "exact_match_rate": _metric_delta(
+                float(normalized_metrics["exact_match_rate"]),
+                float(raw_metrics["exact_match_rate"]),
+            ),
+            "mean_answer_similarity": _metric_delta(
+                float(normalized_metrics["mean_answer_similarity"]),
+                float(raw_metrics["mean_answer_similarity"]),
+            ),
+            "min_answer_similarity": _metric_delta(
+                float(normalized_metrics["min_answer_similarity"]),
+                float(raw_metrics["min_answer_similarity"]),
+            ),
+        },
+    }
+
+
+def run_answer_quality_suite_uplift_eval(
+    *,
+    model: str = "sarvam-m",
+    embedding_model: str = _DEFAULT_EMBEDDING_MODEL,
+    cache_dir: Optional[Path] = None,
+    api_key: Optional[str] = None,
+) -> dict[str, Any]:
+    case_packs = ("distractor", "abstention")
+    per_pack: dict[str, Any] = {}
+    for pack in case_packs:
+        per_pack[pack] = run_answer_quality_uplift_eval(
+            model=model,
+            embedding_model=embedding_model,
+            cache_dir=cache_dir,
+            api_key=api_key,
+            answer_case_pack=pack,
+        )
+
+    def _weighted_metric(side: str, metric: str) -> float:
+        total_cases = sum(int(per_pack[pack][side]["n_cases"]) for pack in case_packs)
+        if total_cases <= 0:
+            return 0.0
+        weighted_sum = sum(
+            float(per_pack[pack][side]["metrics"][metric]) * int(per_pack[pack][side]["n_cases"])
+            for pack in case_packs
+        )
+        return weighted_sum / total_cases
+
+    def _min_metric(side: str, metric: str) -> float:
+        values = [float(per_pack[pack][side]["metrics"][metric]) for pack in case_packs]
+        return min(values) if values else 0.0
+
+    raw_eval = {
+        "dataset": "answer_quality",
+        "model": model,
+        "answer_case_pack": "suite",
+        "n_cases": sum(int(per_pack[pack]["raw_eval"]["n_cases"]) for pack in case_packs),
+        "used_cache_n": sum(int(per_pack[pack]["raw_eval"]["used_cache_n"]) for pack in case_packs),
+        "metrics": {
+            "exact_match_rate": _weighted_metric("raw_eval", "exact_match_rate"),
+            "mean_answer_similarity": _weighted_metric("raw_eval", "mean_answer_similarity"),
+            "min_answer_similarity": _min_metric("raw_eval", "min_answer_similarity"),
+        },
+    }
+    normalized_eval = {
+        "dataset": "answer_quality",
+        "model": model,
+        "answer_case_pack": "suite",
+        "n_cases": sum(int(per_pack[pack]["normalized_eval"]["n_cases"]) for pack in case_packs),
+        "used_cache_n": sum(int(per_pack[pack]["normalized_eval"]["used_cache_n"]) for pack in case_packs),
+        "metrics": {
+            "exact_match_rate": _weighted_metric("normalized_eval", "exact_match_rate"),
+            "mean_answer_similarity": _weighted_metric("normalized_eval", "mean_answer_similarity"),
+            "min_answer_similarity": _min_metric("normalized_eval", "min_answer_similarity"),
+        },
+    }
+    raw_metrics = raw_eval["metrics"]
+    normalized_metrics = normalized_eval["metrics"]
+    return {
+        "dataset": "answer_quality_uplift",
+        "model": model,
+        "answer_case_pack": "suite",
+        "case_packs": list(case_packs),
+        "embedding_model_requested": embedding_model,
+        "embedding_model_used": next(
+            str(per_pack[pack]["embedding_model_used"]) for pack in case_packs if per_pack.get(pack)
+        ),
+        "raw_eval": raw_eval,
+        "normalized_eval": normalized_eval,
+        "case_pack_results": per_pack,
+        "answer_quality_uplift": {
+            "exact_match_rate": _metric_delta(
+                float(normalized_metrics["exact_match_rate"]),
+                float(raw_metrics["exact_match_rate"]),
+            ),
+            "mean_answer_similarity": _metric_delta(
+                float(normalized_metrics["mean_answer_similarity"]),
+                float(raw_metrics["mean_answer_similarity"]),
+            ),
+            "min_answer_similarity": _metric_delta(
+                float(normalized_metrics["min_answer_similarity"]),
+                float(raw_metrics["min_answer_similarity"]),
+            ),
+        },
     }
 
 
@@ -973,6 +1395,67 @@ def run_prompt_stability_eval(
     }
 
 
+def run_prompt_stability_uplift_eval(
+    *,
+    model: str = "sarvam-m",
+    n_variants: int = 10,
+    base_question_gu: str = "અમદાવાદમાં શિયાળામાં કઈ ખાસ વાનગી લોકપ્રિય છે?",
+    embedding_model: str = _DEFAULT_EMBEDDING_MODEL,
+    cache_dir: Optional[Path] = None,
+    api_key: Optional[str] = None,
+) -> dict[str, Any]:
+    """
+    Compare prompt-stability with and without OVAK preprocessing.
+    """
+    raw_eval = run_prompt_stability_eval(
+        model=model,
+        n_variants=n_variants,
+        base_question_gu=base_question_gu,
+        embedding_model=embedding_model,
+        cache_dir=cache_dir,
+        api_key=api_key,
+        preprocess=False,
+    )
+    normalized_eval = run_prompt_stability_eval(
+        model=model,
+        n_variants=n_variants,
+        base_question_gu=base_question_gu,
+        embedding_model=embedding_model,
+        cache_dir=cache_dir,
+        api_key=api_key,
+        preprocess=True,
+    )
+    raw_stats = raw_eval["pairwise_similarity"]
+    normalized_stats = normalized_eval["pairwise_similarity"]
+    return {
+        "dataset": "prompt_stability_uplift",
+        "model": model,
+        "n_variants": int(n_variants),
+        "embedding_model_requested": embedding_model,
+        "embedding_model_used": normalized_eval["embedding_model_used"],
+        "raw_eval": raw_eval,
+        "normalized_eval": normalized_eval,
+        "pairwise_similarity_uplift": {
+            "mean_offdiag": _metric_delta(
+                float(normalized_stats["mean_offdiag"]),
+                float(raw_stats["mean_offdiag"]),
+            ),
+            "min_offdiag": _metric_delta(
+                float(normalized_stats["min_offdiag"]),
+                float(raw_stats["min_offdiag"]),
+            ),
+            "ref_mean": _metric_delta(
+                float(normalized_stats["ref_mean"]),
+                float(raw_stats["ref_mean"]),
+            ),
+            "ref_min": _metric_delta(
+                float(normalized_stats["ref_min"]),
+                float(raw_stats["ref_min"]),
+            ),
+        },
+    }
+
+
 def run_eval(
     dataset: str = "gujlish",
     *,
@@ -984,6 +1467,8 @@ def run_eval(
     preserve_numbers: bool = True,
     aggressive_normalize: bool = False,
     k: int = 5,
+    retrieval_query_pack: str = "default",
+    answer_case_pack: str = "default",
     embedding_model: str = _DEFAULT_EMBEDDING_MODEL,
     sarvam_model: str = "sarvam-m",
     n_variants: int = 10,
@@ -1027,6 +1512,13 @@ def run_eval(
             k_values=(1, 3, int(k)),
             embedding_model=embedding_model,
             preprocess_query=preprocess,
+            retrieval_query_pack=retrieval_query_pack,
+        )
+    if dataset in {"retrieval_uplift", "retrieval-uplift"}:
+        return run_retrieval_uplift_eval(
+            k_values=(1, 3, int(k)),
+            embedding_model=embedding_model,
+            retrieval_query_pack=retrieval_query_pack,
         )
     if dataset in {"prompt_stability", "prompt-stability"}:
         return run_prompt_stability_eval(
@@ -1035,6 +1527,28 @@ def run_eval(
             embedding_model=embedding_model,
             api_key=api_key,
             preprocess=preprocess,
+        )
+    if dataset in {"prompt_stability_uplift", "prompt-stability-uplift"}:
+        return run_prompt_stability_uplift_eval(
+            model=sarvam_model,
+            n_variants=n_variants,
+            embedding_model=embedding_model,
+            api_key=api_key,
+        )
+    if dataset in {"answer_quality", "answer-quality"}:
+        return run_answer_quality_eval(
+            model=sarvam_model,
+            embedding_model=embedding_model,
+            api_key=api_key,
+            preprocess_question=preprocess,
+            answer_case_pack=answer_case_pack,
+        )
+    if dataset in {"answer_quality_uplift", "answer-quality-uplift"}:
+        return run_answer_quality_uplift_eval(
+            model=sarvam_model,
+            embedding_model=embedding_model,
+            api_key=api_key,
+            answer_case_pack=answer_case_pack,
         )
     if dataset in {"dialect_id", "dialect-id"}:
         return run_dialect_id_eval(
@@ -1054,7 +1568,7 @@ def run_eval(
         )
     if dataset != "gujlish":
         raise InvalidConfigError(
-            "Unsupported dataset. Try one of: gujlish, golden_translit, language_sentences, retrieval, prompt_stability, dialect_id, dialect_normalization"
+            "Unsupported dataset. Try one of: gujlish, golden_translit, language_sentences, retrieval, retrieval_uplift, prompt_stability, prompt_stability_uplift, answer_quality, answer_quality_uplift, dialect_id, dialect_normalization"
         )
 
     requested_language = str(language or "gu").strip().lower()

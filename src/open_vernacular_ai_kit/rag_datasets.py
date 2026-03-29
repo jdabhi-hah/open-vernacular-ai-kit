@@ -11,6 +11,14 @@ from .rag import RagDocument, RagQuery
 
 
 @dataclass(frozen=True)
+class RagAnswerCase:
+    question: str
+    expected_answer: str
+    context_doc_ids: list[str]
+    meta: dict[str, Any] | None = None
+
+
+@dataclass(frozen=True)
 class RagDataset:
     name: str
     docs: list[RagDocument]
@@ -63,7 +71,25 @@ def load_rag_queries_jsonl(path: str | Path) -> list[RagQuery]:
     return out
 
 
-def load_vernacular_facts_tiny() -> RagDataset:
+def load_rag_answer_cases_jsonl(path: str | Path) -> list[RagAnswerCase]:
+    p = Path(path)
+    out: list[RagAnswerCase] = []
+    for rec in _iter_jsonl(p):
+        context_doc_ids = rec.get("context_doc_ids", [])
+        if not isinstance(context_doc_ids, list):
+            context_doc_ids = []
+        out.append(
+            RagAnswerCase(
+                question=str(rec.get("question", "") or ""),
+                expected_answer=str(rec.get("expected_answer", "") or ""),
+                context_doc_ids=[str(x) for x in context_doc_ids if str(x or "").strip()],
+                meta=(rec.get("meta") if isinstance(rec.get("meta"), dict) else {}),
+            )
+        )
+    return out
+
+
+def load_vernacular_facts_tiny(*, query_pack: str = "default") -> RagDataset:
     """
     Load a tiny curated India-focused vernacular snippets dataset (docs + queries).
 
@@ -75,10 +101,48 @@ def load_vernacular_facts_tiny() -> RagDataset:
     """
 
     docs_path = packaged_data_path("vernacular_facts_tiny_docs.jsonl")
-    queries_path = packaged_data_path("vernacular_facts_tiny_queries.jsonl")
+    pack = str(query_pack or "default").strip().lower()
+    query_pack_map = {
+        "default": "vernacular_facts_tiny_queries.jsonl",
+        "codemix": "vernacular_facts_tiny_codemix_queries.jsonl",
+        "code-mix": "vernacular_facts_tiny_codemix_queries.jsonl",
+        "mixed": "vernacular_facts_tiny_codemix_queries.jsonl",
+        "codemix_hard": "vernacular_facts_tiny_codemix_hard_queries.jsonl",
+        "codemix-hard": "vernacular_facts_tiny_codemix_hard_queries.jsonl",
+        "hard": "vernacular_facts_tiny_codemix_hard_queries.jsonl",
+    }
+    query_filename = query_pack_map.get(pack)
+    if query_filename is None:
+        raise ValueError("query_pack must be one of: default, codemix, codemix_hard")
+    if pack in {"code-mix", "mixed"}:
+        pack = "codemix"
+    if pack in {"codemix-hard", "hard"}:
+        pack = "codemix_hard"
+
+    queries_path = packaged_data_path(query_filename)
     docs = load_rag_docs_jsonl(docs_path)
     queries = load_rag_queries_jsonl(queries_path)
-    return RagDataset(name="vernacular_facts_tiny", docs=docs, queries=queries, source="packaged")
+    if pack == "default":
+        name = "vernacular_facts_tiny"
+    elif pack == "codemix":
+        name = "vernacular_facts_tiny_codemix"
+    else:
+        name = "vernacular_facts_tiny_codemix_hard"
+    return RagDataset(name=name, docs=docs, queries=queries, source="packaged")
+
+
+def load_vernacular_facts_tiny_answer_cases(*, case_pack: str = "default") -> list[RagAnswerCase]:
+    pack = str(case_pack or "default").strip().lower()
+    case_pack_map = {
+        "default": "vernacular_facts_tiny_answer_cases.jsonl",
+        "hard": "vernacular_facts_tiny_answer_cases_hard.jsonl",
+        "distractor": "vernacular_facts_tiny_answer_cases_distractor.jsonl",
+        "abstention": "vernacular_facts_tiny_answer_cases_abstention.jsonl",
+    }
+    filename = case_pack_map.get(pack)
+    if filename is None:
+        raise ValueError("case_pack must be one of: default, hard, distractor, abstention")
+    return load_rag_answer_cases_jsonl(packaged_data_path(filename))
 
 
 def _download(url: str, dest: Path) -> None:
@@ -165,4 +229,3 @@ def download_gujarat_facts_dataset(
         cache_dir=cache_dir,
         force=force,
     )
-

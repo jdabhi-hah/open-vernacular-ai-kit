@@ -73,12 +73,12 @@
 {"language": "gu", "raw": "tame mane madad kari shako", "expected": "તમે મને મદદ કરી શકો", "source": "Gujarati support-style phrase"}
 {"language": "gu", "raw": "tame mane have madad karo", "expected": "તમે મને હવે મદદ કરો", "source": "Gujarati support-style phrase"}
 {"language": "gu", "raw": "amne tamari madad joie", "expected": "અમને તમારી મદદ જોઈએ", "source": "Gujarati dative + support phrase"}
-{"language": "gu", "raw": "tamne have aavu joie", "expected": "તમને હવે આવું જોઈએ", "source": "Gujarati dative + obligation pattern"}
-{"language": "gu", "raw": "amne ahi aavu joie", "expected": "અમને અહીં આવું જોઈએ", "source": "Gujarati dative + place pattern"}
-{"language": "gu", "raw": "amne ahi badma aavu joie", "expected": "અમને અહીં બાદમાં આવું જોઈએ", "source": "Gujarati adverb pages 246-247"}
-{"language": "gu", "raw": "aapde ahi badma aavu joie", "expected": "આપણે અહીં બાદમાં આવું જોઈએ", "source": "Gujarati adverb pages 246-247"}
-{"language": "gu", "raw": "have tame ahi aavu joie", "expected": "હવે તમે અહીં આવું જોઈએ", "source": "Gujarati adverb + obligation pattern"}
-{"language": "gu", "raw": "tamne have ghar ma aavu joie", "expected": "તમને હવે ઘર માં આવું જોઈએ", "source": "Gujarati locative + obligation pattern"}
+{"language": "gu", "raw": "tamne have aavu joie", "expected": "તમને હવે આવવું જોઈએ", "source": "Gujarati dative + obligation pattern"}
+{"language": "gu", "raw": "amne ahi aavu joie", "expected": "અમને અહીં આવવું જોઈએ", "source": "Gujarati dative + place pattern"}
+{"language": "gu", "raw": "amne ahi badma aavu joie", "expected": "અમને અહીં બાદમાં આવવું જોઈએ", "source": "Gujarati adverb pages 246-247"}
+{"language": "gu", "raw": "aapde ahi badma aavu joie", "expected": "આપણે અહીં બાદમાં આવવું જોઈએ", "source": "Gujarati adverb pages 246-247"}
+{"language": "gu", "raw": "have tame ahi aavu joie", "expected": "હવે તમે અહીં આવવું જોઈએ", "source": "Gujarati adverb + obligation pattern"}
+{"language": "gu", "raw": "tamne have ghar ma aavu joie", "expected": "તમને હવે ઘર માં આવવું જોઈએ", "source": "Gujarati locative + obligation pattern"}
 {"language": "gu", "raw": "aapdu kaam saras rite thai gayu", "expected": "આપણું કામ સરસ રીતે થઈ ગયું", "source": "Gujarati adjective/adverb patterns"}
 {"language": "gu", "raw": "aaje aapdu kaam saras rite thai gayu", "expected": "આજે આપણું કામ સરસ રીતે થઈ ગયું", "source": "Gujarati adjective/adverb patterns"}
 {"language": "gu", "raw": "maru kaam saras rite thai gayu", "expected": "મારું કામ સરસ રીતે થઈ ગયું", "source": "Gujarati adjective/adverb patterns"}
