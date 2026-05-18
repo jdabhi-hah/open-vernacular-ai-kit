@@ -364,3 +364,34 @@ This script:
 
 This is intentionally stricter than sentence-case promotion. If a token is ambiguous enough to need a bucket move,
 do that as a manual profile edit after review rather than through automatic promotion.
+
+## Measure Failure To Fix Conversion
+
+To quantify how much reviewed Sarvam work has actually made it into current runtime behavior, build
+the committed conversion snapshot:
+
+```bash
+python3 scripts/report_sarvam_failure_to_fix.py \
+  --output docs/data/sarvam_failure_to_fix_snapshot.json
+```
+
+This report checks:
+
+- reviewed rows by action
+- accepted rows vs rejected rows
+- accepted rows that are currently fixed in runtime/profile data
+- profile token fix rate
+- any accepted rows that are still not reflected in current output
+
+Current snapshot highlights:
+
+- `n_reviewed_rows`: `118`
+- `n_accepted_rows`: `107`
+- `n_fixed_rows`: `106`
+- fix rate vs accepted: `0.9907`
+
+The remaining unfixed reviewed row is the known Gujarati sentence case:
+
+- `tamne aaje office ma aavu chhe`
+
+which still renders `આવું` instead of the reviewed expected `આવવું`.

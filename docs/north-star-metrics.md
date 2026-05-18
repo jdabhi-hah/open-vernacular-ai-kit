@@ -37,9 +37,9 @@ Source file:
 | Metric | Value | Notes |
 | --- | --- | --- |
 | `transliteration_success` | `1.000` | Golden transliteration accuracy across packaged Hindi/Gujarati cases (`90/90`; backend=`none`) |
-| `dialect_accuracy` | `0.833` | Heuristic dialect-id accuracy (`5/6`) |
-| `p95_latency_ms` | `0.216` | Pipeline p95 latency in ms (`iterations=200`, `n_calls=1200`) |
+| `dialect_accuracy` | `1.000` | Heuristic dialect-id accuracy (`14/14`) |
+| `p95_latency_ms` | `0.235` | Pipeline p95 latency in ms (`iterations=200`, `n_calls=1200`) |
 
-Snapshot timestamp: `2026-03-20T19:56:48Z`.
+Snapshot timestamp: `2026-03-29T17:39:16Z`.
 
 Update this table whenever you refresh the snapshot for a release.

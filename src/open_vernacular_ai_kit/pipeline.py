@@ -25,6 +25,18 @@ from .transliterate import (
 )
 
 _JOINERS = {"-", "_", "/", "@"}
+_GUJARATI_INFINITIVE_SUBJECT_TOKENS = {
+    "hu",
+    "ame",
+    "tame",
+    "mane",
+    "amne",
+    "tamne",
+    "tane",
+    "mare",
+    "tamare",
+    "aapde",
+}
 
 EventHook = Callable[[dict[str, Any]], None]
 
@@ -37,6 +49,41 @@ def _emit(hook: Optional[EventHook], event: dict[str, Any]) -> None:
     except Exception:
         # Logging must never break text processing.
         return
+
+
+def _maybe_override_gujarati_sentence_phrase(
+    *,
+    tagged: list[Token],
+    span_start: int,
+    span_end: int,
+    language: str,
+) -> Optional[str]:
+    if language != "gu":
+        return None
+
+    roman_words = [
+        tagged[idx].text.strip().lower()
+        for idx in range(span_start, span_end)
+        if tagged[idx].lang == TokenLang.TARGET_ROMAN
+    ]
+    if len(roman_words) < 2:
+        return None
+    ending = roman_words[-2:]
+    if ending not in (["aavu", "chhe"], ["aavu", "joie"]):
+        return None
+
+    prior_subjects = {
+        tagged[idx].text.strip().lower()
+        for idx in range(0, span_start)
+        if tagged[idx].lang == TokenLang.TARGET_ROMAN
+    }
+    in_span_subjects = set(roman_words[:-2])
+    if not ((prior_subjects | in_span_subjects) & _GUJARATI_INFINITIVE_SUBJECT_TOKENS):
+        return None
+
+    if ending == ["aavu", "chhe"]:
+        return "આવવું છે"
+    return "આવવું જોઈએ"
 
 
 @dataclass(frozen=True)
@@ -218,6 +265,42 @@ def transliterate_stage(
         roman_words = [t for t in span if t.lang == TokenLang.TARGET_ROMAN]
         joiners = [t.text for t in span if t.text in _JOINERS and t.lang != TokenLang.TARGET_ROMAN]
         phrase = " ".join(t.text for t in roman_words)
+
+        phrase_override = _maybe_override_gujarati_sentence_phrase(
+            tagged=tagged,
+            span_start=i,
+            span_end=j,
+            language=pack.code,
+        )
+        if phrase_override:
+            roman_positions = [idx for idx, t in enumerate(span) if t.lang == TokenLang.TARGET_ROMAN]
+            suffix_start = roman_positions[-2] if len(roman_positions) >= 2 else 0
+            prefix_span = span[:suffix_start]
+            for t in prefix_span:
+                if t.lang != TokenLang.TARGET_ROMAN:
+                    rendered.append(t.text)
+                    continue
+                cands = translit_roman_to_native_configured(
+                    t.text,
+                    topk=cfg.topk,
+                    preserve_case=cfg.preserve_case,
+                    aggressive_normalize=cfg.aggressive_normalize,
+                    exceptions=lexicon,
+                    backend=cfg.translit_backend,
+                    language=pack.code,
+                )
+                if not cands:
+                    rendered.append(t.text if cfg.preserve_case else t.text.lower())
+                    continue
+                best = cands[0]
+                rendered.append(best)
+                if best != t.text and pack.native_script_re.search(best):
+                    n_transliterated += 1
+            rendered.extend(tokenize(phrase_override))
+            n_transliterated += 2
+            i = j
+            continue
+
         cands = translit_roman_to_native_configured(
             phrase,
             topk=cfg.topk,

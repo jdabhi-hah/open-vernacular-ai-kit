@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-03-20T19:56:48.450683Z",
+  "generated_at_utc": "2026-03-29T17:38:53.282838Z",
   "environment": {
     "python": "3.13.5",
     "platform": "macOS-26.3-arm64-arm-64bit-Mach-O"
@@ -241,15 +241,15 @@
       "transliteration_backend": "none"
     },
     "dialect_accuracy": {
-      "value": 0.8333333333333334,
+      "value": 1.0,
       "dataset": "dialect_id",
-      "n_rows": 6,
+      "n_rows": 14,
       "backend": "heuristic"
     },
     "p95_latency_ms": {
-      "value": 0.21562492474913597,
-      "p50_ms": 0.19981246441602707,
-      "mean_ms": 0.19197426377407587,
+      "value": 0.23541704285889864,
+      "p50_ms": 0.21087442291900516,
+      "mean_ms": 0.20318735972978175,
       "n_calls": 1200,
       "iterations": 200,
       "sample_inputs": 6,

@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/SudhirGadhvi/open-vernacular-ai-kit/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/SudhirGadhvi/open-vernacular-ai-kit/actions/workflows/ci.yml)
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://sudhirgadhvi.github.io/open-vernacular-ai-kit/)
-[![Version](https://img.shields.io/badge/version-1.2.0-brightgreen)](pyproject.toml)
+[![Version](https://img.shields.io/badge/version-1.3.0-brightgreen)](pyproject.toml)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](pyproject.toml)
  
  `open-vernacular-ai-kit` is an open-source SDK + CLI for cleaning up Indian vernacular-English code-mixed
@@ -87,13 +87,29 @@ Generate the snapshot:
 python3 scripts/snapshot_north_star_metrics.py --output docs/data/north_star_metrics_snapshot.json --iterations 200
 ```
 
-Current snapshot (`2026-03-20T19:56:48Z`):
+Current snapshot (`2026-03-29T17:39:16Z`):
 
 | Metric | Value | Notes |
 | --- | --- | --- |
 | `transliteration_success` | `1.000` | Golden transliteration accuracy across packaged Hindi/Gujarati cases (`90/90`; backend=`none`) |
-| `dialect_accuracy` | `0.833` | Heuristic dialect-id accuracy (`5/6`) |
-| `p95_latency_ms` | `0.216` | Pipeline p95 latency in ms (`iterations=200`, `n_calls=1200`) |
+| `dialect_accuracy` | `1.000` | Heuristic dialect-id accuracy (`14/14`) |
+| `p95_latency_ms` | `0.235` | Pipeline p95 latency in ms (`iterations=200`, `n_calls=1200`) |
+
+## Downstream Uplift Snapshot (Current Release)
+
+The repo now ships committed downstream benchmark snapshots, not just token-level regressions.
+
+- retrieval uplift:
+  - `codemix_hard` `recall@1`: `0.8 -> 1.0`
+  - `codemix_hard` `recall@3`: `0.9 -> 1.0`
+- prompt-stability uplift:
+  - `mean_offdiag`: `0.8718 -> 0.8907`
+  - `ref_min`: `0.8024 -> 0.8826`
+- answer-quality uplift (`suite`):
+  - exact match: `0.9545 -> 1.0`
+  - mean answer similarity: `0.3582 -> 0.3685`
+
+See [docs/benchmarks.md](docs/benchmarks.md) and [docs/data/downstream_uplift_snapshot.json](docs/data/downstream_uplift_snapshot.json).
 
 ## Indian Language Coverage (This Release)
 
@@ -212,12 +228,17 @@ Run eval (downloads public Gujlish eval CSVs into `~/.cache/open-vernacular-ai-k
 gck eval --dataset gujlish --report eval/out/report.json
 ```
 
-Dialect evals (uses a tiny packaged JSONL by default, or provide your own):
+Dialect evals (uses packaged JSONL baselines by default, or provide your own):
 
 ```bash
 gck eval --dataset dialect_id
 gck eval --dataset dialect_normalization
 ```
+
+Current packaged dialect eval coverage:
+
+- `dialect_id`: `14` labeled examples across `kathiawadi`, `surati`, and `standard`
+- `dialect_normalization`: `10` rule-backed examples across `kathiawadi` and `surati`
 
 ## API Service (FastAPI)
 

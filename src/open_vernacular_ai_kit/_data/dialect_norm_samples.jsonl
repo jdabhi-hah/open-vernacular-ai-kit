@@ -1,4 +1,10 @@
 {"input":"kamaad thaalu rakhje","dialect":"kathiawadi","expected":"દરવાજો thaalu rakhje","source":"sample","meta":{"note":"token-level rewrite only; english/roman preserved"}}
+{"input":"વિહામો ખાવો પછી વાત કરીએ","dialect":"kathiawadi","expected":"આરામ કરવો પછી વાત કરીએ","source":"sample","meta":{"note":"native phrase-level rewrite"}}
+{"input":"અટાણે સુ કામ છે","dialect":"kathiawadi","expected":"અત્યારે સુ કામ છે","source":"sample","meta":{"note":"native single-token rewrite"}}
+{"input":"lugdaa aaste laavje","dialect":"kathiawadi","expected":"કપડા ધીરે laavje","source":"sample","meta":{"note":"multi-token token-rule rewrite"}}
+{"input":"chenk thi aavje","dialect":"kathiawadi","expected":"દૂર thi aavje","source":"sample","meta":{"note":"single-token rewrite"}}
+{"input":"jhajhu bolto nathi","dialect":"kathiawadi","expected":"વધારે bolto nathi","source":"sample","meta":{"note":"single-token rewrite"}}
 {"input":"ghavadaave chhe have","dialect":"surati","expected":"ખંજવાળ આવે છે have","source":"sample","meta":{"note":"phrase-level rewrite"}}
+{"input":"mane ghavdaave chhe","dialect":"surati","expected":"mane ખંજવાળ આવે છે","source":"sample","meta":{"note":"roman phrase rewrite"}}
 {"input":"મને ઘવડાવે છે","dialect":"surati","expected":"મને ખંજવાળ આવે છે","source":"sample","meta":{"note":"native phrase rewrite"}}
-
+{"input":"haath ma ghavadaave chhe","dialect":"surati","expected":"haath ma ખંજવાળ આવે છે","source":"sample","meta":{"note":"mixed phrase rewrite"}}

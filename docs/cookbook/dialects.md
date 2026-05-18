@@ -16,9 +16,20 @@ a = analyze_codemix(
 print(a.codemix)
 ```
 
+Packaged regression coverage now includes:
+
+- `dialect_id`: `14` labeled examples across `kathiawadi`, `surati`, and `standard`
+- `dialect_normalization`: `10` rule-backed examples across `kathiawadi` and `surati`
+
+Run the packaged evals with:
+
+```bash
+gck eval --dataset dialect_id
+gck eval --dataset dialect_normalization
+```
+
 Transformers backends require optional extras and usually a local model path:
 
 ```bash
 pip install -e ".[dialect-ml]"
 ```
-

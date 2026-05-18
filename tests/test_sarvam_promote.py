@@ -107,7 +107,7 @@ def test_promote_sentence_cases_reports_conflicts() -> None:
     assert report["n_duplicates_conflict"] == 1
 
 
-def test_promote_sentence_cases_skips_validation_failures_by_default() -> None:
+def test_promote_sentence_cases_now_accepts_fixed_runtime_cases() -> None:
     reviewed_rows = [
         init_review_record(
             _candidate("tamne aaje office ma aavu chhe", "gu", "તમને આજે office માં આવવું છે"),
@@ -117,9 +117,9 @@ def test_promote_sentence_cases_skips_validation_failures_by_default() -> None:
         )
     ]
     merged, report = promote_sentence_cases_from_review(reviewed_rows, existing_rows=[])
-    assert len(merged) == 0
-    assert report["n_added"] == 0
-    assert report["n_validation_failures"] == 1
+    assert len(merged) == 1
+    assert report["n_added"] == 1
+    assert report["n_validation_failures"] == 0
 
 
 def test_infer_profile_candidate_language_prefers_native_script() -> None:

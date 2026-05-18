@@ -1,7 +1,14 @@
 {"text":"kamaad thaalu rakhje","dialect":"kathiawadi","source":"sample","meta":{"note":"kathiawadi marker 'kamaad'"}}
-{"text":"vihamo khavo pachi vaat kariye","dialect":"kathiawadi","source":"sample","meta":{"note":"kathiawadi phrase marker"}}
+{"text":"વિહામો ખાવો પછી વાત કરીએ","dialect":"kathiawadi","source":"sample","meta":{"note":"kathiawadi native phrase marker"}}
+{"text":"અટાણે સુ કામ છે","dialect":"kathiawadi","source":"sample","meta":{"note":"kathiawadi native marker 'અટાણે'"}}
+{"text":"lugdaa aaste laavje","dialect":"kathiawadi","source":"sample","meta":{"note":"kathiawadi markers 'lugdaa' and 'aaste'"}}
+{"text":"chenk thi aavje","dialect":"kathiawadi","source":"sample","meta":{"note":"kathiawadi marker 'chenk'"}}
+{"text":"jhajhu bolto nathi","dialect":"kathiawadi","source":"sample","meta":{"note":"kathiawadi marker 'jhajhu'"}}
 {"text":"ghavadaave chhe have","dialect":"surati","source":"sample","meta":{"note":"surati marker 'ghavadaave'"}}
+{"text":"mane ghavdaave chhe","dialect":"surati","source":"sample","meta":{"note":"surati marker variant 'ghavdaave'"}}
 {"text":"મને ઘવડાવે છે","dialect":"surati","source":"sample","meta":{"note":"surati native marker"}}
-{"text":"મારે tomorrow meeting છે, please confirm.","dialect":"standard","source":"sample","meta":{"note":"standard-ish mixed text"}}
-{"text":"hu aaje office jaish","dialect":"standard","source":"sample","meta":{"note":"generic gujlish"}}
-
+{"text":"haath ma ghavadaave chhe","dialect":"surati","source":"sample","meta":{"note":"surati marker in mixed phrase"}}
+{"text":"મારે આજે office જવું છે","dialect":"standard","source":"sample","meta":{"note":"standard Gujarati mixed text"}}
+{"text":"મને tomorrow meeting છે, please confirm.","dialect":"standard","source":"sample","meta":{"note":"standard-ish mixed text"}}
+{"text":"આ order આજે dispatch થશે","dialect":"standard","source":"sample","meta":{"note":"standard Gujarati with English product words"}}
+{"text":"અમે હવે ઘરે જઈશું","dialect":"standard","source":"sample","meta":{"note":"plain standard Gujarati"}}
